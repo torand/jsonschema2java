@@ -1,0 +1,88 @@
+name: Continuous integration
+
+on:
+  workflow_dispatch: # Enable manual trigger to run workflow.
+  push:
+    branches:
+      - main
+    paths:
+      - '**'
+      - '!CHANGELOG.md'
+      - '!README.md'
+      - '!LICENSE'
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build-snapshot:
+    name: Build jsonschema2java snapshot
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+      checks: write
+    env:
+      branchName: ${{github.head_ref || github.ref_name}}
+      mavenOpts: >
+        ${{inputs.mavenOpts}}
+        --no-transfer-progress
+        -Dmaven.test.failure.ignore=true
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+
+      - name: Set up Java and Maven
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: 'maven'
+          server-username: GITHUB_USERNAME
+          server-password: GITHUB_PAT
+
+      - name: Set up build environment
+        id: setup-build-env
+        run: |
+          if [[ ${GITHUB_EVENT_NAME} == "workflow_dispatch" ]]; then
+            echo "Build triggered manually by ${GITHUB_ACTOR}"
+          else
+            echo "Build triggered by commit from $(git log -1 --pretty=format:%an ${{inputs.srcDir}}) ($(git log -1 --pretty=format:%ae ${{inputs.srcDir}}))"
+          fi          
+          
+          isMainBranch=${{env.branchName == 'main' }}        
+          echo "Building from main branch: ${isMainBranch}"
+          mvn -v
+          
+          echo "Smoke testing Maven environment and POM"        
+          mvn ${mavenOpts} -f ./pom.xml -q help:evaluate -Dexpression=project.artifactId -DforceStdout
+          
+          artifactId=$(mvn ${mavenOpts} -f ./pom.xml -q help:evaluate -Dexpression=project.artifactId -DforceStdout)
+          snapshotVersion=$(mvn ${mavenOpts} -f ./pom.xml -q help:evaluate -Dexpression=project.version -DforceStdout)
+          echo "Maven artifact $artifactId snapshot version is $snapshotVersion"
+        env:
+          GITHUB_USERNAME: ${{github.actor}}
+          GITHUB_PAT: ${{secrets.GITHUB_TOKEN}}
+
+      - name: Maven build and test artifact
+        run: |
+          mvn ${mavenOpts} -f ./pom.xml package
+        env:
+          GITHUB_USERNAME: ${{github.actor}}
+          GITHUB_PAT: ${{secrets.GITHUB_TOKEN}}
+
+      - name: Locate test results
+        id: locate-test-results
+        uses: andstor/file-existence-action@v2
+        with:
+          files: "./**/surefire-reports/TEST-*.xml"
+
+      - name: Publish test results
+        if: ${{steps.locate-test-results.outputs.files_exists == 'true' && (success() || failure())}}
+        uses: dorny/test-reporter@v1
+        with:
+          name: JUnit test reports
+          working-directory: .
+          path: "**/surefire-reports/TEST-*.xml"
+          reporter: java-junit
+          fail-on-error: true

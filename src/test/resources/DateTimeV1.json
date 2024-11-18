@@ -1,0 +1,8 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://my-domain.com/my-api/schemas/date-time-v1",
+  "type": "string",
+  "format": "date-time",
+  "description": "ISO-8601 formatted date and time",
+  "examples": ["2023‐09‐26T07:23:32Z"]
+}

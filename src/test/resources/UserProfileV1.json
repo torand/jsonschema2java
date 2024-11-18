@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://my-domain.com/my-api/schemas/user-profile-v1",
+  "$comment": "Last changed by Tore on wednesday",
+  "title": "A user profile",
+  "description": "Attributes describing a user profile",
+  "deprecated": false,
+  "type": "object",
+  "properties": {
+    "firstName": {
+      "type": "string",
+      "description": "First name of user"
+    },
+    "lastName": {
+      "type": "string",
+      "description": "Last name of user"
+    },
+    "address": {
+      "$ref": "https://my-domain.com/my-api/schemas/address-v1",
+      "description": "Address of user"
+    },
+    "emailAddress": {
+      "type": "string",
+      "format": "email",
+      "description": "Email address of user",
+      "x-nullable": true
+    },
+    "mobileNumber": {
+      "$ref": "https://my-domain.com/my-api/schemas/mobile-number-v1",
+      "description": "Mobile number of user",
+      "$comment": "Just a simple comment from the schema developer"
+    },
+    "mobileNumberVerified": {
+      "type": "boolean",
+      "description": "Indicates whether mobile number is successfully authenticated using a verification code"
+    },
+    "type": {
+      "$ref": "https://my-domain.com/my-api/schemas/user-type-v1",
+      "description": "Type of user"
+    },
+    "createdTime": {
+      "$ref": "https://my-domain.com/my-api/schemas/date-time-v1",
+      "description": "Date and time of user profile creation"
+    },
+    "lastLoginTime": {
+      "oneOf": [
+        {
+          "$ref": "https://my-domain.com/my-api/schemas/date-time-v1"
+        }, {
+          "type": "null"
+        }
+      ],
+      "description": "Date and time of last user login"
+    }
+  },
+  "required": ["firstName", "lastName", "address", "emailAddress", "mobileNumber", "mobileNumberVerified", "type","createdTime"]
+}

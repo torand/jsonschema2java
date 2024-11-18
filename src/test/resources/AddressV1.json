@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://my-domain.com/my-api/schemas/address-v1",
+  "type": "object",
+  "properties": {
+    "streetAddress": {
+      "type": "string",
+      "description": "Street name and number"
+    },
+    "zipCode": {
+      "type": "string",
+      "description": "Zip code of postal area"
+    },
+    "city": {
+      "type": "string",
+      "description": "City name"
+    },
+    "countryCode": {
+      "type": "string",
+      "pattern": "^[A-Z]{3}$",
+      "description": "ISO 3166-alpha-3 three-letter country code. Examples: NOR, SWE, DEU"
+    }
+  },
+  "required": ["streetAddress", "zipCode", "city", "countryCode"],
+  "x-model-subdir": "common"
+}
