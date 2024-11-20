@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://my-domain.com/my-api/schemas/order-item-v1",
+  "title": "Order item",
+  "description": "An order item",
+  "deprecated": false,
+  "type": "object",
+  "properties": {
+    "product": {
+      "$ref": "https://my-domain.com/my-api/schemas/product-v1",
+      "description": "The product ordered"
+    },
+    "quantity": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "The quantity ordered"
+    }
+  },
+  "required": ["product", "quantity"]
+}

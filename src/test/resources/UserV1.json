@@ -1,9 +1,9 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://my-domain.com/my-api/schemas/user-profile-v1",
-  "$comment": "Last changed by Tore on wednesday",
-  "title": "A user profile",
-  "description": "Attributes describing a user profile",
+  "$id": "https://my-domain.com/my-api/schemas/user-v1",
+  "$comment": "This is a schema comment",
+  "title": "Web shop user",
+  "description": "User (customer) of the web shop",
   "deprecated": false,
   "type": "object",
   "properties": {
@@ -40,7 +40,7 @@
     },
     "createdTime": {
       "$ref": "https://my-domain.com/my-api/schemas/date-time-v1",
-      "description": "Date and time of user profile creation"
+      "description": "Date and time of user creation"
     },
     "lastLoginTime": {
       "oneOf": [

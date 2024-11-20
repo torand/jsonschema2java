@@ -11,9 +11,9 @@ import org.eclipse.microprofile.openapi.annotations.media.Schema
 import org.github.torand.test.MobileNo
 import org.github.torand.test.model.common.AddressV1Dto
 
-@Schema(name = "UserProfileV1", description = "Attributes describing a user profile")
+@Schema(name = "UserV1", description = "User (customer) of the web shop")
 @JvmRecord
-data class UserProfileV1Dto (
+data class UserV1Dto (
 
     @field:Schema(description = "First name of user", required = true)
     @field:NotBlank
@@ -46,7 +46,7 @@ data class UserProfileV1Dto (
     @field:NotNull
     val type: UserTypeV1Dto,
 
-    @field:Schema(description = "Date and time of user profile creation", required = true, format = "date-time")
+    @field:Schema(description = "Date and time of user creation", required = true, format = "date-time")
     @field:NotNull
     @field:JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     val createdTime: LocalDateTime,

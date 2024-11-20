@@ -13,7 +13,12 @@ public class ModelGeneratorTest {
     private static final Map<String, String> SCHEMAS = Map.of(
         "AddressV1", "common",
         "UserTypeV1", "",
-        "UserProfileV1", ""
+        "UserV1", "",
+        "ProductCategoryV1", "",
+        "ProductV1", "",
+        "OrderStatusV1", "",
+        "OrderItemV1", "",
+        "OrderV1", ""
     );
 
     @Test
@@ -25,6 +30,7 @@ public class ModelGeneratorTest {
         for (String schema : SCHEMAS.keySet()) {
             String modelSubDir = SCHEMAS.get(schema);
             Path schemaFile = Path.of(opts.searchRootDir, schema+".json");
+
             modelGenerator.generate(List.of(schemaFile));
 
             TestHelper.assertMatchingJavaFiles("model/%s%sDto.java".formatted(isBlank(modelSubDir) ? "" : modelSubDir+"/", schema));

@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://my-domain.com/my-api/schemas/order-v1",
+  "title": "Web shop order",
+  "description": "An order placed in the web shop",
+  "deprecated": false,
+  "type": "object",
+  "properties": {
+    "placedBy": {
+      "$ref": "https://my-domain.com/my-api/schemas/user-v1",
+      "description": "Owner of the order"
+    },
+    "status": {
+      "$ref": "https://my-domain.com/my-api/schemas/order-status-v1",
+      "description": "Status of the order"
+    },
+    "createdTime": {
+      "$ref": "https://my-domain.com/my-api/schemas/date-time-v1",
+      "description": "Date and time of order creation"
+    },
+    "items":{
+      "type": "array",
+      "items": {
+        "$ref": "https://my-domain.com/my-api/schemas/order-item-v1"
+      },
+      "minItems": 1,
+      "description": "Order items"
+    },
+    "comment": {
+      "type": ["string", "null"],
+      "description": "Additional comment from customer"
+    }
+  },
+  "required": ["placedBy", "status", "createdTime", "items"]
+}

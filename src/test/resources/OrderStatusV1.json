@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://my-domain.com/my-api/schemas/order-status-v1",
+  "title": "Order status",
+  "description": "Order status",
+  "type": "string",
+  "enum": [
+    "Created",
+    "Processing",
+    "Dispatched"
+  ]
+}

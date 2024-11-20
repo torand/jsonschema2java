@@ -12,8 +12,8 @@ import org.github.torand.test.model.common.AddressV1Dto;
 
 import java.time.LocalDateTime;
 
-@Schema(name = "UserProfileV1", description = "Attributes describing a user profile")
-public record UserProfileV1Dto (
+@Schema(name = "UserV1", description = "User (customer) of the web shop")
+public record UserV1Dto (
 
     @Schema(description = "First name of user", required = true)
     @NotBlank
@@ -46,7 +46,7 @@ public record UserProfileV1Dto (
     @NotNull
     UserTypeV1Dto type,
 
-    @Schema(description = "Date and time of user profile creation", required = true, format = "date-time")
+    @Schema(description = "Date and time of user creation", required = true, format = "date-time")
     @NotNull
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     LocalDateTime createdTime,

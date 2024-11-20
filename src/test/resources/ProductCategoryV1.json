@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://my-domain.com/my-api/schemas/product-category-v1",
+  "title": "Product categories",
+  "description": "Product categories",
+  "type": "string",
+  "enum": [
+    "HomeAppliance",
+    "Electronics",
+    "Computers"
+  ]
+}

@@ -1,10 +1,11 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://my-domain.com/my-api/schemas/user-type-v1",
+  "title": "User type",
+  "description": "User type",
   "type": "string",
   "enum": [
     "Private",
     "Business"
-  ],
-  "description": "Type of user"
+  ]
 }

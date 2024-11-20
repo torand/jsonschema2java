@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://my-domain.com/my-api/schemas/product-v1",
+  "title": "Web shop product",
+  "description": "A product available in the web shop",
+  "deprecated": false,
+  "type": "object",
+  "properties": {
+    "number": {
+      "type": "string",
+      "description": "Product number",
+      "x-json-serializer": "org.github.torand.test.ProductNoSerializer"
+    },
+    "name": {
+      "type": "string",
+      "minLength": 3,
+      "description": "Product name"
+    },
+    "category": {
+      "$ref": "https://my-domain.com/my-api/schemas/product-category-v1",
+      "description": "Product category"
+    },
+    "price": {
+      "type": "number",
+      "format": "float",
+      "description": "Product price (NOK)"
+    },
+    "comment": {
+      "type": ["string", "null"],
+      "description": "Product comment",
+      "deprecated": true,
+      "x-deprecation-message": "To be removed in next version"
+    }
+  },
+  "required": ["number", "name", "category", "price"]
+}

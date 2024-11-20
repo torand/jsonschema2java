@@ -1,9 +1,10 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://my-domain.com/my-api/schemas/mobile-number-v1",
+  "title": "Mobile number",
+  "description": "Mobile phone number using the E.164 standard (includes country code), without an international call prefix",
   "type": "string",
   "pattern": "^[0-9]{10,15}$",
-  "description": "Mobile phone number using the E.164 standard (includes country code), without an international call prefix",
   "examples": ["4791356234"],
   "x-validation-constraint": "org.github.torand.test.MobileNo"
 }
