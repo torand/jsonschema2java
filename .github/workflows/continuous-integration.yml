@@ -1,4 +1,4 @@
-name: Continuous integration
+name: CI
 
 on:
   workflow_dispatch: # Enable manual trigger to run workflow.
