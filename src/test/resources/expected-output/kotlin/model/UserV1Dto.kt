@@ -8,8 +8,8 @@ import jakarta.validation.constraints.Email
 import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.NotNull
 import jakarta.validation.constraints.Pattern
-import org.eclipse.microprofile.openapi.annotations.media.Schema
 import java.time.LocalDateTime
+import org.eclipse.microprofile.openapi.annotations.media.Schema
 
 @Schema(name = "UserV1", description = "User (customer) of the web shop")
 @JvmRecord
