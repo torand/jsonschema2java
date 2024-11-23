@@ -1,4 +1,4 @@
-package org.github.torand.test.model.common
+package io.github.torand.test.model.common
 
 import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.Pattern

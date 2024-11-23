@@ -1,10 +1,10 @@
-package org.github.torand.jsonschema2java.writers.kotlin;
+package io.github.torand.jsonschema2java.writers.kotlin;
 
-import org.github.torand.jsonschema2java.Options;
-import org.github.torand.jsonschema2java.model.PojoInfo;
-import org.github.torand.jsonschema2java.model.PropertyInfo;
-import org.github.torand.jsonschema2java.writers.BaseWriter;
-import org.github.torand.jsonschema2java.writers.PojoWriter;
+import io.github.torand.jsonschema2java.Options;
+import io.github.torand.jsonschema2java.model.PojoInfo;
+import io.github.torand.jsonschema2java.model.PropertyInfo;
+import io.github.torand.jsonschema2java.writers.BaseWriter;
+import io.github.torand.jsonschema2java.writers.PojoWriter;
 
 import java.io.Writer;
 import java.util.List;
@@ -13,13 +13,13 @@ import java.util.TreeSet;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Predicate;
 
+import static io.github.torand.jsonschema2java.utils.CollectionHelper.nonEmpty;
+import static io.github.torand.jsonschema2java.utils.CollectionHelper.streamConcat;
+import static io.github.torand.jsonschema2java.utils.CollectionHelper.streamSafely;
+import static io.github.torand.jsonschema2java.utils.KotlinTypeMapper.toKotlinNative;
 import static java.util.Objects.nonNull;
 import static java.util.function.Predicate.not;
 import static java.util.stream.Collectors.joining;
-import static org.github.torand.jsonschema2java.utils.CollectionHelper.nonEmpty;
-import static org.github.torand.jsonschema2java.utils.CollectionHelper.streamConcat;
-import static org.github.torand.jsonschema2java.utils.CollectionHelper.streamSafely;
-import static org.github.torand.jsonschema2java.utils.KotlinTypeMapper.toKotlinNative;
 
 public class KotlinPojoWriter extends BaseWriter implements PojoWriter {
 

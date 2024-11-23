@@ -1,4 +1,4 @@
-package org.github.torand.jsonschema2java.model;
+package io.github.torand.jsonschema2java.model;
 
 import java.util.LinkedHashSet;
 import java.util.Set;

@@ -1,4 +1,4 @@
-package org.github.torand.jsonschema2java.collectors;
+package io.github.torand.jsonschema2java.collectors;
 
 import com.fasterxml.jackson.databind.node.BooleanNode;
 import com.fasterxml.jackson.databind.node.TextNode;
@@ -7,10 +7,10 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
+import static io.github.torand.jsonschema2java.utils.StringHelper.nonBlank;
 import static java.util.Collections.emptyMap;
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
-import static org.github.torand.jsonschema2java.utils.StringHelper.nonBlank;
 
 public class Extensions {
     public static final String EXT_JSON_SERIALIZER = "x-json-serializer";

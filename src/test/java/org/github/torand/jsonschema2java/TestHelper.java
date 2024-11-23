@@ -1,4 +1,4 @@
-package org.github.torand.jsonschema2java;
+package io.github.torand.jsonschema2java;
 
 import com.networknt.schema.JsonSchema;
 import com.networknt.schema.JsonSchemaFactory;
@@ -14,8 +14,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import static io.github.torand.jsonschema2java.utils.StringHelper.removeLineBreaks;
 import static java.util.Objects.isNull;
-import static org.github.torand.jsonschema2java.utils.StringHelper.removeLineBreaks;
 import static org.junit.Assert.fail;
 
 class TestHelper {
@@ -34,7 +34,7 @@ class TestHelper {
         Options opts = new Options();
         opts.searchRootDir = "src/test/resources";
         opts.schemaIdRootUri = URI.create("https://my-domain.com/my-api/schemas");
-        opts.rootPackage = "org.github.torand.test";
+        opts.rootPackage = "io.github.torand.test";
         opts.outputDir = "target/test-output/java";
         opts.useOpenApiSchemaAnnotations = true;
         opts.useJsonPropertyAnnotations = false;
@@ -47,7 +47,7 @@ class TestHelper {
         Options opts = new Options();
         opts.searchRootDir = "src/test/resources";
         opts.schemaIdRootUri = URI.create("https://my-domain.com/my-api/schemas");
-        opts.rootPackage = "org.github.torand.test";
+        opts.rootPackage = "io.github.torand.test";
         opts.outputDir = "target/test-output/kotlin";
         opts.useOpenApiSchemaAnnotations = true;
         opts.useJsonPropertyAnnotations = false;

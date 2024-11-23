@@ -1,17 +1,17 @@
-package org.github.torand.jsonschema2java.collectors;
+package io.github.torand.jsonschema2java.collectors;
 
-import org.github.torand.jsonschema2java.Options;
-import org.github.torand.jsonschema2java.model.PropertyInfo;
-import org.github.torand.jsonschema2java.model.TypeInfo;
-import org.github.torand.jsonschema2java.utils.JsonSchemaDef;
+import io.github.torand.jsonschema2java.Options;
+import io.github.torand.jsonschema2java.model.PropertyInfo;
+import io.github.torand.jsonschema2java.model.TypeInfo;
+import io.github.torand.jsonschema2java.utils.JsonSchemaDef;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import static io.github.torand.jsonschema2java.collectors.Extensions.EXT_DEPRECATION_MESSAGE;
+import static io.github.torand.jsonschema2java.utils.StringHelper.nonBlank;
 import static java.util.Objects.nonNull;
-import static org.github.torand.jsonschema2java.collectors.Extensions.EXT_DEPRECATION_MESSAGE;
-import static org.github.torand.jsonschema2java.utils.StringHelper.nonBlank;
 
 public class PropertyInfoCollector extends BaseCollector {
     private final TypeInfoCollector typeInfoCollector;

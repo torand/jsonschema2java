@@ -9,7 +9,7 @@
     "number": {
       "type": "string",
       "description": "Product number",
-      "x-json-serializer": "org.github.torand.test.ProductNoSerializer"
+      "x-json-serializer": "io.github.torand.test.serialization.ProductNoSerializer"
     },
     "name": {
       "type": "string",

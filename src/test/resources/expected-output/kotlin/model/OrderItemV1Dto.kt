@@ -1,4 +1,4 @@
-package org.github.torand.test.model
+package io.github.torand.test.model
 
 import jakarta.validation.Valid
 import jakarta.validation.constraints.Min

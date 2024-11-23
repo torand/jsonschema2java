@@ -1,4 +1,4 @@
-package org.github.torand.jsonschema2java.utils;
+package io.github.torand.jsonschema2java.utils;
 
 import java.util.function.Supplier;
 

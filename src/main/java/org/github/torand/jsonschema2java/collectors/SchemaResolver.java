@@ -1,4 +1,4 @@
-package org.github.torand.jsonschema2java.collectors;
+package io.github.torand.jsonschema2java.collectors;
 
 import com.networknt.schema.AbsoluteIri;
 import com.networknt.schema.InputFormat;
@@ -12,8 +12,8 @@ import com.networknt.schema.SchemaValidatorsConfig;
 import com.networknt.schema.SpecVersion.VersionFlag;
 import com.networknt.schema.ValidationMessage;
 import com.networknt.schema.resource.SchemaMapper;
-import org.github.torand.jsonschema2java.Options;
-import org.github.torand.jsonschema2java.utils.JsonSchemaDef;
+import io.github.torand.jsonschema2java.Options;
+import io.github.torand.jsonschema2java.utils.JsonSchemaDef;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -33,10 +33,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+import static io.github.torand.jsonschema2java.collectors.Extensions.EXT_MODEL_SUBDIR;
+import static io.github.torand.jsonschema2java.utils.Exceptions.illegalStateException;
+import static io.github.torand.jsonschema2java.utils.StringHelper.toPascalCase;
 import static java.util.Objects.isNull;
-import static org.github.torand.jsonschema2java.collectors.Extensions.EXT_MODEL_SUBDIR;
-import static org.github.torand.jsonschema2java.utils.Exceptions.illegalStateException;
-import static org.github.torand.jsonschema2java.utils.StringHelper.toPascalCase;
 
 public class SchemaResolver {
     private final Options opts;

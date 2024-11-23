@@ -1,8 +1,8 @@
-package org.github.torand.jsonschema2java.utils;
+package io.github.torand.jsonschema2java.utils;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.networknt.schema.JsonSchema;
-import org.github.torand.jsonschema2java.collectors.Extensions;
+import io.github.torand.jsonschema2java.collectors.Extensions;
 
 import java.math.BigDecimal;
 import java.net.URI;
@@ -10,11 +10,11 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.stream.Stream;
 
+import static io.github.torand.jsonschema2java.utils.CollectionHelper.asStream;
 import static java.lang.Boolean.TRUE;
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 import static java.util.stream.Collectors.toMap;
-import static org.github.torand.jsonschema2java.utils.CollectionHelper.asStream;
 
 public class JsonSchemaDef {
     private final String name;

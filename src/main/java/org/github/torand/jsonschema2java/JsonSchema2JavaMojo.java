@@ -1,11 +1,11 @@
-package org.github.torand.jsonschema2java;
+package io.github.torand.jsonschema2java;
 
+import io.github.torand.jsonschema2java.collectors.SchemaResolver;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
-import org.github.torand.jsonschema2java.collectors.SchemaResolver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -13,8 +13,8 @@ import java.net.URI;
 import java.nio.file.Path;
 import java.util.List;
 
-import static org.github.torand.jsonschema2java.collectors.SchemaResolver.findSchemaFiles;
-import static org.github.torand.jsonschema2java.utils.CollectionHelper.isEmpty;
+import static io.github.torand.jsonschema2java.collectors.SchemaResolver.findSchemaFiles;
+import static io.github.torand.jsonschema2java.utils.CollectionHelper.isEmpty;
 
 /**
  * Generates Java (or Kotlin) source code for model classes based on JSON schema files

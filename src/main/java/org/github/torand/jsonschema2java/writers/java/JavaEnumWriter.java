@@ -1,13 +1,13 @@
-package org.github.torand.jsonschema2java.writers.java;
+package io.github.torand.jsonschema2java.writers.java;
 
-import org.github.torand.jsonschema2java.Options;
-import org.github.torand.jsonschema2java.model.EnumInfo;
-import org.github.torand.jsonschema2java.writers.BaseWriter;
-import org.github.torand.jsonschema2java.writers.EnumWriter;
+import io.github.torand.jsonschema2java.Options;
+import io.github.torand.jsonschema2java.model.EnumInfo;
+import io.github.torand.jsonschema2java.writers.BaseWriter;
+import io.github.torand.jsonschema2java.writers.EnumWriter;
 
 import java.io.Writer;
 
-import static org.github.torand.jsonschema2java.utils.CollectionHelper.nonEmpty;
+import static io.github.torand.jsonschema2java.utils.CollectionHelper.nonEmpty;
 
 public class JavaEnumWriter extends BaseWriter implements EnumWriter {
 

@@ -1,6 +1,6 @@
-package org.github.torand.jsonschema2java.writers;
+package io.github.torand.jsonschema2java.writers;
 
-import org.github.torand.jsonschema2java.model.EnumInfo;
+import io.github.torand.jsonschema2java.model.EnumInfo;
 
 import java.io.IOException;
 

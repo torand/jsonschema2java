@@ -1,11 +1,11 @@
-package org.github.torand.test.model
+package io.github.torand.test.model
 
 import com.fasterxml.jackson.annotation.JsonFormat
 import jakarta.validation.Valid
 import jakarta.validation.constraints.NotNull
 import jakarta.validation.constraints.Size
-import java.time.LocalDateTime
 import org.eclipse.microprofile.openapi.annotations.media.Schema
+import java.time.LocalDateTime
 
 @Schema(name = "OrderV1", description = "An order placed in the web shop")
 @JvmRecord

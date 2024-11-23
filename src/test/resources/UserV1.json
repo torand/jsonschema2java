@@ -32,7 +32,7 @@
     },
     "mobileNumberVerified": {
       "type": "boolean",
-      "description": "Indicates whether mobile number is successfully authenticated using a verification code"
+      "description": "Indicates if mobile number is successfully authenticated using a verification code"
     },
     "type": {
       "$ref": "https://my-domain.com/my-api/schemas/user-type-v1",

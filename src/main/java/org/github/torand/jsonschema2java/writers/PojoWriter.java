@@ -1,6 +1,6 @@
-package org.github.torand.jsonschema2java.writers;
+package io.github.torand.jsonschema2java.writers;
 
-import org.github.torand.jsonschema2java.model.PojoInfo;
+import io.github.torand.jsonschema2java.model.PojoInfo;
 
 import java.io.IOException;
 

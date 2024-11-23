@@ -29,7 +29,7 @@ The generated source code is compatible with Java 17+ and uses annotations from 
 <build>
     <plugins>
         <plugin>
-            <groupId>org.github.torand</groupId>
+            <groupId>io.github.torand</groupId>
             <artifactId>jsonschema2java</artifactId>
             <version>1.0.0</version>
             <executions>
@@ -46,7 +46,7 @@ The generated source code is compatible with Java 17+ and uses annotations from 
                 <searchFilePattern>*.json</searchFilePattern>
                 <schemaIdRootUri>https://my-domain.com/my-api/schemas</schemaIdRootUri>
                 <outputDir>target/jsonschema2java</outputDir>
-                <rootPackage>org.github.torand.mymodel</rootPackage>
+                <rootPackage>io.github.torand.mymodel</rootPackage>
             </configuration>
         </plugin>
     </plugins>
@@ -56,12 +56,12 @@ The generated source code is compatible with Java 17+ and uses annotations from 
 ### Run from the command line
 
 ```bash
-$ mvn org.github.torand:jsonschema2java:1.0.0:generate \
+$ mvn io.github.torand:jsonschema2java:1.0.0:generate \
   -DsearchRootDir=. \
   -DsearchFilePattern=*.json \
   -DschemaIdRootUri=https://my-domain.com/my-api/schemas \
   -DoutputDir=target/jsonschema2java \
-  -DrootPackage=org.github.torand.mymodel
+  -DrootPackage=io.github.torand.mymodel
 ```
 
 ## Configuration

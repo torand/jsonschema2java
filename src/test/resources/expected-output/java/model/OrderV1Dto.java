@@ -1,4 +1,4 @@
-package org.github.torand.test.model;
+package io.github.torand.test.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.Valid;

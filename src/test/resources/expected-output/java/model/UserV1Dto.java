@@ -1,14 +1,14 @@
-package org.github.torand.test.model;
+package io.github.torand.test.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import io.github.torand.test.annotation.MobileNo;
+import io.github.torand.test.model.common.AddressV1Dto;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
-import org.github.torand.test.MobileNo;
-import org.github.torand.test.model.common.AddressV1Dto;
 
 import java.time.LocalDateTime;
 
@@ -38,7 +38,7 @@ public record UserV1Dto (
     @MobileNo
     String mobileNumber,
 
-    @Schema(description = "Indicates whether mobile number is successfully authenticated using a verification code", required = true)
+    @Schema(description = "Indicates if mobile number is successfully authenticated using a verification code", required = true)
     @NotNull
     Boolean mobileNumberVerified,
 

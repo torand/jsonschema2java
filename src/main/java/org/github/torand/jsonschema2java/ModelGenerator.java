@@ -1,13 +1,13 @@
-package org.github.torand.jsonschema2java;
+package io.github.torand.jsonschema2java;
 
-import org.github.torand.jsonschema2java.collectors.EnumInfoCollector;
-import org.github.torand.jsonschema2java.collectors.PojoInfoCollector;
-import org.github.torand.jsonschema2java.collectors.SchemaResolver;
-import org.github.torand.jsonschema2java.model.EnumInfo;
-import org.github.torand.jsonschema2java.model.PojoInfo;
-import org.github.torand.jsonschema2java.utils.JsonSchemaDef;
-import org.github.torand.jsonschema2java.writers.EnumWriter;
-import org.github.torand.jsonschema2java.writers.PojoWriter;
+import io.github.torand.jsonschema2java.collectors.EnumInfoCollector;
+import io.github.torand.jsonschema2java.collectors.PojoInfoCollector;
+import io.github.torand.jsonschema2java.collectors.SchemaResolver;
+import io.github.torand.jsonschema2java.model.EnumInfo;
+import io.github.torand.jsonschema2java.model.PojoInfo;
+import io.github.torand.jsonschema2java.utils.JsonSchemaDef;
+import io.github.torand.jsonschema2java.writers.EnumWriter;
+import io.github.torand.jsonschema2java.writers.PojoWriter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,9 +15,9 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.List;
 
-import static org.github.torand.jsonschema2java.utils.StringHelper.pluralSuffix;
-import static org.github.torand.jsonschema2java.writers.WriterFactory.createEnumWriter;
-import static org.github.torand.jsonschema2java.writers.WriterFactory.createPojoWriter;
+import static io.github.torand.jsonschema2java.utils.StringHelper.pluralSuffix;
+import static io.github.torand.jsonschema2java.writers.WriterFactory.createEnumWriter;
+import static io.github.torand.jsonschema2java.writers.WriterFactory.createPojoWriter;
 
 public class ModelGenerator {
     private static final Logger logger = LoggerFactory.getLogger(ModelGenerator.class);

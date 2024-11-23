@@ -1,22 +1,22 @@
-package org.github.torand.jsonschema2java.collectors;
+package io.github.torand.jsonschema2java.collectors;
 
-import org.github.torand.jsonschema2java.Options;
-import org.github.torand.jsonschema2java.model.TypeInfo;
-import org.github.torand.jsonschema2java.utils.JsonSchemaDef;
+import io.github.torand.jsonschema2java.Options;
+import io.github.torand.jsonschema2java.model.TypeInfo;
+import io.github.torand.jsonschema2java.utils.JsonSchemaDef;
 
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static io.github.torand.jsonschema2java.collectors.Extensions.EXT_JSON_SERIALIZER;
+import static io.github.torand.jsonschema2java.collectors.Extensions.EXT_NULLABLE;
+import static io.github.torand.jsonschema2java.collectors.Extensions.EXT_VALIDATION_CONSTRAINT;
+import static io.github.torand.jsonschema2java.collectors.TypeInfoCollector.NullabilityResolution.FORCE_NOT_NULLABLE;
+import static io.github.torand.jsonschema2java.collectors.TypeInfoCollector.NullabilityResolution.FORCE_NULLABLE;
+import static io.github.torand.jsonschema2java.utils.Exceptions.illegalStateException;
+import static io.github.torand.jsonschema2java.utils.StringHelper.nonBlank;
 import static java.util.Objects.nonNull;
-import static org.github.torand.jsonschema2java.collectors.Extensions.EXT_JSON_SERIALIZER;
-import static org.github.torand.jsonschema2java.collectors.Extensions.EXT_NULLABLE;
-import static org.github.torand.jsonschema2java.collectors.Extensions.EXT_VALIDATION_CONSTRAINT;
-import static org.github.torand.jsonschema2java.collectors.TypeInfoCollector.NullabilityResolution.FORCE_NOT_NULLABLE;
-import static org.github.torand.jsonschema2java.collectors.TypeInfoCollector.NullabilityResolution.FORCE_NULLABLE;
-import static org.github.torand.jsonschema2java.utils.Exceptions.illegalStateException;
-import static org.github.torand.jsonschema2java.utils.StringHelper.nonBlank;
 
 public class TypeInfoCollector extends BaseCollector {
     public enum NullabilityResolution {FROM_SCHEMA, FORCE_NULLABLE, FORCE_NOT_NULLABLE}

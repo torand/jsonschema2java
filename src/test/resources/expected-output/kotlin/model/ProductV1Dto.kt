@@ -1,11 +1,11 @@
-package org.github.torand.test.model
+package io.github.torand.test.model
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize
+import io.github.torand.test.serialization.ProductNoSerializer
 import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.NotNull
 import jakarta.validation.constraints.Size
 import org.eclipse.microprofile.openapi.annotations.media.Schema
-import org.github.torand.test.ProductNoSerializer
 
 @Schema(name = "ProductV1", description = "A product available in the web shop")
 @JvmRecord

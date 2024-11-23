@@ -1,12 +1,12 @@
-package org.github.torand.jsonschema2java.model;
+package io.github.torand.jsonschema2java.model;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
+import static io.github.torand.jsonschema2java.utils.CollectionHelper.streamConcat;
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
-import static org.github.torand.jsonschema2java.utils.CollectionHelper.streamConcat;
 
 public class TypeInfo {
     public String name;

@@ -1,6 +1,6 @@
-package org.github.torand.jsonschema2java.writers;
+package io.github.torand.jsonschema2java.writers;
 
-import org.github.torand.jsonschema2java.Options;
+import io.github.torand.jsonschema2java.Options;
 
 import java.io.IOException;
 import java.io.Writer;

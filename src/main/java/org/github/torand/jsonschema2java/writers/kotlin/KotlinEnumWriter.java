@@ -1,13 +1,13 @@
-package org.github.torand.jsonschema2java.writers.kotlin;
+package io.github.torand.jsonschema2java.writers.kotlin;
 
-import org.github.torand.jsonschema2java.Options;
-import org.github.torand.jsonschema2java.model.EnumInfo;
-import org.github.torand.jsonschema2java.writers.BaseWriter;
-import org.github.torand.jsonschema2java.writers.EnumWriter;
+import io.github.torand.jsonschema2java.Options;
+import io.github.torand.jsonschema2java.model.EnumInfo;
+import io.github.torand.jsonschema2java.writers.BaseWriter;
+import io.github.torand.jsonschema2java.writers.EnumWriter;
 
 import java.io.Writer;
 
-import static org.github.torand.jsonschema2java.utils.CollectionHelper.nonEmpty;
+import static io.github.torand.jsonschema2java.utils.CollectionHelper.nonEmpty;
 
 public class KotlinEnumWriter extends BaseWriter implements EnumWriter {
 

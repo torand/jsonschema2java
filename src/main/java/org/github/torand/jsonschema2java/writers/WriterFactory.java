@@ -1,10 +1,10 @@
-package org.github.torand.jsonschema2java.writers;
+package io.github.torand.jsonschema2java.writers;
 
-import org.github.torand.jsonschema2java.Options;
-import org.github.torand.jsonschema2java.writers.java.JavaEnumWriter;
-import org.github.torand.jsonschema2java.writers.java.JavaPojoWriter;
-import org.github.torand.jsonschema2java.writers.kotlin.KotlinEnumWriter;
-import org.github.torand.jsonschema2java.writers.kotlin.KotlinPojoWriter;
+import io.github.torand.jsonschema2java.Options;
+import io.github.torand.jsonschema2java.writers.java.JavaEnumWriter;
+import io.github.torand.jsonschema2java.writers.java.JavaPojoWriter;
+import io.github.torand.jsonschema2java.writers.kotlin.KotlinEnumWriter;
+import io.github.torand.jsonschema2java.writers.kotlin.KotlinPojoWriter;
 
 import java.io.File;
 import java.io.FileWriter;

@@ -1,8 +1,8 @@
-package org.github.torand.jsonschema2java;
+package io.github.torand.jsonschema2java;
 
 import java.net.URI;
 
-import static org.github.torand.jsonschema2java.utils.StringHelper.isBlank;
+import static io.github.torand.jsonschema2java.utils.StringHelper.isBlank;
 
 public class Options {
     public String searchRootDir;

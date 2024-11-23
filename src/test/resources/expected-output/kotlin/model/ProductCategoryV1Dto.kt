@@ -1,4 +1,4 @@
-package org.github.torand.test.model
+package io.github.torand.test.model
 
 import org.eclipse.microprofile.openapi.annotations.media.Schema
 

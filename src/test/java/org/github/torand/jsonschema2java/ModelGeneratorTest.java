@@ -1,4 +1,4 @@
-package org.github.torand.jsonschema2java;
+package io.github.torand.jsonschema2java;
 
 import org.junit.Test;
 
@@ -6,7 +6,7 @@ import java.nio.file.Path;
 import java.util.List;
 import java.util.Map;
 
-import static org.github.torand.jsonschema2java.utils.StringHelper.isBlank;
+import static io.github.torand.jsonschema2java.utils.StringHelper.isBlank;
 
 public class ModelGeneratorTest {
 
