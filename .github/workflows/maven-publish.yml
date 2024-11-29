@@ -9,6 +9,8 @@ jobs:
     steps:
       - name: Check out code
         uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
 
       - name: Set up Java and Maven
         uses: actions/setup-java@v4
@@ -48,5 +50,5 @@ jobs:
           NEXT_VERSION=$(mvn -q help:evaluate -Dexpression=project.version -DforceStdout)
           
           git commit -a -m "[skip ci] ${ARTIFACT_ID}-${NEXT_VERSION}"
-         
+          
           git push
