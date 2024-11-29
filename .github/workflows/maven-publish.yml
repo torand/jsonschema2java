@@ -6,6 +6,8 @@ on:
 jobs:
   publish:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - name: Check out code
         uses: actions/checkout@v4
@@ -24,7 +26,7 @@ jobs:
 
       - name: Set release version
         run: |
-          mvn versions:set -DnewVersion=${{ github.event.release.tag_name }}
+          mvn versions:set --batch-mode -DnewVersion=${{ github.event.release.tag_name }}
 
       - name: Publish package
         run: |
@@ -44,7 +46,7 @@ jobs:
           git commit -a -m "Release ${ARTIFACT_ID}-${{ github.event.release.tag_name }}"
           git tag -f "${ARTIFACT_ID}-${{ github.event.release.tag_name }}"
 
-          mvn versions:set -DgenerateBackupPoms=false -DnextSnapshot
+          mvn versions:set --batch-mode -DgenerateBackupPoms=false -DnextSnapshot
           NEXT_VERSION=$(mvn -q help:evaluate -Dexpression=project.version -DforceStdout)
           
           git commit -a -m "[skip ci] ${ARTIFACT_ID}-${NEXT_VERSION}"
