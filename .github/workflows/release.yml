@@ -1,11 +1,12 @@
-name: Release to Maven Central
+name: Release
+
 on:
   release:
     types: [created]
 
 jobs:
   release:
-    name: Release to Maven Central
+    name: Release
     runs-on: ubuntu-latest
     permissions:
       contents: write
