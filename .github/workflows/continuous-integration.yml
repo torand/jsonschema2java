@@ -16,16 +16,16 @@ on:
 
 jobs:
   build-snapshot:
-    name: Build jsonschema2java snapshot
+    name: Build snapshot
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      packages: write
       checks: write
     env:
       branchName: ${{github.head_ref || github.ref_name}}
       mavenOpts: >
         --no-transfer-progress
+        --batch-mode
         -Dmaven.test.failure.ignore=true
     steps:
       - name: Check out code

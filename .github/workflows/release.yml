@@ -1,0 +1,64 @@
+name: Release to Maven Central
+on:
+  release:
+    types: [created]
+
+jobs:
+  release:
+    name: Release to Maven Central
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    env:
+      mavenOpts: >
+        --no-transfer-progress
+        --batch-mode
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+
+      - name: Set up Java and Maven
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: 'maven'
+          server-id: central
+          server-username: MAVEN_USERNAME
+          server-password: MAVEN_PASSWORD
+          gpg-private-key: ${{ secrets.GPG_SIGNING_KEY }}
+          gpg-passphrase: MAVEN_GPG_PASSPHRASE
+
+      - name: Set release version
+        run: |
+          mvn ${mavenOpts} versions:set -DnewVersion=${{ github.event.release.tag_name }}
+          
+          artifactId=$(mvn ${mavenOpts} -q help:evaluate -Dexpression=project.artifactId -DforceStdout)
+          releaseVersion=$(mvn ${mavenOpts} -q help:evaluate -Dexpression=project.version -DforceStdout)
+          
+          echo "Releasing ${artifactId}-${releaseVersion}..."
+          
+          git config --global user.email ${GITHUB_ACTOR}@users.noreply.github.com
+          git config --global user.name ${GITHUB_ACTOR}
+          
+          git commit -a -m "Release ${artifactId}-${releaseVersion}"
+          
+          # Create environment variables (available to later steps)
+          echo "artifactId=$artifactId" >> $GITHUB_ENV
+
+      - name: Publish package
+        run: |
+          mvn ${mavenOpts} -P release deploy -DskipTests
+        env:
+          MAVEN_USERNAME: ${{ secrets.CENTRAL_TOKEN_USERNAME }}
+          MAVEN_PASSWORD: ${{ secrets.CENTRAL_TOKEN_PASSWORD }}
+          MAVEN_GPG_PASSPHRASE: ${{ secrets.GPG_SIGNING_KEY_PASSWORD }}
+
+      - name: Prepare next snapshot
+        run: |              
+          mvn ${mavenOpts} versions:set -DgenerateBackupPoms=false -DnextSnapshot
+          nextVersion=$(mvn ${mavenOpts} -q help:evaluate -Dexpression=project.version -DforceStdout)
+          
+          git commit -a -m "[skip ci] ${{env.artifactId}}-${nextVersion}"
+          
+          git push origin HEAD:main
