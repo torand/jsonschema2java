@@ -2,6 +2,7 @@ jsonschema2java
 ===============
 
 [![CI](https://github.com/torand/jsonschema2java/actions/workflows/continuous-integration.yml/badge.svg)](https://github.com/torand/jsonschema2java/actions/workflows/continuous-integration.yml)
+[![Maven Central](https://img.shields.io/maven-central/v/io.github.torand/jsonschema2java.svg)](http://search.maven.org/#search%7Cga%7C1%7Cg%3Aio.github.torand%20a%3Ajsonschema2java)
 
 ## Overview
 
