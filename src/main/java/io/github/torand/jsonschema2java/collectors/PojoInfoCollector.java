@@ -32,7 +32,7 @@ public class PojoInfoCollector extends BaseCollector {
         pojoInfo.modelSubdir = maybeModelSubdir.orElse(null);
         pojoInfo.modelSubpackage = maybeModelSubdir.map(this::dirPath2PackagePath).orElse(null);
 
-        if (opts.useOpenApiSchemaAnnotations) {
+        if (opts.addOpenApiSchemaAnnotations) {
             pojoInfo.annotations.add(getSchemaAnnotation(name, schema, pojoInfo.imports));
         }
 

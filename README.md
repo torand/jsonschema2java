@@ -68,19 +68,19 @@ $ mvn io.github.torand:jsonschema2java:1.0.0:generate \
 
 ## Configuration
 
-| Parameter                   | Default           | Description                                                                                                                         |
-|-----------------------------|-------------------|-------------------------------------------------------------------------------------------------------------------------------------|
-| searchRootDir               | Project root dir  | Root directory to search for schema files from                                                                                      |
-| searchFilePattern           |                   | Schema file path search pattern. Supports 'glob' patterns.                                                                          |
-| schemaIdRootUri             |                   | Root URI of $id property in schema files. Path elements beyond this value must correspond to subdirectories beyond 'searchRootDir'. |
-| outputDir                   | Project build dir | Directory to write Java/Kotllin code files to                                                                                       |
-| rootPackage                 |                   | Root package path of output Java/Kotlin classes                                                                                     |
-| pojoNameSuffix              | "Dto"             | Suffix for POJO (model) class and enum names                                                                                        |
-| pojosAsRecords              | true              | Whether to output Java records instead of Java classes                                                                              |
-| useOpenApiSchemaAnnotations | false             | Whether to generate model files with OpenAPI schema annotations                                                                     |
-| useJsonPropertyAnnotations  | true              | Whether to generate model files with JSON property annotations                                                                      |
-| useKotlinSyntax             | false             | Whether to generate model files with Kotlin syntax                                                                                  |
-| verbose                     | false             | Whether to log extra details                                                                                                        |
+| Parameter                    | Default           | Description                                                                                                                         |
+|------------------------------|-------------------|-------------------------------------------------------------------------------------------------------------------------------------|
+| searchRootDir                | Project root dir  | Root directory to search for schema files from                                                                                      |
+| searchFilePattern            |                   | Schema file path search pattern. Supports 'glob' patterns.                                                                          |
+| schemaIdRootUri              |                   | Root URI of $id property in schema files. Path elements beyond this value must correspond to subdirectories beyond 'searchRootDir'. |
+| outputDir                    | Project build dir | Directory to write Java/Kotllin code files to                                                                                       |
+| rootPackage                  |                   | Root package path of output Java/Kotlin classes                                                                                     |
+| pojoNameSuffix               | "Dto"             | Suffix for POJO (model) class and enum names                                                                                        |
+| pojosAsRecords               | true              | Whether to output Java records instead of Java classes                                                                              |
+| addOpenApiSchemaAnnotations  | false             | Whether to generate model files with OpenAPI schema annotations                                                                     |
+| addJsonPropertyAnnotations   | true              | Whether to generate model files with JSON property annotations                                                                      |
+| useKotlinSyntax              | false             | Whether to generate model files with Kotlin syntax                                                                                  |
+| verbose                      | false             | Whether to log extra details                                                                                                        |
 
 ## Extensions
 

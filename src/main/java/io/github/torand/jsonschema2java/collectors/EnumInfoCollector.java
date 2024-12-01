@@ -25,7 +25,7 @@ public class EnumInfoCollector extends BaseCollector {
         enumInfo.modelSubdir = maybeModelSubdir.orElse(null);
         enumInfo.modelSubpackage = maybeModelSubdir.map(this::dirPath2PackagePath).orElse(null);
 
-        if (opts.useOpenApiSchemaAnnotations) {
+        if (opts.addOpenApiSchemaAnnotations) {
             enumInfo.annotations.add(getSchemaAnnotation(name, schema, enumInfo.imports));
         }
 

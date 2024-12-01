@@ -68,14 +68,14 @@ public class JsonSchema2JavaMojo extends AbstractMojo {
     /**
      * Generate Microprofile OpenAPI schema annotations.
      */
-    @Parameter( property = "useOpenApiSchemaAnnotations", defaultValue = "false" )
-    private boolean useOpenApiSchemaAnnotations;
+    @Parameter( property = "addOpenApiSchemaAnnotations", defaultValue = "false" )
+    private boolean addOpenApiSchemaAnnotations;
 
     /**
      * Generate Jackson JSON property annotations.
      */
-    @Parameter( property = "useJsonPropertyAnnotations", defaultValue = "true" )
-    private boolean useJsonPropertyAnnotations;
+    @Parameter( property = "addJsonPropertyAnnotations", defaultValue = "true" )
+    private boolean addJsonPropertyAnnotations;
 
     /**
      * Generate Kotlin source code.
@@ -97,8 +97,8 @@ public class JsonSchema2JavaMojo extends AbstractMojo {
         opts.outputDir = outputDir;
         opts.pojoNameSuffix = pojoNameSuffix;
         opts.pojosAsRecords = pojosAsRecords;
-        opts.useOpenApiSchemaAnnotations = useOpenApiSchemaAnnotations;
-        opts.useJsonPropertyAnnotations = useJsonPropertyAnnotations;
+        opts.addOpenApiSchemaAnnotations = addOpenApiSchemaAnnotations;
+        opts.addJsonPropertyAnnotations = addJsonPropertyAnnotations;
         opts.useKotlinSyntax = useKotlinSyntax;
         opts.verbose = verbose;
 

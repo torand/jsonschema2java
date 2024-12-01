@@ -36,8 +36,8 @@ class TestHelper {
         opts.schemaIdRootUri = URI.create("https://my-domain.com/my-api/schemas");
         opts.rootPackage = "io.github.torand.test";
         opts.outputDir = "target/test-output/java";
-        opts.useOpenApiSchemaAnnotations = true;
-        opts.useJsonPropertyAnnotations = false;
+        opts.addOpenApiSchemaAnnotations = true;
+        opts.addJsonPropertyAnnotations = false;
         opts.useKotlinSyntax = false;
         opts.verbose = true;
         return opts;
@@ -49,8 +49,8 @@ class TestHelper {
         opts.schemaIdRootUri = URI.create("https://my-domain.com/my-api/schemas");
         opts.rootPackage = "io.github.torand.test";
         opts.outputDir = "target/test-output/kotlin";
-        opts.useOpenApiSchemaAnnotations = true;
-        opts.useJsonPropertyAnnotations = false;
+        opts.addOpenApiSchemaAnnotations = true;
+        opts.addJsonPropertyAnnotations = false;
         opts.useKotlinSyntax = true;
         opts.verbose = true;
         return opts;

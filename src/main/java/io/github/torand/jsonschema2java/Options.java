@@ -11,8 +11,8 @@ public class Options {
     public String rootPackage;
     public String pojoNameSuffix = "Dto";
     public boolean pojosAsRecords = true;
-    public boolean useOpenApiSchemaAnnotations = false;
-    public boolean useJsonPropertyAnnotations = true;
+    public boolean addOpenApiSchemaAnnotations = false;
+    public boolean addJsonPropertyAnnotations = true;
     public boolean useKotlinSyntax = false;
     public boolean verbose = false;
 

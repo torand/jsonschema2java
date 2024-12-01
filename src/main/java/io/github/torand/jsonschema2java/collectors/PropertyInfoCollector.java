@@ -31,12 +31,12 @@ public class PropertyInfoCollector extends BaseCollector {
             : TypeInfoCollector.NullabilityResolution.FORCE_NULLABLE;
         propInfo.type = typeInfoCollector.getTypeInfo(propertyType, nullabilityResolution);
 
-        if (opts.useOpenApiSchemaAnnotations) {
+        if (opts.addOpenApiSchemaAnnotations) {
             String schemaAnnotation = getSchemaAnnotation(propertyType, propInfo.type, propInfo.imports);
             propInfo.annotations.add(schemaAnnotation);
         }
 
-        if (opts.useJsonPropertyAnnotations) {
+        if (opts.addJsonPropertyAnnotations) {
             String jsonPropAnnotation = getJsonPropertyAnnotation(name, propInfo.imports);
             propInfo.annotations.add(jsonPropAnnotation);
         }
