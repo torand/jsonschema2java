@@ -34,6 +34,11 @@
     <tag>HEAD</tag>
   </scm>
 
+  <issueManagement>
+    <system>github</system>
+    <url>https://github.com/torand/jsonschema2java/issues</url>
+  </issueManagement>
+
   <properties>
     <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
     <maven-release-plugin.version>3.0.0-M4</maven-release-plugin.version>
