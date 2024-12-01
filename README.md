@@ -9,7 +9,7 @@ jsonschema2java
 
 Maven plugin to generate Java or Kotlin models (POJOs) from [JSON Schema](https://json-schema.org/) files.
 
-The current version supports the JSON Schema specification version "2020-12" only.
+The current version supports the JSON Schema specification version "2020-12".
 
 The JSON Schema files are parsed and validated using the [networknt/json-schema-validator](https://github.com/networknt/json-schema-validator) library. 
 
@@ -68,19 +68,20 @@ $ mvn io.github.torand:jsonschema2java:1.0.0:generate \
 
 ## Configuration
 
-| Parameter                    | Default           | Description                                                                                                                         |
-|------------------------------|-------------------|-------------------------------------------------------------------------------------------------------------------------------------|
-| searchRootDir                | Project root dir  | Root directory to search for schema files from                                                                                      |
-| searchFilePattern            |                   | Schema file path search pattern. Supports 'glob' patterns.                                                                          |
-| schemaIdRootUri              |                   | Root URI of $id property in schema files. Path elements beyond this value must correspond to subdirectories inside 'searchRootDir'. |
-| outputDir                    | Project build dir | Directory to write Java/Kotllin code files to                                                                                       |
-| rootPackage                  |                   | Root package path of output Java/Kotlin classes                                                                                     |
-| pojoNameSuffix               | "Dto"             | Suffix for POJO (model) class and enum names                                                                                        |
-| pojosAsRecords               | true              | Whether to output Java records instead of Java classes                                                                              |
-| addOpenApiSchemaAnnotations  | false             | Whether to generate model files with OpenAPI schema annotations                                                                     |
-| addJsonPropertyAnnotations   | true              | Whether to generate model files with JSON property annotations                                                                      |
-| useKotlinSyntax              | false             | Whether to generate model files with Kotlin syntax                                                                                  |
-| verbose                      | false             | Whether to log extra details                                                                                                        |
+| Parameter                           | Default           | Description                                                                                                                         |
+|-------------------------------------|-------------------|-------------------------------------------------------------------------------------------------------------------------------------|
+| searchRootDir                       | Project root dir  | Root directory to search for schema files from                                                                                      |
+| searchFilePattern                   |                   | Schema file path search pattern. Supports 'glob' patterns.                                                                          |
+| schemaIdRootUri                     |                   | Root URI of $id property in schema files. Path elements beyond this value must correspond to subdirectories inside 'searchRootDir'. |
+| outputDir                           | Project build dir | Directory to write Java/Kotllin code files to                                                                                       |
+| rootPackage                         |                   | Root package path of output Java/Kotlin classes                                                                                     |
+| pojoNameSuffix                      | "Dto"             | Suffix for POJO (model) class and enum names                                                                                        |
+| pojosAsRecords                      | true              | Whether to output Java records instead of Java classes                                                                              |
+| addOpenApiSchemaAnnotations         | false             | Whether to generate model files with OpenAPI schema annotations                                                                     |
+| addJsonPropertyAnnotations          | true              | Whether to generate model files with JSON property annotations                                                                      |
+| addJakartaBeanValidationAnnotations | true              | Whether to generate model files with Jakarta Bean Validation annotations                                                            |
+| useKotlinSyntax                     | false             | Whether to generate model files with Kotlin syntax                                                                                  |
+| verbose                             | false             | Whether to log extra details                                                                                                        |
 
 ## Extensions
 
@@ -96,7 +97,7 @@ The JSON Schema specification is augmented with the following extension properti
 
 ## Limitations
 
-As a general rule, to produce meaningful POJOs, strict schemas are necessary. Hence, the "type" property is mandatory. Relaxed, abstract schemas are useful for validation, not so much for code generation. 
+Relaxed, abstract schemas are useful for validation, not so much for code generation. As a general rule, to produce meaningful POJOs, strict schemas are necessary. Hence, the "type" property is mandatory.  
 
 The following JSON Schema constructs are currently not supported:
 

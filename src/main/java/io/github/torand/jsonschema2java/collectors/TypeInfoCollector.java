@@ -161,7 +161,7 @@ public class TypeInfoCollector extends BaseCollector {
             typeInfo.name = "Duration";
             typeInfo.schemaFormat = schema.format();
             typeInfo.typeImports.add("java.time.Duration");
-            if (!typeInfo.nullable) {
+            if (!typeInfo.nullable && opts.addJakartaBeanValidationAnnotations) {
                 String notNullAnnotation = getNotNullAnnotation(typeInfo.annotationImports);
                 typeInfo.annotations.add(notNullAnnotation);
             }
@@ -169,7 +169,7 @@ public class TypeInfoCollector extends BaseCollector {
             typeInfo.name = "LocalDate";
             typeInfo.schemaFormat = schema.format();
             typeInfo.typeImports.add("java.time.LocalDate");
-            if (!typeInfo.nullable) {
+            if (!typeInfo.nullable && opts.addJakartaBeanValidationAnnotations) {
                 String notNullAnnotation = getNotNullAnnotation(typeInfo.annotationImports);
                 typeInfo.annotations.add(notNullAnnotation);
             }
@@ -179,7 +179,7 @@ public class TypeInfoCollector extends BaseCollector {
             typeInfo.name = "LocalDateTime";
             typeInfo.schemaFormat = schema.format();
             typeInfo.typeImports.add("java.time.LocalDateTime");
-            if (!typeInfo.nullable) {
+            if (!typeInfo.nullable && opts.addJakartaBeanValidationAnnotations) {
                 String notNullAnnotation = getNotNullAnnotation(typeInfo.annotationImports);
                 typeInfo.annotations.add(notNullAnnotation);
             }
@@ -188,38 +188,44 @@ public class TypeInfoCollector extends BaseCollector {
         } else if ("email".equals(schema.format())) {
             typeInfo.name = "String";
             typeInfo.schemaFormat = schema.format();
-            if (!typeInfo.nullable) {
-                String notBlankAnnotation = getNotBlankAnnotation(typeInfo.annotationImports);
-                typeInfo.annotations.add(notBlankAnnotation);
+            if (opts.addJakartaBeanValidationAnnotations) {
+                if (!typeInfo.nullable) {
+                    String notBlankAnnotation = getNotBlankAnnotation(typeInfo.annotationImports);
+                    typeInfo.annotations.add(notBlankAnnotation);
+                }
+                String emailAnnotation = getEmailAnnotation(typeInfo.annotationImports);
+                typeInfo.annotations.add(emailAnnotation);
             }
-            String emailAnnotation = getEmailAnnotation(typeInfo.annotationImports);
-            typeInfo.annotations.add(emailAnnotation);
         } else if ("binary".equals(schema.format())) {
             typeInfo.name = "byte[]";
             typeInfo.schemaFormat = schema.format();
-            if (!typeInfo.nullable) {
-                String notEmptyAnnotation = getNotEmptyAnnotation(typeInfo.annotationImports);
-                typeInfo.annotations.add(notEmptyAnnotation);
-            }
-            if (nonNull(schema.minItems()) || nonNull(schema.maxItems())) {
-                String sizeAnnotaion = getArraySizeAnnotation(schema, typeInfo.annotationImports);
-                typeInfo.annotations.add(sizeAnnotaion);
+            if (opts.addJakartaBeanValidationAnnotations) {
+                if (!typeInfo.nullable) {
+                    String notEmptyAnnotation = getNotEmptyAnnotation(typeInfo.annotationImports);
+                    typeInfo.annotations.add(notEmptyAnnotation);
+                }
+                if (nonNull(schema.minItems()) || nonNull(schema.maxItems())) {
+                    String sizeAnnotaion = getArraySizeAnnotation(schema, typeInfo.annotationImports);
+                    typeInfo.annotations.add(sizeAnnotaion);
+                }
             }
         } else {
             typeInfo.name = "String";
             typeInfo.schemaFormat = schema.format();
-            if (!typeInfo.nullable) {
-                String notBlankAnnotation = getNotBlankAnnotation(typeInfo.annotationImports);
-                typeInfo.annotations.add(notBlankAnnotation);
-            }
-            if (nonBlank(schema.pattern())) {
-                typeInfo.schemaPattern = schema.pattern();
-                String patternAnnotation = getPatternAnnotation(schema, typeInfo.annotationImports);
-                typeInfo.annotations.add(patternAnnotation);
-            }
-            if (nonNull(schema.minLength()) || nonNull(schema.maxLength())) {
-                String sizeAnnotation = getStringSizeAnnotation(schema, typeInfo.annotationImports);
-                typeInfo.annotations.add(sizeAnnotation);
+            if (opts.addJakartaBeanValidationAnnotations) {
+                if (!typeInfo.nullable) {
+                    String notBlankAnnotation = getNotBlankAnnotation(typeInfo.annotationImports);
+                    typeInfo.annotations.add(notBlankAnnotation);
+                }
+                if (nonBlank(schema.pattern())) {
+                    typeInfo.schemaPattern = schema.pattern();
+                    String patternAnnotation = getPatternAnnotation(schema, typeInfo.annotationImports);
+                    typeInfo.annotations.add(patternAnnotation);
+                }
+                if (nonNull(schema.minLength()) || nonNull(schema.maxLength())) {
+                    String sizeAnnotation = getStringSizeAnnotation(schema, typeInfo.annotationImports);
+                    typeInfo.annotations.add(sizeAnnotation);
+                }
             }
         }
     }
@@ -234,18 +240,20 @@ public class TypeInfoCollector extends BaseCollector {
             typeInfo.typeImports.add("java.math.BigDecimal");
         }
         typeInfo.schemaFormat = schema.format();
-        if (!typeInfo.nullable) {
-            String notNullAnnotation = getNotNullAnnotation(typeInfo.annotationImports);
-            typeInfo.annotations.add(notNullAnnotation);
-        }
-        if ("BigDecimal".equals(typeInfo.name)) {
-            if (nonNull(schema.minimum())) {
-                String minAnnotation = getMinAnnotation(schema, typeInfo.annotationImports);
-                typeInfo.annotations.add(minAnnotation);
+        if (opts.addJakartaBeanValidationAnnotations) {
+            if (!typeInfo.nullable) {
+                String notNullAnnotation = getNotNullAnnotation(typeInfo.annotationImports);
+                typeInfo.annotations.add(notNullAnnotation);
             }
-            if (nonNull(schema.maximum())) {
-                String maxAnnotation = getMaxAnnotation(schema, typeInfo.annotationImports);
-                typeInfo.annotations.add(maxAnnotation);
+            if ("BigDecimal".equals(typeInfo.name)) {
+                if (nonNull(schema.minimum())) {
+                    String minAnnotation = getMinAnnotation(schema, typeInfo.annotationImports);
+                    typeInfo.annotations.add(minAnnotation);
+                }
+                if (nonNull(schema.maximum())) {
+                    String maxAnnotation = getMaxAnnotation(schema, typeInfo.annotationImports);
+                    typeInfo.annotations.add(maxAnnotation);
+                }
             }
         }
     }
@@ -257,23 +265,25 @@ public class TypeInfoCollector extends BaseCollector {
             typeInfo.name = "Integer";
         }
         typeInfo.schemaFormat = schema.format();
-        if (!typeInfo.nullable) {
-            String notNullAnnotation = getNotNullAnnotation(typeInfo.annotationImports);
-            typeInfo.annotations.add(notNullAnnotation);
-        }
-        if (nonNull(schema.minimum())) {
-            String minAnnotation = getMinAnnotation(schema, typeInfo.annotationImports);
-            typeInfo.annotations.add(minAnnotation);
-        }
-        if (nonNull(schema.maximum())) {
-            String maxAnnotation = getMaxAnnotation(schema, typeInfo.annotationImports);
-            typeInfo.annotations.add(maxAnnotation);
+        if (opts.addJakartaBeanValidationAnnotations) {
+            if (!typeInfo.nullable) {
+                String notNullAnnotation = getNotNullAnnotation(typeInfo.annotationImports);
+                typeInfo.annotations.add(notNullAnnotation);
+            }
+            if (nonNull(schema.minimum())) {
+                String minAnnotation = getMinAnnotation(schema, typeInfo.annotationImports);
+                typeInfo.annotations.add(minAnnotation);
+            }
+            if (nonNull(schema.maximum())) {
+                String maxAnnotation = getMaxAnnotation(schema, typeInfo.annotationImports);
+                typeInfo.annotations.add(maxAnnotation);
+            }
         }
     }
 
     private void populateJsonBooleanType(TypeInfo typeInfo) {
         typeInfo.name = "Boolean";
-        if (!typeInfo.nullable) {
+        if (!typeInfo.nullable && opts.addJakartaBeanValidationAnnotations) {
             String notNullAnnotation = getNotNullAnnotation(typeInfo.annotationImports);
             typeInfo.annotations.add(notNullAnnotation);
         }
@@ -284,23 +294,27 @@ public class TypeInfoCollector extends BaseCollector {
         typeInfo.name = "List";
         typeInfo.typeImports.add("java.util.List");
 
-        String validAnnotation = getValidAnnotation(typeInfo.annotationImports);
-        typeInfo.annotations.add(validAnnotation);
+        if (opts.addJakartaBeanValidationAnnotations) {
+            String validAnnotation = getValidAnnotation(typeInfo.annotationImports);
+            typeInfo.annotations.add(validAnnotation);
+        }
 
         typeInfo.itemType = getTypeInfo(schema.items());
         typeInfo.itemType.annotations.clear();
         typeInfo.itemType.annotationImports.clear();
 
-        String itemNotNullAnnotation = getNotNullAnnotation(typeInfo.itemType.annotationImports);
-        typeInfo.itemType.annotations.add(itemNotNullAnnotation);
+        if (opts.addJakartaBeanValidationAnnotations) {
+            String itemNotNullAnnotation = getNotNullAnnotation(typeInfo.itemType.annotationImports);
+            typeInfo.itemType.annotations.add(itemNotNullAnnotation);
 
-        if (!typeInfo.nullable) {
-            String notNullAnnotation = getNotNullAnnotation(typeInfo.annotationImports);
-            typeInfo.annotations.add(notNullAnnotation);
-        }
-        if (nonNull(schema.minItems()) || nonNull(schema.maxItems())) {
-            String sizeAnnotation = getArraySizeAnnotation(schema, typeInfo.annotationImports);
-            typeInfo.annotations.add(sizeAnnotation);
+            if (!typeInfo.nullable) {
+                String notNullAnnotation = getNotNullAnnotation(typeInfo.annotationImports);
+                typeInfo.annotations.add(notNullAnnotation);
+            }
+            if (nonNull(schema.minItems()) || nonNull(schema.maxItems())) {
+                String sizeAnnotation = getArraySizeAnnotation(schema, typeInfo.annotationImports);
+                typeInfo.annotations.add(sizeAnnotation);
+            }
         }
     }
 
@@ -308,20 +322,24 @@ public class TypeInfoCollector extends BaseCollector {
         typeInfo.name = "Map";
         typeInfo.typeImports.add("java.util.Map");
 
-        String validAnnotation = getValidAnnotation(typeInfo.annotationImports);
-        typeInfo.annotations.add(validAnnotation);
+        if (opts.addJakartaBeanValidationAnnotations) {
+            String validAnnotation = getValidAnnotation(typeInfo.annotationImports);
+            typeInfo.annotations.add(validAnnotation);
+        }
 
         typeInfo.keyType = new TypeInfo();
         typeInfo.keyType.name = "String";
         typeInfo.itemType = getTypeInfo((JsonSchemaDef)schema.additionalProperties());
 
-        if (!typeInfo.nullable) {
-            String notNullAnnotation = getNotNullAnnotation(typeInfo.annotationImports);
-            typeInfo.annotations.add(notNullAnnotation);
-        }
-        if (nonNull(schema.minItems()) || nonNull(schema.maxItems())) {
-            String sizeAnnotation = getArraySizeAnnotation(schema, typeInfo.annotationImports);
-            typeInfo.annotations.add(sizeAnnotation);
+        if (opts.addJakartaBeanValidationAnnotations) {
+            if (!typeInfo.nullable) {
+                String notNullAnnotation = getNotNullAnnotation(typeInfo.annotationImports);
+                typeInfo.annotations.add(notNullAnnotation);
+            }
+            if (nonNull(schema.minItems()) || nonNull(schema.maxItems())) {
+                String sizeAnnotation = getArraySizeAnnotation(schema, typeInfo.annotationImports);
+                typeInfo.annotations.add(sizeAnnotation);
+            }
         }
     }
 

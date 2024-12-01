@@ -38,6 +38,7 @@ class TestHelper {
         opts.outputDir = "target/test-output/java/model";
         opts.addOpenApiSchemaAnnotations = true;
         opts.addJsonPropertyAnnotations = false;
+        opts.addJakartaBeanValidationAnnotations = true;
         opts.useKotlinSyntax = false;
         opts.verbose = true;
         return opts;
@@ -51,6 +52,7 @@ class TestHelper {
         opts.outputDir = "target/test-output/kotlin/model";
         opts.addOpenApiSchemaAnnotations = true;
         opts.addJsonPropertyAnnotations = false;
+        opts.addJakartaBeanValidationAnnotations = true;
         opts.useKotlinSyntax = true;
         opts.verbose = true;
         return opts;

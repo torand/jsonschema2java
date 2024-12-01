@@ -78,6 +78,12 @@ public class JsonSchema2JavaMojo extends AbstractMojo {
     private boolean addJsonPropertyAnnotations;
 
     /**
+     * Generate Jakarta Bean Validation annotations.
+     */
+    @Parameter( property = "addJakartaBeanValidationAnnotations", defaultValue = "true" )
+    private boolean addJakartaBeanValidationAnnotations;
+
+    /**
      * Generate Kotlin source code.
      */
     @Parameter( property = "useKotlinSyntax", defaultValue = "false" )
@@ -99,6 +105,7 @@ public class JsonSchema2JavaMojo extends AbstractMojo {
         opts.pojosAsRecords = pojosAsRecords;
         opts.addOpenApiSchemaAnnotations = addOpenApiSchemaAnnotations;
         opts.addJsonPropertyAnnotations = addJsonPropertyAnnotations;
+        opts.addJakartaBeanValidationAnnotations = addJakartaBeanValidationAnnotations;
         opts.useKotlinSyntax = useKotlinSyntax;
         opts.verbose = verbose;
 

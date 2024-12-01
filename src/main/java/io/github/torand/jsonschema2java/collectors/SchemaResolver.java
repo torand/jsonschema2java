@@ -51,7 +51,7 @@ public class SchemaResolver {
         JsonSchemaFactory metaSchemaFactory = JsonSchemaFactory.getInstance(VersionFlag.V202012);
         SchemaValidatorsConfig.Builder builder = SchemaValidatorsConfig.builder();
 
-        // By default the JDK regular expression implementation which is not ECMA 262 compliant is used
+        // By default the JDK regular expression implementation which is not ECMA 262 compliant is used.
         // Note that setting this requires including optional dependencies
         // builder.regularExpressionFactory(GraalJSRegularExpressionFactory.getInstance());
         // builder.regularExpressionFactory(JoniRegularExpressionFactory.getInstance());

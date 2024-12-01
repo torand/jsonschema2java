@@ -13,6 +13,7 @@ public class Options {
     public boolean pojosAsRecords = true;
     public boolean addOpenApiSchemaAnnotations = false;
     public boolean addJsonPropertyAnnotations = true;
+    public boolean addJakartaBeanValidationAnnotations = true;
     public boolean useKotlinSyntax = false;
     public boolean verbose = false;
 
