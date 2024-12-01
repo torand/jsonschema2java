@@ -7,7 +7,7 @@
 
   <packaging>maven-plugin</packaging>
 
-  <name>JSON Schema2Java Code Generation Maven Plugin</name>
+  <name>JSON Schema to Java Code Generation Maven Plugin</name>
   <description>Maven plugin to generate Java source code (POJOs) from JSON Schema files</description>
   <url>https://github.com/torand/jsonschema2java</url>
 
