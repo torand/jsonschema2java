@@ -78,7 +78,7 @@ $ mvn io.github.torand:jsonschema2java:1.0.0:generate \
 | Parameter                           | Default           | Description                                                                                                                         |
 |-------------------------------------|-------------------|-------------------------------------------------------------------------------------------------------------------------------------|
 | searchRootDir                       | Project root dir  | Root directory to search for schema files from                                                                                      |
-| searchFilePattern                   |                   | Schema file path search pattern. Supports 'glob' patterns.                                                                          |
+| searchFilePattern                   |                   | Schema file path search pattern. Supports [glob](https://github.com/begin/globbing/blob/master/cheatsheet.md) patterns              |
 | schemaIdRootUri                     |                   | Root URI of $id property in schema files. Path elements beyond this value must correspond to subdirectories inside 'searchRootDir'. |
 | outputDir                           | Project build dir | Directory to write Java/Kotlin code files to                                                                                        |
 | rootPackage                         |                   | Root package path of output Java/Kotlin classes                                                                                     |
