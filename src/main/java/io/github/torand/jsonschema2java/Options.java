@@ -17,11 +17,11 @@ public class Options {
     public boolean verbose = false;
 
     public String getModelOutputDir(String customSubdir) {
-        return outputDir + "/model" + (isBlank(customSubdir) ? "" : "/"+customSubdir);
+        return outputDir + (isBlank(customSubdir) ? "" : "/"+customSubdir);
     }
 
     public String getModelPackage(String customSubpackage) {
-        return rootPackage + ".model" + (isBlank(customSubpackage) ? "" : "."+customSubpackage);
+        return rootPackage + (isBlank(customSubpackage) ? "" : "."+customSubpackage);
     }
 
     public String getFileExtension() {

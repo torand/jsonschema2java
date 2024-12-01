@@ -15,11 +15,11 @@ The JSON Schema files are parsed and validated using the [networknt/json-schema-
 
 ## Output
 
-POJOs, i.e. class and enum definitions, for the JSON schemas are output to a 'model' subdirectory using Java or Kotlin syntax.
+POJOs, i.e. class and enum definitions, for the JSON schemas are written to a specified output directory using Java or Kotlin syntax.
 
-The generated source code is compatible with Java 17+ and uses annotations from the following libraries:
+The generated source code is compatible with Java 17+ and optionally adds annotations from the following libraries:
 
-* [Microprofile OpenAPI](https://download.eclipse.org/microprofile/microprofile-open-api-2.0/microprofile-openapi-spec-2.0.html) (optional)
+* [Microprofile OpenAPI](https://download.eclipse.org/microprofile/microprofile-open-api-2.0/microprofile-openapi-spec-2.0.html)
 * [Jakarta Bean Validation](https://jakarta.ee/specifications/bean-validation/)
 * [Jackson](https://github.com/FasterXML/jackson)
 
@@ -72,7 +72,7 @@ $ mvn io.github.torand:jsonschema2java:1.0.0:generate \
 |------------------------------|-------------------|-------------------------------------------------------------------------------------------------------------------------------------|
 | searchRootDir                | Project root dir  | Root directory to search for schema files from                                                                                      |
 | searchFilePattern            |                   | Schema file path search pattern. Supports 'glob' patterns.                                                                          |
-| schemaIdRootUri              |                   | Root URI of $id property in schema files. Path elements beyond this value must correspond to subdirectories beyond 'searchRootDir'. |
+| schemaIdRootUri              |                   | Root URI of $id property in schema files. Path elements beyond this value must correspond to subdirectories inside 'searchRootDir'. |
 | outputDir                    | Project build dir | Directory to write Java/Kotllin code files to                                                                                       |
 | rootPackage                  |                   | Root package path of output Java/Kotlin classes                                                                                     |
 | pojoNameSuffix               | "Dto"             | Suffix for POJO (model) class and enum names                                                                                        |

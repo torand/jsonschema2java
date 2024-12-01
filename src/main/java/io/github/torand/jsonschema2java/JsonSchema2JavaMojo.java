@@ -36,7 +36,7 @@ public class JsonSchema2JavaMojo extends AbstractMojo {
     private String searchFilePattern;
 
     /**
-     * Root URI of $id property in schema files, Path elements beyond this value must correspond to subdirectories beyond searchRootDir parameter.
+     * Root URI of $id property in schema files, Path elements beyond this value must correspond to subdirectories inside searchRootDir parameter.
      */
     @Parameter(property = "schemaIdRootUri", required = true )
     private URI schemaIdRootUri;

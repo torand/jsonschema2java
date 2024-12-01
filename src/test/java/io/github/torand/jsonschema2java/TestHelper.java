@@ -34,8 +34,8 @@ class TestHelper {
         Options opts = new Options();
         opts.searchRootDir = "src/test/resources";
         opts.schemaIdRootUri = URI.create("https://my-domain.com/my-api/schemas");
-        opts.rootPackage = "io.github.torand.test";
-        opts.outputDir = "target/test-output/java";
+        opts.rootPackage = "io.github.torand.test.model";
+        opts.outputDir = "target/test-output/java/model";
         opts.addOpenApiSchemaAnnotations = true;
         opts.addJsonPropertyAnnotations = false;
         opts.useKotlinSyntax = false;
@@ -47,8 +47,8 @@ class TestHelper {
         Options opts = new Options();
         opts.searchRootDir = "src/test/resources";
         opts.schemaIdRootUri = URI.create("https://my-domain.com/my-api/schemas");
-        opts.rootPackage = "io.github.torand.test";
-        opts.outputDir = "target/test-output/kotlin";
+        opts.rootPackage = "io.github.torand.test.model";
+        opts.outputDir = "target/test-output/kotlin/model";
         opts.addOpenApiSchemaAnnotations = true;
         opts.addJsonPropertyAnnotations = false;
         opts.useKotlinSyntax = true;
@@ -67,15 +67,15 @@ class TestHelper {
     }
 
     static void assertMatchingJavaFiles(String filename) {
-        Path expectedPath = getResourcePath("expected-output/java/%s".formatted(filename));
-        Path actualPath = Path.of("target/test-output/java/%s".formatted(filename));
+        Path expectedPath = getResourcePath("expected-output/java/model/%s".formatted(filename));
+        Path actualPath = Path.of("target/test-output/java/model/%s".formatted(filename));
 
         assertMatchingFiles(expectedPath, actualPath);
     }
 
     static void assertMatchingKotlinFiles(String filename) {
-        Path expectedPath = getResourcePath("expected-output/kotlin/%s".formatted(filename));
-        Path actualPath = Path.of("target/test-output/kotlin/%s".formatted(filename));
+        Path expectedPath = getResourcePath("expected-output/kotlin/model/%s".formatted(filename));
+        Path actualPath = Path.of("target/test-output/kotlin/model/%s".formatted(filename));
 
         assertMatchingFiles(expectedPath, actualPath);
     }

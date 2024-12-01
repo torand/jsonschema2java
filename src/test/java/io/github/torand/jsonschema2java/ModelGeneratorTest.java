@@ -33,7 +33,7 @@ public class ModelGeneratorTest {
 
             modelGenerator.generate(List.of(schemaFile));
 
-            TestHelper.assertMatchingJavaFiles("model/%s%sDto.java".formatted(isBlank(modelSubDir) ? "" : modelSubDir+"/", schema));
+            TestHelper.assertMatchingJavaFiles("%s%sDto.java".formatted(isBlank(modelSubDir) ? "" : modelSubDir+"/", schema));
         }
     }
 
@@ -49,7 +49,7 @@ public class ModelGeneratorTest {
 
             modelGenerator.generate(List.of(schemaFile));
 
-            TestHelper.assertMatchingKotlinFiles("model/%s%sDto.kt".formatted(isBlank(modelSubDir) ? "" : modelSubDir+"/", schema));
+            TestHelper.assertMatchingKotlinFiles("%s%sDto.kt".formatted(isBlank(modelSubDir) ? "" : modelSubDir+"/", schema));
         }
     }
 }
