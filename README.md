@@ -12,7 +12,7 @@ A Maven plugin to generate Java models (POJOs) from [JSON Schema](https://json-s
 - [Overview](#Overview)
 - [Usage](#Usage)
 - [Configuration](#Configuration)
-- [JSON Schema extensions](#JSON_Schema_extensions)
+- [JSON Schema extensions](#JSON-Schema-extensions)
 - [Limitations](#Limitations)
 - [Guidelines](#Guidelines)
 - [License](#License)
