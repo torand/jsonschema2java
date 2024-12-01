@@ -3,7 +3,6 @@ jsonschema2java
 
 [![CI](https://github.com/torand/jsonschema2java/actions/workflows/continuous-integration.yml/badge.svg)](https://github.com/torand/jsonschema2java/actions/workflows/continuous-integration.yml)
 [![Maven Central](https://img.shields.io/maven-central/v/io.github.torand/jsonschema2java.svg)](http://search.maven.org/#search%7Cga%7C1%7Cg%3Aio.github.torand%20a%3Ajsonschema2java)
-[![codecov.io](https://codecov.io/github/torand/jsonschema2java/coverage.svg?branch=main)](https://codecov.io/github/torand/jsonschema2java?branch=main)
 [![Javadocs](http://www.javadoc.io/badge/io.github.torand/jsonschema2java.svg)](https://www.javadoc.io/doc/io.github.torand/jsonschema2java)
 
 ## Overview
