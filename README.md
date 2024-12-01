@@ -5,18 +5,25 @@ jsonschema2java
 [![Maven Central](https://img.shields.io/maven-central/v/io.github.torand/jsonschema2java.svg)](http://search.maven.org/#search%7Cga%7C1%7Cg%3Aio.github.torand%20a%3Ajsonschema2java)
 [![Javadocs](http://www.javadoc.io/badge/io.github.torand/jsonschema2java.svg)](https://www.javadoc.io/doc/io.github.torand/jsonschema2java)
 
+A Maven plugin to generate Java models (POJOs) from [JSON Schema](https://json-schema.org/) files.
+
+## Table of contents
+
+- [Overview](#Overview)
+- [Usage](#Usage)
+- [Configuration](#Configuration)
+- [JSON Schema extensions](#JSON_Schema_extensions)
+- [Limitations](#Limitations)
+- [Guidelines](#Guidelines)
+- [License](#License)
+
 ## Overview
 
-Maven plugin to generate Java or Kotlin models (POJOs) from [JSON Schema](https://json-schema.org/) files.
-
+Include this Maven plugin in any Java project processing JSON payloads to enable a [Contract First](https://dzone.com/articles/designing-rest-api-what-is-contract-first) build workflow.
 The current version supports the JSON Schema specification version "2020-12".
 
-The JSON Schema files are parsed and validated using the [networknt/json-schema-validator](https://github.com/networknt/json-schema-validator) library. 
-
-## Output
-
-POJOs, i.e. class and enum definitions, for the JSON schemas are written to a specified output directory using Java or Kotlin syntax.
-
+The JSON Schema files are read, parsed and validated using the [networknt/json-schema-validator](https://github.com/networknt/json-schema-validator) library.
+For each JSON Schema file a Java class or enum definition is written to a specified output directory.
 The generated source code is compatible with Java 17+ and optionally adds annotations from the following libraries:
 
 * [Microprofile OpenAPI](https://download.eclipse.org/microprofile/microprofile-open-api-2.0/microprofile-openapi-spec-2.0.html)
@@ -83,7 +90,7 @@ $ mvn io.github.torand:jsonschema2java:1.0.0:generate \
 | useKotlinSyntax                     | false             | Whether to generate model files with Kotlin syntax                                                                                  |
 | verbose                             | false             | Whether to log extra details                                                                                                        |
 
-## Extensions
+## JSON Schema extensions
 
 The JSON Schema specification is augmented with the following extension properties:
 
@@ -195,3 +202,7 @@ public record MotorCycleDto (
     @NotNull Boolean sidekick
 ) {}
 ```
+
+## License
+
+This project is licensed under the [Apache-2.0 License](LICENSE).
