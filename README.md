@@ -24,7 +24,7 @@ The current version supports the JSON Schema specification version "2020-12".
 
 The JSON Schema files are read, parsed and validated using the [networknt/json-schema-validator](https://github.com/networknt/json-schema-validator) library.
 For each JSON Schema file a Java class or enum definition is written to a specified output directory.
-The generated source code is compatible with Java 17+ and optionally adds annotations from the following libraries:
+The generated source code is compatible with Java 17+ and optionally includes annotations from the following libraries:
 
 * [Microprofile OpenAPI](https://download.eclipse.org/microprofile/microprofile-open-api-2.0/microprofile-openapi-spec-2.0.html)
 * [Jakarta Bean Validation](https://jakarta.ee/specifications/bean-validation/)
@@ -132,7 +132,7 @@ Inheritance is not supported, nor has JSON Schema such a construct. Inheritance 
 ```json
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://my-domain.com/my-api/schema/vehicle",
+  "$id": "https://my-domain.com/my-api/schemas/vehicle",
   "type": "object",
   "properties": {
     "brand": {
@@ -145,10 +145,10 @@ Inheritance is not supported, nor has JSON Schema such a construct. Inheritance 
 ```json
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://my-domain.com/my-api/schema/car",
+  "$id": "https://my-domain.com/my-api/schemas/car",
   "allOf" : [
     {
-      "$ref": "https://my-domain.com/my-api/schema/vehicle"
+      "$ref": "https://my-domain.com/my-api/schemas/vehicle"
     },
     {
       "type": "object",
@@ -165,10 +165,10 @@ Inheritance is not supported, nor has JSON Schema such a construct. Inheritance 
 ```json
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://my-domain.com/my-api/schema/motor-cycle",
+  "$id": "https://my-domain.com/my-api/schemas/motor-cycle",
   "allOf" : [
     {
-      "$ref": "https://my-domain.com/my-api/schema/vehicle"
+      "$ref": "https://my-domain.com/my-api/schemas/vehicle"
     },
     {
       "type": "object",
