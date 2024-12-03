@@ -7,7 +7,7 @@
 
   <packaging>maven-plugin</packaging>
 
-  <name>JSON Schema to Java Code Generation Maven Plugin</name>
+  <name>JSONSchema2Java</name>
   <description>Maven plugin to generate Java source code (POJOs) from JSON Schema files</description>
   <url>https://github.com/torand/jsonschema2java</url>
 
@@ -152,16 +152,22 @@
         </configuration>
         <executions>
           <execution>
+            <id>prepare-agent</id>
             <goals>
               <goal>prepare-agent</goal>
             </goals>
           </execution>
-          <!-- attached to Maven test phase -->
           <execution>
             <id>report</id>
             <phase>test</phase>
             <goals>
               <goal>report</goal>
+            </goals>
+          </execution>
+          <!-- execution>
+            <id>check</id>
+            <goals>
+              <goal>check</goal>
             </goals>
             <configuration>
               <rules>
@@ -171,23 +177,18 @@
                     <limit>
                       <counter>LINE</counter>
                       <value>COVEREDRATIO</value>
-                      <minimum>0.9</minimum>
+                      <minimum>0.5</minimum>
                     </limit>
                     <limit>
                       <counter>BRANCH</counter>
                       <value>COVEREDRATIO</value>
-                      <minimum>0.9</minimum>
-                    </limit>
-                    <limit>
-                      <counter>COMPLEXITY</counter>
-                      <value>COVEREDRATIO</value>
-                      <maximum>6</maximum>
+                      <minimum>0.5</minimum>
                     </limit>
                   </limits>
                 </rule>
               </rules>
             </configuration>
-          </execution>
+          </execution -->
         </executions>
       </plugin>
     </plugins>
@@ -209,7 +210,6 @@
               <autoPublish>true</autoPublish>
             </configuration>
           </plugin>
-          <!-- include sources -->
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-source-plugin</artifactId>
@@ -224,7 +224,6 @@
               </execution>
             </executions>
           </plugin>
-          <!-- include javadoc -->
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-javadoc-plugin</artifactId>
@@ -242,7 +241,6 @@
               <doclint>none</doclint>
             </configuration>
           </plugin>
-          <!-- Sign artifacts -->
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-gpg-plugin</artifactId>

@@ -1,9 +1,10 @@
-jsonschema2java
+JSONSchema2Java
 ===============
 
 [![CI](https://github.com/torand/jsonschema2java/actions/workflows/continuous-integration.yml/badge.svg)](https://github.com/torand/jsonschema2java/actions/workflows/continuous-integration.yml)
 [![Maven Central](https://img.shields.io/maven-central/v/io.github.torand/jsonschema2java.svg?label=Maven%20Central)](http://search.maven.org/#search%7Cga%7C1%7Cg%3Aio.github.torand%20a%3Ajsonschema2java)
 [![Javadocs](https://javadoc.io/badge2/io.github.torand/jsonschema2java/JavaDoc.svg)](https://javadoc.io/doc/io.github.torand/jsonschema2java)
+[![codecov.io](https://codecov.io/github/torand/jsonschema2java/coverage.svg?branch=main)](https://codecov.io/github/torand/jsonschema2java?branch=main)
 
 A Maven plugin to generate Java models (POJOs) from [JSON Schema](https://json-schema.org/) files.
 
@@ -77,12 +78,12 @@ $ mvn io.github.torand:jsonschema2java:1.0.0:generate \
 
 | Parameter                           | Default           | Description                                                                                                                         |
 |-------------------------------------|-------------------|-------------------------------------------------------------------------------------------------------------------------------------|
-| searchRootDir                       | Project root dir  | Root directory to search for schema files from                                                                                      |
+| searchRootDir                       | Project root dir  | Root directory to search for schema files                                                                                           |
 | searchFilePattern                   |                   | Schema file path search pattern. Supports [glob](https://github.com/begin/globbing/blob/master/cheatsheet.md) patterns              |
 | schemaIdRootUri                     |                   | Root URI of $id property in schema files. Path elements beyond this value must correspond to subdirectories inside 'searchRootDir'. |
-| outputDir                           | Project build dir | Directory to write Java/Kotlin code files to                                                                                        |
-| rootPackage                         |                   | Root package path of output Java/Kotlin classes                                                                                     |
-| pojoNameSuffix                      | "Dto"             | Suffix for POJO (model) class and enum names                                                                                        |
+| outputDir                           | Project build dir | Directory to write POJO source code files to                                                                                        |
+| rootPackage                         |                   | Root package path of output POJO classes and enums                                                                                  |
+| pojoNameSuffix                      | "Dto"             | Suffix for POJO class and enum names                                                                                                |
 | pojosAsRecords                      | true              | Whether to output Java records instead of Java classes                                                                              |
 | addOpenApiSchemaAnnotations         | false             | Whether to generate model files with OpenAPI schema annotations                                                                     |
 | addJsonPropertyAnnotations          | true              | Whether to generate model files with JSON property annotations                                                                      |
