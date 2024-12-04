@@ -2,10 +2,10 @@ JSONSchema2Java
 ===============
 
 [![CI](https://github.com/torand/jsonschema2java/actions/workflows/continuous-integration.yml/badge.svg)](https://github.com/torand/jsonschema2java/actions/workflows/continuous-integration.yml)
-[![Maven Central](https://img.shields.io/maven-central/v/io.github.torand/jsonschema2java.svg?label=Maven%20Central)](http://search.maven.org/#search%7Cga%7C1%7Cg%3Aio.github.torand%20a%3Ajsonschema2java)
-[![Javadocs](https://javadoc.io/badge2/io.github.torand/jsonschema2java/JavaDoc.svg)](https://javadoc.io/doc/io.github.torand/jsonschema2java)
-[![Apache 2.0 License](https://img.shields.io/badge/License-Apache%202.0-orange)](LICENSE)
-[![codecov.io](https://codecov.io/github/torand/jsonschema2java/coverage.svg?branch=main)](https://codecov.io/github/torand/jsonschema2java?branch=main)
+[![Maven Central](https://img.shields.io/maven-central/v/io.github.torand/jsonschema2java.svg?label=maven%20central)](http://search.maven.org/#search%7Cga%7C1%7Cg%3Aio.github.torand%20a%3Ajsonschema2java)
+[![Javadocs](https://javadoc.io/badge2/io.github.torand/jsonschema2java/javadoc.svg)](https://javadoc.io/doc/io.github.torand/jsonschema2java)
+[![Codecov](https://codecov.io/github/torand/jsonschema2java/coverage.svg?branch=main)](https://codecov.io/github/torand/jsonschema2java?branch=main)
+[![Apache 2.0 License](https://img.shields.io/badge/license-Apache%202.0-orange)](LICENSE)
 
 A Maven plugin to generate Java models (POJOs) from [JSON Schema](https://json-schema.org/) files.
 
@@ -13,7 +13,6 @@ A Maven plugin to generate Java models (POJOs) from [JSON Schema](https://json-s
 
 - [Overview](#Overview)
 - [Usage](#Usage)
-- [Configuration](#Configuration)
 - [JSON Schema extensions](#JSON-Schema-extensions)
 - [Limitations](#Limitations)
 - [Guidelines](#Guidelines)
