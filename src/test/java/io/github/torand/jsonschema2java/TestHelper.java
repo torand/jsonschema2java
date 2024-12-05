@@ -15,11 +15,12 @@
  */
 package io.github.torand.jsonschema2java;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.networknt.schema.JsonSchema;
 import com.networknt.schema.JsonSchemaFactory;
 import com.networknt.schema.SpecVersion;
-import org.hamcrest.CoreMatchers;
-import org.hamcrest.MatcherAssert;
 
 import java.io.IOException;
 import java.net.URI;
@@ -31,9 +32,10 @@ import java.nio.file.Paths;
 
 import static io.github.torand.jsonschema2java.utils.StringHelper.removeLineBreaks;
 import static java.util.Objects.isNull;
-import static org.junit.Assert.fail;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.fail;
 
-class TestHelper {
+public class TestHelper {
 
     private TestHelper() {}
 
@@ -45,7 +47,7 @@ class TestHelper {
         return schema;
     }
 
-    static Options getJavaOptions() {
+    public static Options getJavaOptions() {
         Options opts = new Options();
         opts.searchRootDir = "src/test/resources";
         opts.schemaIdRootUri = URI.create("https://my-domain.com/my-api/schemas");
@@ -59,7 +61,7 @@ class TestHelper {
         return opts;
     }
 
-    static Options getKotlinOptions() {
+    public static Options getKotlinOptions() {
         Options opts = new Options();
         opts.searchRootDir = "src/test/resources";
         opts.schemaIdRootUri = URI.create("https://my-domain.com/my-api/schemas");
@@ -77,24 +79,33 @@ class TestHelper {
         try {
             Path actualPath = Path.of("target/test-output/" + path);
             String content = Files.readString(actualPath);
-            MatcherAssert.assertThat(content, CoreMatchers.containsString(expectedSnippet));
+            assertThat(content).contains(expectedSnippet);
         } catch (IOException e) {
             throw new RuntimeException("Could not find file by name %s".formatted(path), e);
         }
     }
 
-    static void assertMatchingJavaFiles(String filename) {
+    public static void assertMatchingJavaFiles(String filename) {
         Path expectedPath = getResourcePath("expected-output/java/model/%s".formatted(filename));
         Path actualPath = Path.of("target/test-output/java/model/%s".formatted(filename));
 
         assertMatchingFiles(expectedPath, actualPath);
     }
 
-    static void assertMatchingKotlinFiles(String filename) {
+    public static void assertMatchingKotlinFiles(String filename) {
         Path expectedPath = getResourcePath("expected-output/kotlin/model/%s".formatted(filename));
         Path actualPath = Path.of("target/test-output/kotlin/model/%s".formatted(filename));
 
         assertMatchingFiles(expectedPath, actualPath);
+    }
+
+    public static JsonNode parseJson(String json) {
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            return mapper.reader().readTree(json);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException("Failed to parse JSON", e);
+        }
     }
 
     private static void assertMatchingFiles(Path expectedPath, Path actualPath) {

@@ -141,6 +141,10 @@ public class JsonSchemaDef {
         return schema.at("/pattern").asText(null);
     }
 
+    public boolean uniqueItems() {
+        return isTrue("/uniqueItems");
+    }
+
     public Integer minItems() {
         return has("/minItems") ? schema.at("/minItems").asInt() : null;
     }

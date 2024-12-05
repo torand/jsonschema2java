@@ -103,20 +103,50 @@ The JSON Schema specification is augmented with the following extension properti
 | x-model-subdir          | String  | In an enum or object schema          | Subdirectory to place the generated DTO model classes                     |
 | x-deprecation-message   | String  | Everywhere `deprecated` can be used  | Describing why something is deprecated, and what to use instead           |
 
-## Limitations
+## Type mapping
 
-Relaxed, abstract schemas are useful for validation, not so much for code generation. As a general rule, to produce meaningful POJOs, strict schemas are necessary. Hence, the "type" property is mandatory.  
+JSON types and formats map to the following Java and Kotlin types in generated source code:
+
+| Type                                      | Format            | Java type               | Kotlin type             |
+|-------------------------------------------|-------------------|-------------------------|-------------------------|
+| "array"                                   | N/A               | java.util.List          | java.util.List          |
+| "array" with "uniqueItems" = true         | N/A               | java.util.Set           | java.util.Set           |
+| "boolean"                                 | N/A               | Boolean                 | Boolean                 |
+| "integer"                                 |                   | Integer                 | Int                     |
+| "integer"                                 | "int32"           | Integer                 | Int                     |
+| "integer"                                 | "int64"           | Long                    | Long                    |
+| "number"                                  |                   | java.math.BigDecimal    | java.math.BigDecimal    |
+| "number"                                  | "double"          | Double                  | Double                  |
+| "number"                                  | "float"           | Float                   | Float                   |
+| "object"                                  | N/A               | 1)                      | 1)                      |
+| "object" with "additionalProperties" = {} | N/A               | java.util.Map           | java.util.Map           |
+| "string"                                  |                   | String                  | String                  |
+| "string"                                  | "uri"             | java.net.URI            | java.net.URI            |
+| "string"                                  | "uuid"            | java.util.UUID          | java.util.UUID          |
+| "string"                                  | "duration" 2)     | java.time.Duration      | java.time.Duration      |
+| "string"                                  | "date" 3)         | java.time.LocalDate     | java.time.LocalDate     |
+| "string"                                  | "date-time" 4)    | java.time.LocalDateTime | java.time.LocalDateTime |
+| "string"                                  | "binary"          | byte[]                  | ByteArray               |
+| "string"                                  | All other formats | String                  | String                  |
+
+### Footnotes
+
+1. Inline objects not supported.
+2. Expects string in the ISO duration format.
+3. Expects string in the ISO local date format.
+4. Expects string in the ISO local date time format.
+
+## Limitations
 
 The following JSON Schema constructs are currently not supported:
 
-* Values for the "format" property: "idn-email", "hostname", "idn-hostname", "ipv4", "ipv6", "uri-reference", "iri", "iri-reference", "uri-template", "json-pointer", "relative-json-pointer", "regex". These formats are currently mapped to the Java "String" type.
 * Restrictions on the "number" type: "multipleOf".
 * Properties with "const".
 * "string" properties with: "contentMediaType", "contentEncoding", "contentSchema". 
 * Dynamic objects: "if", "then", "unevaluatedProperties".
-* Nested objects.
+* Nested inline objects.
 * Extended schema validation features: "patternProperties", "propertyNames", "minProperties", "maxProperties".
-* Restrictions on arrays: "uniqueItems", tuple validation with "prefixItems".
+* Restrictions on arrays: tuple validation with "prefixItems".
 * Dynamic arrays: "unevaluatedItems", "contains", "minContains", "maxContains".
 * Documentation: "readOnly", "writeOnly".
 * Property schema composition: "allOf", "anyOf", "not". Only supports two subschemas for "oneOf", one of which must be {"type": "null"}.
@@ -124,6 +154,10 @@ The following JSON Schema constructs are currently not supported:
 * Structuring: "$anchor", "$defs", recursion using "$ref".
 
 ## Guidelines
+
+### General
+
+Relaxed, abstract schemas are useful for validation, not so much for code generation. As a general rule, to produce meaningful POJOs, strict schemas are necessary. Hence, the "type" property is mandatory.
 
 ### Inheritance
 

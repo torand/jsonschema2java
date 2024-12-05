@@ -306,8 +306,13 @@ public class TypeInfoCollector extends BaseCollector {
 
     private void populateJsonArrayType(TypeInfo typeInfo, JsonSchemaDef schema) {
         typeInfo.primitive = false;
-        typeInfo.name = "List";
-        typeInfo.typeImports.add("java.util.List");
+        if (schema.uniqueItems()) {
+            typeInfo.name = "Set";
+            typeInfo.typeImports.add("java.util.Set");
+        } else {
+            typeInfo.name = "List";
+            typeInfo.typeImports.add("java.util.List");
+        }
 
         if (opts.addJakartaBeanValidationAnnotations) {
             String validAnnotation = getValidAnnotation(typeInfo.annotationImports);
