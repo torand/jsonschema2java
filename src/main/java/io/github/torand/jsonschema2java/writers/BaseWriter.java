@@ -21,7 +21,6 @@ import java.io.IOException;
 import java.io.Writer;
 
 public abstract class BaseWriter implements AutoCloseable {
-    private static final String INDENT = "    ";
 
     private final Writer writer;
     protected final Options opts;
@@ -56,9 +55,14 @@ public abstract class BaseWriter implements AutoCloseable {
     }
 
     protected void writeIndent(int levels) {
+        String indent = "\t";
+        if (!opts.indentWithTab) {
+            indent = " ".repeat(opts.indentSize);
+        }
+
         for (int level = 0; level < levels; level++) {
             try {
-                writer.append(INDENT);
+                writer.append(indent);
             } catch (IOException e) {
                 throw new RuntimeException("Failed to append to writer", e);
             }

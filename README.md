@@ -16,6 +16,7 @@ A Maven plugin to generate Java models (POJOs) from [JSON Schema](https://json-s
 - [Type mapping](#Type-mapping)
 - [Guidelines](#Guidelines)
 - [Limitations](#Limitations)
+- [Contributing](#Contributing)
 - [License](#License)
 
 ## Overview
@@ -41,7 +42,7 @@ The generated source code is compatible with Java 17+ and optionally includes an
     <plugin>
       <groupId>io.github.torand</groupId>
       <artifactId>jsonschema2java</artifactId>
-      <version>1.0.0</version>
+      <version>1.1.0</version>
       <executions>
         <execution>
           <id>generate</id>
@@ -66,7 +67,7 @@ The generated source code is compatible with Java 17+ and optionally includes an
 ### Run from the command line
 
 ```bash
-$ mvn io.github.torand:jsonschema2java:1.0.0:generate \
+$ mvn io.github.torand:jsonschema2java:1.1.0:generate \
   -DsearchRootDir=. \
   -DsearchFilePattern=*.json \
   -DschemaIdRootUri=https://my-domain.com/my-api/schemas \
@@ -89,6 +90,8 @@ $ mvn io.github.torand:jsonschema2java:1.0.0:generate \
 | addJsonPropertyAnnotations          | true              | Whether to generate model files with JSON property annotations                                                                      |
 | addJakartaBeanValidationAnnotations | true              | Whether to generate model files with Jakarta Bean Validation annotations                                                            |
 | useKotlinSyntax                     | false             | Whether to generate model files with Kotlin syntax                                                                                  |
+| indentWithTab                       | false             | Whether to output indents with the tab character                                                                                    |
+| indentSize                          | 4                 | Number of spaces in one indentation level. Relevant only when 'indentWithTab' is false.                                             |
 | verbose                             | false             | Whether to log extra details                                                                                                        |
 
 ## Type mapping
@@ -152,13 +155,14 @@ JSON schema restriction properties map to the following Jakarta Bean Validation 
 
 ### Footnotes
 
-1. When "format" is not specified only (i.e. BigDecimal).
+1. When "format" is unspecified (i.e. BigDecimal).
 
 ## Guidelines
 
 ### General
 
-Relaxed, abstract schemas are useful for validation, not so much for code generation. As a general rule, to produce meaningful POJOs, strict schemas are necessary. Hence, the "type" property is mandatory.
+Relaxed, abstract schemas are useful for validation, not so much for code generation. As a general rule, to produce meaningful POJOs, strict schemas are necessary.
+Hence, the "type" property is mandatory.
 
 ### Customization
 
@@ -258,7 +262,7 @@ The following JSON Schema constructs are currently not supported:
 * Properties with "const".
 * "string" properties with: "contentMediaType", "contentEncoding", "contentSchema".
 * Dynamic objects: "if", "then", "unevaluatedProperties".
-* Nested inline objects.
+* Nested inline objects. Creating a separate JSON Schema and referencing it with "$ref" is recommended.
 * Extended schema validation features: "patternProperties", "propertyNames", "minProperties", "maxProperties".
 * Restrictions on arrays: tuple validation with "prefixItems".
 * Dynamic arrays: "unevaluatedItems", "contains", "minContains", "maxContains".
@@ -266,6 +270,14 @@ The following JSON Schema constructs are currently not supported:
 * Property schema composition: "allOf", "anyOf", "not". Only supports two subschemas for "oneOf", one of which must be {"type": "null"}.
 * Conditional subschemas: "dependentRequired", "dependentSchemas", "if"-"then"-"else".
 * Structuring: "$anchor", "$defs", recursion using "$ref".
+
+## Contributing
+
+1. Fork it (https://github.com/yourname/yourproject/fork)
+2. Create your feature branch (git checkout -b feature/fooBar)
+3. Commit your changes (git commit -am 'Add some fooBar')
+4. Push to the branch (git push origin feature/fooBar)
+5. Create a new Pull Request
 
 ## License
 

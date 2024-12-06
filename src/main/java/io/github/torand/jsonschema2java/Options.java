@@ -30,6 +30,8 @@ public class Options {
     public boolean addJsonPropertyAnnotations = true;
     public boolean addJakartaBeanValidationAnnotations = true;
     public boolean useKotlinSyntax = false;
+    public boolean indentWithTab = false;
+    public int indentSize = 4;
     public boolean verbose = false;
 
     public String getModelOutputDir(String customSubdir) {

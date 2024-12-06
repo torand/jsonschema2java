@@ -105,6 +105,18 @@ public class JsonSchema2JavaMojo extends AbstractMojo {
     private boolean useKotlinSyntax;
 
     /**
+     * Whether to output indents with the tab character.
+     */
+    @Parameter( property = "indentWithTab", defaultValue = "false" )
+    private boolean indentWithTab;
+
+    /**
+     * Whether to output indents with the tab character.
+     */
+    @Parameter( property = "indentSize", defaultValue = "4" )
+    private int indentSize;
+
+    /**
      * Enable verbose logging.
      */
     @Parameter( property = "verbose", defaultValue = "false" )
@@ -122,6 +134,8 @@ public class JsonSchema2JavaMojo extends AbstractMojo {
         opts.addJsonPropertyAnnotations = addJsonPropertyAnnotations;
         opts.addJakartaBeanValidationAnnotations = addJakartaBeanValidationAnnotations;
         opts.useKotlinSyntax = useKotlinSyntax;
+        opts.indentWithTab = indentWithTab;
+        opts.indentSize = indentSize;
         opts.verbose = verbose;
 
         List<Path> schemaFiles = findSchemaFiles(Path.of(searchRootDir), "glob:" + searchFilePattern);
