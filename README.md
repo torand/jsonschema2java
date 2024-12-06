@@ -13,9 +13,9 @@ A Maven plugin to generate Java models (POJOs) from [JSON Schema](https://json-s
 
 - [Overview](#Overview)
 - [Usage](#Usage)
-- [JSON Schema extensions](#JSON-Schema-extensions)
-- [Limitations](#Limitations)
+- [Type mapping](#Type-mapping)
 - [Guidelines](#Guidelines)
+- [Limitations](#Limitations)
 - [License](#License)
 
 ## Overview
@@ -91,18 +91,6 @@ $ mvn io.github.torand:jsonschema2java:1.0.0:generate \
 | useKotlinSyntax                     | false             | Whether to generate model files with Kotlin syntax                                                                                  |
 | verbose                             | false             | Whether to log extra details                                                                                                        |
 
-## JSON Schema extensions
-
-The JSON Schema specification is augmented with the following extension properties:
-
-| Extension               | Type    | Allowed where                        | Description                                                               |
-|-------------------------|---------|--------------------------------------|---------------------------------------------------------------------------|
-| x-json-serializer       | String  | In a property schema                 | Fully qualified classname of a JSON serializer class for the property     |
-| x-validation-constraint | String  | In a property schema                 | Fully qualified classname of an annotation class to validate the property |
-| x-nullable              | Boolean | In a property schema                 | If `true` the type of the property can be `null`                          |
-| x-model-subdir          | String  | In an enum or object schema          | Subdirectory to place the generated DTO model classes                     |
-| x-deprecation-message   | String  | Everywhere `deprecated` can be used  | Describing why something is deprecated, and what to use instead           |
-
 ## Type mapping
 
 JSON types and formats map to the following Java and Kotlin types in generated source code:
@@ -136,33 +124,27 @@ JSON types and formats map to the following Java and Kotlin types in generated s
 3. Expects string in the ISO local date format.
 4. Expects string in the ISO local date time format.
 
-## Limitations
-
-The following JSON Schema constructs are currently not supported:
-
-* Restrictions on the "number" type: "multipleOf".
-* Properties with "const".
-* "string" properties with: "contentMediaType", "contentEncoding", "contentSchema". 
-* Dynamic objects: "if", "then", "unevaluatedProperties".
-* Nested inline objects.
-* Extended schema validation features: "patternProperties", "propertyNames", "minProperties", "maxProperties".
-* Restrictions on arrays: tuple validation with "prefixItems".
-* Dynamic arrays: "unevaluatedItems", "contains", "minContains", "maxContains".
-* Documentation: "readOnly", "writeOnly".
-* Property schema composition: "allOf", "anyOf", "not". Only supports two subschemas for "oneOf", one of which must be {"type": "null"}.
-* Conditional subschemas: "dependentRequired", "dependentSchemas", "if"-"then"-"else".
-* Structuring: "$anchor", "$defs", recursion using "$ref".
-
 ## Guidelines
 
 ### General
 
 Relaxed, abstract schemas are useful for validation, not so much for code generation. As a general rule, to produce meaningful POJOs, strict schemas are necessary. Hence, the "type" property is mandatory.
 
+### Customization
+
+The code generation can be customized per JSON Schema by using the following extension properties in the schema definition:
+
+| Extension property      | Type    | Allowed where                        | Description                                                               |
+|-------------------------|---------|--------------------------------------|---------------------------------------------------------------------------|
+| x-json-serializer       | String  | In a property schema                 | Fully qualified classname of a JSON serializer class for the property     |
+| x-validation-constraint | String  | In a property schema                 | Fully qualified classname of an annotation class to validate the property |
+| x-nullable              | Boolean | In a property schema                 | If `true` the type of the property can be `null`                          |
+| x-model-subdir          | String  | In an enum or object schema          | Subdirectory to place the generated DTO model classes                     |
+| x-deprecation-message   | String  | Everywhere `deprecated` can be used  | Describing why something is deprecated, and what to use instead           |
+
 ### Inheritance
 
 Inheritance is not supported, nor has JSON Schema such a construct. Inheritance can be "simulated" with composition using "allOf" on the root schema:
-
 
 ```json
 {
@@ -237,6 +219,23 @@ public record MotorCycleDto (
     @NotNull Boolean sidekick
 ) {}
 ```
+
+## Limitations
+
+The following JSON Schema constructs are currently not supported:
+
+* Restrictions on the "number" type: "multipleOf".
+* Properties with "const".
+* "string" properties with: "contentMediaType", "contentEncoding", "contentSchema".
+* Dynamic objects: "if", "then", "unevaluatedProperties".
+* Nested inline objects.
+* Extended schema validation features: "patternProperties", "propertyNames", "minProperties", "maxProperties".
+* Restrictions on arrays: tuple validation with "prefixItems".
+* Dynamic arrays: "unevaluatedItems", "contains", "minContains", "maxContains".
+* Documentation: "readOnly", "writeOnly".
+* Property schema composition: "allOf", "anyOf", "not". Only supports two subschemas for "oneOf", one of which must be {"type": "null"}.
+* Conditional subschemas: "dependentRequired", "dependentSchemas", "if"-"then"-"else".
+* Structuring: "$anchor", "$defs", recursion using "$ref".
 
 ## License
 
