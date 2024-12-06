@@ -179,7 +179,7 @@
         <version>${jacoco-maven-plugin.version}</version>
         <configuration>
           <excludes>
-            <exclude>**/*Mojo.java</exclude>
+            <exclude>**/*Mojo.class</exclude>
           </excludes>
         </configuration>
         <executions>
