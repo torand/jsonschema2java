@@ -37,29 +37,29 @@ The generated source code is compatible with Java 17+ and optionally includes an
 
 ```xml
 <build>
-    <plugins>
-        <plugin>
-            <groupId>io.github.torand</groupId>
-            <artifactId>jsonschema2java</artifactId>
-            <version>1.0.0</version>
-            <executions>
-                <execution>
-                    <id>generate</id>
-                    <phase>generate-sources</phase>
-                    <goals>
-                        <goal>generate</goal>
-                    </goals>
-                </execution>
-            </executions>
-            <configuration>
-                <searchRootDir>.</searchRootDir>
-                <searchFilePattern>*.json</searchFilePattern>
-                <schemaIdRootUri>https://my-domain.com/my-api/schemas</schemaIdRootUri>
-                <outputDir>target/jsonschema2java</outputDir>
-                <rootPackage>io.github.torand.mymodel</rootPackage>
-            </configuration>
-        </plugin>
-    </plugins>
+  <plugins>
+    <plugin>
+      <groupId>io.github.torand</groupId>
+      <artifactId>jsonschema2java</artifactId>
+      <version>1.0.0</version>
+      <executions>
+        <execution>
+          <id>generate</id>
+          <phase>generate-sources</phase>
+          <goals>
+            <goal>generate</goal>
+          </goals>
+        </execution>
+      </executions>
+      <configuration>
+        <searchRootDir>.</searchRootDir>
+        <searchFilePattern>*.json</searchFilePattern>
+        <schemaIdRootUri>https://my-domain.com/my-api/schemas</schemaIdRootUri>
+        <outputDir>target/jsonschema2java</outputDir>
+        <rootPackage>io.github.torand.mymodel</rootPackage>
+      </configuration>
+    </plugin>
+  </plugins>
 </build>
 ```
 
@@ -93,36 +93,66 @@ $ mvn io.github.torand:jsonschema2java:1.0.0:generate \
 
 ## Type mapping
 
-JSON types and formats map to the following Java and Kotlin types in generated source code:
+JSON schema types and formats map to the following Java and Kotlin types in generated source code:
 
-| Type                                      | Format            | Java type               | Kotlin type             |
-|-------------------------------------------|-------------------|-------------------------|-------------------------|
-| "array"                                   | N/A               | java.util.List          | java.util.List          |
-| "array" with "uniqueItems" = true         | N/A               | java.util.Set           | java.util.Set           |
-| "boolean"                                 | N/A               | Boolean                 | Boolean                 |
-| "integer"                                 |                   | Integer                 | Int                     |
-| "integer"                                 | "int32"           | Integer                 | Int                     |
-| "integer"                                 | "int64"           | Long                    | Long                    |
-| "number"                                  |                   | java.math.BigDecimal    | java.math.BigDecimal    |
-| "number"                                  | "double"          | Double                  | Double                  |
-| "number"                                  | "float"           | Float                   | Float                   |
-| "object"                                  | N/A               | 1)                      | 1)                      |
-| "object" with "additionalProperties" = {} | N/A               | java.util.Map           | java.util.Map           |
-| "string"                                  |                   | String                  | String                  |
-| "string"                                  | "uri"             | java.net.URI            | java.net.URI            |
-| "string"                                  | "uuid"            | java.util.UUID          | java.util.UUID          |
-| "string"                                  | "duration" 2)     | java.time.Duration      | java.time.Duration      |
-| "string"                                  | "date" 3)         | java.time.LocalDate     | java.time.LocalDate     |
-| "string"                                  | "date-time" 4)    | java.time.LocalDateTime | java.time.LocalDateTime |
-| "string"                                  | "binary"          | byte[]                  | ByteArray               |
-| "string"                                  | All other formats | String                  | String                  |
+| Type                                         | Format            | Java type               | Kotlin type             |
+|----------------------------------------------|-------------------|-------------------------|-------------------------|
+| "array"                                      | N/A               | java.util.List          | java.util.List          |
+| "array" with "uniqueItems" = true            | N/A               | java.util.Set           | java.util.Set           |
+| "boolean"                                    | N/A               | Boolean                 | Boolean                 |
+| "integer"                                    |                   | Integer                 | Int                     |
+| "integer"                                    | "int32"           | Integer                 | Int                     |
+| "integer"                                    | "int64"           | Long                    | Long                    |
+| "number"                                     |                   | java.math.BigDecimal    | java.math.BigDecimal    |
+| "number"                                     | "double"          | Double                  | Double                  |
+| "number"                                     | "float"           | Float                   | Float                   |
+| "object"                                     | N/A               | 1)                      | 1)                      |
+| "object" with "additionalProperties" = {...} | N/A               | java.util.Map           | java.util.Map           |
+| "string"                                     |                   | String                  | String                  |
+| "string"                                     | "uri"             | java.net.URI            | java.net.URI            |
+| "string"                                     | "uuid"            | java.util.UUID          | java.util.UUID          |
+| "string"                                     | "duration" 2)     | java.time.Duration      | java.time.Duration      |
+| "string"                                     | "date" 3)         | java.time.LocalDate     | java.time.LocalDate     |
+| "string"                                     | "date-time" 4)    | java.time.LocalDateTime | java.time.LocalDateTime |
+| "string"                                     | "binary"          | byte[]                  | ByteArray               |
+| "string"                                     | All other formats | String                  | String                  |
 
 ### Footnotes
 
 1. Inline objects not supported.
-2. Expects string in the ISO duration format.
-3. Expects string in the ISO local date format.
-4. Expects string in the ISO local date time format.
+2. Expects string in the [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) duration format.
+3. Expects string in the [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) local date format.
+4. Expects string in the [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) local date time format (without milliseconds).
+
+## Constraint mapping
+
+JSON schema restriction properties map to the following Jakarta Bean Validation annotations (when enabled):
+
+| Type      | Restriction                         | Annotation                |
+|-----------|-------------------------------------|---------------------------|
+| "array"   |                                     | @Valid                    |
+| "array"   | Not nullable                        | @Valid @NotNull           |
+| "array"   | "minItems": n                       | @Valid @Size(min = n)     |
+| "array"   | "maxItems": n                       | @Valid @Size(max = n)     |
+| "boolean" | Not nullable                        | @NotNull                  |
+| "integer" | Not nullable                        | @NotNull                  |
+| "integer" | "minimum": n                        | @Min(n)                   |
+| "integer" | "maximum": n                        | @Max(n)                   |
+| "number"  | Not nullable                        | @NotNull                  |
+| "number"  | "minimum": n 1)                     | @Min(n)                   |
+| "number"  | "maximum": n 1)                     | @Max(n)                   |
+| "object"  |                                     | @Valid                    |
+| "object"  | Not nullable                        | @Valid @NotNull           |
+| "string"  | Not nullable                        | @NotBlank                 |
+| "string"  | Not nullable and "format": "binary" | @NotEmpty                 |
+| "string"  | "pattern": "expr"                   | @Pattern(regexp = "expr") |
+| "string"  | "minLength": n                      | @Size(min = n)            |
+| "string"  | "maxLength": n                      | @Size(max = n)            |
+| "string"  | "format": "email"                   | @Email                    |
+
+### Footnotes
+
+1. When "format" is not specified only (i.e. BigDecimal).
 
 ## Guidelines
 
