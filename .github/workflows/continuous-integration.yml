@@ -86,10 +86,8 @@ jobs:
           reporter: java-junit
           fail-on-error: true
 
-      - name: Coveralls
+      - name: Publish test coverage
         uses: coverallsapp/github-action@v2
         with:
           format: jacoco
           base-path: src/main/java
-
-
