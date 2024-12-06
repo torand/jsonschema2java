@@ -66,6 +66,7 @@ jobs:
       - name: Maven build and test artifact
         run: |
           mvn ${mavenOpts} -f ./pom.xml package
+          cat target/site/jacoco/jacoco.xml
         env:
           GITHUB_USERNAME: ${{github.actor}}
           GITHUB_PAT: ${{secrets.GITHUB_TOKEN}}
