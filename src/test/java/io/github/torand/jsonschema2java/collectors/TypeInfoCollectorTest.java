@@ -154,6 +154,10 @@ public class TypeInfoCollectorTest {
         assertNonNullableArrayType("""
                 {"type": "array", "items": {"type": "string"}, "minItems": 1}
             """, "List", "String", "@Valid", "@NotNull", "@Size(min = 1)");
+
+        assertNonNullableArrayType("""
+                {"type": "array", "items": {"type": "string"}, "maxItems": 10}
+            """, "List", "String", "@Valid", "@NotNull", "@Size(max = 10)");
     }
 
     private void assertNullableBooleanType(String jsonSchema, String... expectedAnnotations) {
