@@ -90,5 +90,5 @@ jobs:
         uses: coverallsapp/github-action@v2
         with:
           format: jacoco
-          base-path: src
+          base-path: src/main/java
 
