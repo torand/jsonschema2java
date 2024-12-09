@@ -9,7 +9,7 @@ JSONSchema2Java
 
 A Maven plugin to generate Java models (POJOs) from [JSON Schema](https://json-schema.org/) files.
 
-## Table of contents
+## Table of Contents
 
 - [Overview](#overview)
 - [Usage](#usage)
