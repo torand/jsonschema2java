@@ -2,7 +2,7 @@ JSONSchema2Java
 ===============
 
 [![CI](https://github.com/torand/jsonschema2java/actions/workflows/continuous-integration.yml/badge.svg)](https://github.com/torand/jsonschema2java/actions/workflows/continuous-integration.yml)
-[![Maven Central](https://img.shields.io/maven-central/v/io.github.torand/jsonschema2java.svg?label=maven%20central)](http://search.maven.org/#search%7Cga%7C1%7Cg%3Aio.github.torand%20a%3Ajsonschema2java)
+[![Maven Central](https://img.shields.io/maven-central/v/io.github.torand/jsonschema2java.svg?label=maven%20central)](https://central.sonatype.com/artifact/io.github.torand/jsonschema2java)
 [![Javadocs](https://javadoc.io/badge2/io.github.torand/jsonschema2java/javadoc.svg)](https://javadoc.io/doc/io.github.torand/jsonschema2java)
 [![Coverage](https://coveralls.io/repos/github/torand/jsonschema2java/badge.svg?branch=main)](https://coveralls.io/github/torand/jsonschema2java?branch=main)
 [![Apache 2.0 License](https://img.shields.io/badge/license-Apache%202.0-orange)](LICENSE)
@@ -14,8 +14,8 @@ A Maven plugin to generate Java models (POJOs) from [JSON Schema](https://json-s
 - [Overview](#overview)
 - [Usage](#usage)
 - [Configuration](#configuration)
-- [Type mapping](#type-mapping)
-- [Constraint mapping](#constraint-mapping)
+- [Type Mapping](#type-mapping)
+- [Constraint Mapping](#constraint-mapping)
 - [Guidelines](#guidelines)
 - [Limitations](#Limitations)
 - [Contributing](#contributing)
@@ -36,7 +36,9 @@ The generated source code is compatible with Java 17+ and optionally includes an
 
 ## Usage
 
-### Include in a Maven POM file
+The package is available from the [Maven Central Repository](https://central.sonatype.com/artifact/io.github.torand/jsonschema2java).
+
+### Include in a Maven POM File
 
 ```xml
 <build>
@@ -66,7 +68,7 @@ The generated source code is compatible with Java 17+ and optionally includes an
 </build>
 ```
 
-### Run from the command line
+### Run from the Command Line
 
 ```bash
 $ mvn io.github.torand:jsonschema2java:1.1.0:generate \
@@ -96,7 +98,7 @@ $ mvn io.github.torand:jsonschema2java:1.1.0:generate \
 | indentSize                          | 4                 | Number of spaces in one indentation level. Relevant only when 'indentWithTab' is false.                                             |
 | verbose                             | false             | Whether to log extra details                                                                                                        |
 
-## Type mapping
+## Type Mapping
 
 JSON schema types and formats map to the following Java and Kotlin types in generated source code:
 
@@ -129,7 +131,7 @@ JSON schema types and formats map to the following Java and Kotlin types in gene
 3. Expects string in the [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) local date format.
 4. Expects string in the [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) local date time format (without milliseconds).
 
-## Constraint mapping
+## Constraint Mapping
 
 JSON schema restriction properties map to the following Jakarta Bean Validation annotations (when enabled):
 
@@ -166,7 +168,13 @@ JSON schema restriction properties map to the following Jakarta Bean Validation 
 Relaxed, abstract schemas are useful for validation, not so much for code generation. As a general rule, to produce meaningful POJOs, strict schemas are necessary.
 Hence, the "type" property is mandatory.
 
-### Customization
+### Ids and Refs
+
+Always use absolute URIs for "$id" and "$ref"  properties, e.g. "https://my-domain.com/my-api/schemas/my-entity".
+Relative URIs are [discouraged](https://json-schema.org/understanding-json-schema/structuring#id) by the official JSON Schema documentation,
+and therefore not supported by this project.  
+
+### Customizing Code Generation
 
 The code generation can be customized per JSON Schema by using the following extension properties in the schema definition:
 
@@ -177,6 +185,80 @@ The code generation can be customized per JSON Schema by using the following ext
 | x-nullable              | Boolean | In a property schema                 | If `true` the type of the property can be `null`                          |
 | x-model-subdir          | String  | In an enum or object schema          | Subdirectory to place the generated DTO model classes                     |
 | x-deprecation-message   | String  | Everywhere `deprecated` can be used  | Describing why something is deprecated, and what to use instead           |
+
+### Nullability
+
+Mandatory properties are (optionally) decorated with @NonNull and similar Jakarta Bean Validation annotations during code generation.
+For a JSON Schema property to be considered mandatory, i.e. present and with a non-null value, it must be mentioned in the "required" list
+AND NOT have a "nullable" indicator.
+
+The standard way to represent mandatory properties is as follows:
+
+```json
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://my-domain.com/my-api/schemas/person",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string"
+    },
+    "address": {
+      "$ref": "https://my-domain.com/my-api/schemas/address"
+    }
+  },
+  "required": [ "name", "address" ]
+}
+```
+
+Correspondingly, the standard way to represent non-mandatory (nullable) properties is like this:
+
+```json
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://my-domain.com/my-api/schemas/person",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": ["string", "null"]
+    },
+    "address": {
+      "oneOf": [
+        {
+          "$ref": "https://my-domain.com/my-api/schemas/address"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  },
+  "required": []
+}
+```
+
+Note the use of "OneOf" to express a nullable object reference.
+
+For convenience, a non-standard [schema extension](#customizing-code-generation) is available to express nullability uniformly regardless of property type:
+
+```json
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://my-domain.com/my-api/schemas/person",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "x-nullable": true
+    },
+    "address": {
+      "$ref": "https://my-domain.com/my-api/schemas/address",
+      "x-nullable": true
+    }
+  },
+  "required": []
+}
+```
 
 ### Inheritance
 
@@ -255,6 +337,9 @@ public record MotorCycleDto (
     @NotNull Boolean sidekick
 ) {}
 ```
+
+Note that this is not the correct interpretation of the "allOf" clause in a JSON Schema,
+and as such, the output from the code generation is non-standard. A future release will support [inheritance using the "$ref" property](https://json-schema.org/blog/posts/modelling-inheritance).
 
 ## Limitations
 
