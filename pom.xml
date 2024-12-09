@@ -71,7 +71,7 @@
     <maven-artifact.version>3.9.9</maven-artifact.version>
     <maven-plugin-annotations.version>3.15.1</maven-plugin-annotations.version>
     <maven-source-plugin.version>3.3.1</maven-source-plugin.version>
-    <maven-javadoc-plugin.version>3.11.1</maven-javadoc-plugin.version>
+    <maven-javadoc-plugin.version>3.11.2</maven-javadoc-plugin.version>
     <maven-gpg-plugin.version>3.2.7</maven-gpg-plugin.version>
     <central-publishing-maven-plugin.version>0.6.0</central-publishing-maven-plugin.version>
 
