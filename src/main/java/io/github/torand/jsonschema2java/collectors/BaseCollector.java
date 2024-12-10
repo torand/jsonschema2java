@@ -42,6 +42,10 @@ public abstract class BaseCollector {
         return modelName.replaceFirst(opts.pojoNameSuffix+"$", "");
     }
 
+    protected String formatDeprecationMessage(Extensions extensions) {
+        return extensions.getString(Extensions.EXT_DEPRECATION_MESSAGE).orElse("Deprecated");
+    }
+
     protected String joinParams(List<String> params) {
         if (isEmpty(params)) {
             return "";

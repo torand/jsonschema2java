@@ -25,7 +25,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-import static io.github.torand.jsonschema2java.collectors.Extensions.EXT_DEPRECATION_MESSAGE;
 import static io.github.torand.jsonschema2java.collectors.Extensions.EXT_MODEL_SUBDIR;
 import static java.util.Objects.nonNull;
 
@@ -52,7 +51,7 @@ public class PojoInfoCollector extends BaseCollector {
         }
 
         if (schema.isDeprecated()) {
-            pojoInfo.deprecationMessage = schema.extensions().getString(EXT_DEPRECATION_MESSAGE).orElse("Deprecated");
+            pojoInfo.deprecationMessage = formatDeprecationMessage(schema.extensions());
         }
 
         pojoInfo.properties = getSchemaProperties(schema);

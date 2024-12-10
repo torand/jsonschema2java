@@ -24,7 +24,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import static io.github.torand.jsonschema2java.collectors.Extensions.EXT_DEPRECATION_MESSAGE;
 import static io.github.torand.jsonschema2java.utils.StringHelper.nonBlank;
 import static java.util.Objects.nonNull;
 
@@ -57,7 +56,7 @@ public class PropertyInfoCollector extends BaseCollector {
         }
 
         if (propertyType.isDeprecated()) {
-            propInfo.deprecationMessage = propertyType.extensions().getString(EXT_DEPRECATION_MESSAGE).orElse("Deprecated");
+            propInfo.deprecationMessage = formatDeprecationMessage(propertyType.extensions());
         }
 
         return propInfo;
