@@ -23,6 +23,7 @@ import io.github.torand.jsonschema2java.writers.EnumWriter;
 import java.io.Writer;
 
 import static io.github.torand.jsonschema2java.utils.CollectionHelper.nonEmpty;
+import static io.github.torand.jsonschema2java.utils.StringHelper.joinCsv;
 
 public class KotlinEnumWriter extends BaseWriter implements EnumWriter {
 
@@ -44,7 +45,7 @@ public class KotlinEnumWriter extends BaseWriter implements EnumWriter {
 
         writeLine("enum class %s {".formatted(enumInfo.name));
         writeIndent(1);
-        writeLine(String.join(", ", enumInfo.constants));
+        writeLine(joinCsv(enumInfo.constants));
         writeLine("}");
     }
 }

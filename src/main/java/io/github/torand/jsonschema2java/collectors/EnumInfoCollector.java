@@ -25,6 +25,7 @@ import java.util.Optional;
 import java.util.Set;
 
 import static io.github.torand.jsonschema2java.collectors.Extensions.EXT_MODEL_SUBDIR;
+import static io.github.torand.jsonschema2java.utils.StringHelper.joinCsv;
 
 public class EnumInfoCollector extends BaseCollector {
 
@@ -63,6 +64,6 @@ public class EnumInfoCollector extends BaseCollector {
         if (pojo.isDeprecated()) {
             schemaParams.add("deprecated = true");
         }
-        return "@Schema(%s)".formatted(joinParams(schemaParams));
+        return "@Schema(%s)".formatted(joinCsv(schemaParams));
     }
 }

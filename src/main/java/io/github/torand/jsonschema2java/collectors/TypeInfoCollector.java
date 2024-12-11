@@ -30,6 +30,7 @@ import static io.github.torand.jsonschema2java.collectors.Extensions.EXT_VALIDAT
 import static io.github.torand.jsonschema2java.collectors.TypeInfoCollector.NullabilityResolution.FORCE_NOT_NULLABLE;
 import static io.github.torand.jsonschema2java.collectors.TypeInfoCollector.NullabilityResolution.FORCE_NULLABLE;
 import static io.github.torand.jsonschema2java.utils.Exceptions.illegalStateException;
+import static io.github.torand.jsonschema2java.utils.StringHelper.joinCsv;
 import static io.github.torand.jsonschema2java.utils.StringHelper.nonBlank;
 import static java.util.Objects.nonNull;
 
@@ -116,7 +117,9 @@ public class TypeInfoCollector extends BaseCollector {
         TypeInfo typeInfo = new TypeInfo();
         typeInfo.description = schema.description();
         typeInfo.primitive = true;
-        typeInfo.nullable = isNullable(schema, nullabilityResolution);
+
+        boolean nullable = isNullable(schema, nullabilityResolution);
+        typeInfo.nullable = nullable;
 
         String jsonType = schema.types()
             .filter(t -> !"null".equals(t))
@@ -349,6 +352,11 @@ public class TypeInfoCollector extends BaseCollector {
 
         typeInfo.keyType = new TypeInfo();
         typeInfo.keyType.name = "String";
+        if (opts.addJakartaBeanValidationAnnotations) {
+            String keyNotBlankAnnotation = getNotBlankAnnotation(typeInfo.keyType.annotationImports);
+            typeInfo.keyType.annotations.add(keyNotBlankAnnotation);
+        }
+
         typeInfo.itemType = getTypeInfo((JsonSchemaDef)schema.additionalProperties());
 
         if (opts.addJakartaBeanValidationAnnotations) {
@@ -459,7 +467,7 @@ public class TypeInfoCollector extends BaseCollector {
             sizeParams.add("max = %d".formatted(schema.maxItems()));
         }
         imports.add("jakarta.validation.constraints.Size");
-        return "@Size(%s)".formatted(joinParams(sizeParams));
+        return "@Size(%s)".formatted(joinCsv(sizeParams));
     }
 
     private String getStringSizeAnnotation(JsonSchemaDef schema, List<String> imports) {
@@ -471,7 +479,7 @@ public class TypeInfoCollector extends BaseCollector {
             sizeParams.add("max = %d".formatted(schema.maxLength()));
         }
         imports.add("jakarta.validation.constraints.Size");
-        return "@Size(%s)".formatted(joinParams(sizeParams));
+        return "@Size(%s)".formatted(joinCsv(sizeParams));
     }
 
     private String getJsonSerializerClass(String jsonSerializerFqn) {

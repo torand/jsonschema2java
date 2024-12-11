@@ -7,7 +7,7 @@ JSONSchema2Java
 [![Coverage](https://coveralls.io/repos/github/torand/jsonschema2java/badge.svg?branch=main)](https://coveralls.io/github/torand/jsonschema2java?branch=main)
 [![Apache 2.0 License](https://img.shields.io/badge/license-Apache%202.0-orange)](LICENSE)
 
-A Maven plugin to generate Java models (POJOs) from [JSON Schema](https://json-schema.org/) files.
+A Maven plugin to generate Java source code (POJOs) from [JSON Schema](https://json-schema.org/) files.
 
 ## Table of Contents
 
@@ -28,6 +28,7 @@ The current version supports the JSON Schema specification version "2020-12".
 
 The JSON Schema files are read, parsed and validated using the [networknt/json-schema-validator](https://github.com/networknt/json-schema-validator) library.
 For each JSON Schema file a Java class or enum definition is written to a specified output directory.
+
 The generated source code is compatible with Java 17+ and optionally includes annotations from the following libraries:
 
 * [Microprofile OpenAPI](https://download.eclipse.org/microprofile/microprofile-open-api-2.0/microprofile-openapi-spec-2.0.html)
@@ -343,7 +344,7 @@ and as such, the output from the code generation is non-standard. A future relea
 
 ## Limitations
 
-The following JSON Schema constructs are currently not supported:
+The following JSON Schema constructs are currently not supported, and for the most part silently omitted during code generation:
 
 * Restrictions on the "number" type: "multipleOf".
 * Properties with "const".

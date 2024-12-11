@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import static io.github.torand.jsonschema2java.utils.StringHelper.joinCsv;
 import static io.github.torand.jsonschema2java.utils.StringHelper.nonBlank;
 import static java.util.Objects.nonNull;
 
@@ -84,7 +85,7 @@ public class PropertyInfoCollector extends BaseCollector {
         if (propertyType.isDeprecated()) {
             schemaParams.add("deprecated = true");
         }
-        return "@Schema(%s)".formatted(joinParams(schemaParams));
+        return "@Schema(%s)".formatted(joinCsv(schemaParams));
     }
 
     private String getJsonPropertyAnnotation(String name, Set<String> imports) {

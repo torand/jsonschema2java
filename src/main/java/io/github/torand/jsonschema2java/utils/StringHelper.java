@@ -85,6 +85,14 @@ public class StringHelper {
         return value.replaceAll("\\n", " ");
     }
 
+    public static String joinCsv(List<String> values) {
+        if (isNull(values) || values.isEmpty()) {
+            return "";
+        }
+
+        return String.join(", ", values);
+    }
+
     public static boolean isBlank(String value) {
         return isNull(value) || value.isEmpty();
     }
