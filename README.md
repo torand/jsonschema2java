@@ -344,7 +344,7 @@ and as such, the output from the code generation is non-standard. A future relea
 
 ## Limitations
 
-The following JSON Schema constructs are currently not supported, and for the most part silently omitted during code generation:
+The following JSON Schema constructs are currently not supported, and for the most part silently ignored during code generation:
 
 * Restrictions on the "number" type: "multipleOf".
 * Properties with "const".
