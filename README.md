@@ -47,7 +47,7 @@ The package is available from the [Maven Central Repository](https://central.son
     <plugin>
       <groupId>io.github.torand</groupId>
       <artifactId>jsonschema2java</artifactId>
-      <version>1.1.0</version>
+      <version>1.1.1</version>
       <executions>
         <execution>
           <id>generate</id>
@@ -72,7 +72,7 @@ The package is available from the [Maven Central Repository](https://central.son
 ### Run from the Command Line
 
 ```bash
-$ mvn io.github.torand:jsonschema2java:1.1.0:generate \
+$ mvn io.github.torand:jsonschema2java:1.1.1:generate \
   -DsearchRootDir=. \
   -DsearchFilePattern=*.json \
   -DschemaIdRootUri=https://my-domain.com/my-api/schemas \
