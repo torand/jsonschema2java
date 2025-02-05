@@ -22,6 +22,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - ...
 
+## [1.1.1] - 2025-02-05
+### Changed
+- Bump dependency com.networknt:json-schema-validator to v1.5.5
+
 ## [1.1.0] - 2024-12-06
 ### Added
 - Customizable indentation with new config params 'indentWithTab' and 'indentSize'
