@@ -75,7 +75,7 @@
     <maven-gpg-plugin.version>3.2.7</maven-gpg-plugin.version>
     <central-publishing-maven-plugin.version>0.7.0</central-publishing-maven-plugin.version>
 
-    <json-schema-validator.version>1.5.6</json-schema-validator.version>
+    <json-schema-validator.version>1.5.7</json-schema-validator.version>
     <slf4j-simple.version>2.0.17</slf4j-simple.version>
     <junit.jupiter.version>5.12.2</junit.jupiter.version>
     <assertj.version>3.27.3</assertj.version>
