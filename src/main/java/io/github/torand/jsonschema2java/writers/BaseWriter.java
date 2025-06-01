@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024 Tore Eide Andersen
+ * Copyright (c) 2024-2025 Tore Eide Andersen
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,11 +15,14 @@
  */
 package io.github.torand.jsonschema2java.writers;
 
-import io.github.torand.jsonschema2java.Options;
+import io.github.torand.jsonschema2java.generators.Options;
 
 import java.io.IOException;
 import java.io.Writer;
 
+/**
+ * Base class for all code writers.
+ */
 public abstract class BaseWriter implements AutoCloseable {
 
     private final Writer writer;

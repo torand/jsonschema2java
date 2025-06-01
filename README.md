@@ -3,7 +3,7 @@ JSONSchema2Java
 
 [![CI](https://github.com/torand/jsonschema2java/actions/workflows/continuous-integration.yml/badge.svg)](https://github.com/torand/jsonschema2java/actions/workflows/continuous-integration.yml)
 [![Maven Central](https://img.shields.io/maven-central/v/io.github.torand/jsonschema2java.svg?label=maven%20central)](https://central.sonatype.com/artifact/io.github.torand/jsonschema2java)
-[![Javadocs](https://javadoc.io/badge2/io.github.torand/jsonschema2java/javadoc.svg)](https://javadoc.io/doc/io.github.torand/jsonschema2java)
+[![Javadoc](https://img.shields.io/badge/javadoc-online-green)](https://torand.github.io/jsonschema2java/apidocs/)
 [![Coverage](https://coveralls.io/repos/github/torand/jsonschema2java/badge.svg?branch=main)](https://coveralls.io/github/torand/jsonschema2java?branch=main)
 [![Apache 2.0 License](https://img.shields.io/badge/license-Apache%202.0-orange)](LICENSE)
 
@@ -47,7 +47,7 @@ The package is available from the [Maven Central Repository](https://central.son
     <plugin>
       <groupId>io.github.torand</groupId>
       <artifactId>jsonschema2java</artifactId>
-      <version>1.1.1</version>
+      <version>1.1.2</version>
       <executions>
         <execution>
           <id>generate</id>
@@ -72,7 +72,7 @@ The package is available from the [Maven Central Repository](https://central.son
 ### Run from the Command Line
 
 ```bash
-$ mvn io.github.torand:jsonschema2java:1.1.1:generate \
+$ mvn io.github.torand:jsonschema2java:1.1.2:generate \
   -DsearchRootDir=. \
   -DsearchFilePattern=*.json \
   -DschemaIdRootUri=https://my-domain.com/my-api/schemas \

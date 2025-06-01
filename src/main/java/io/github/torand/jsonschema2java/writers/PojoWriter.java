@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024 Tore Eide Andersen
+ * Copyright (c) 2024-2025 Tore Eide Andersen
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,6 +19,9 @@ import io.github.torand.jsonschema2java.model.PojoInfo;
 
 import java.io.IOException;
 
+/**
+ * Defines a code writer for pojos.
+ */
 public interface PojoWriter extends AutoCloseable {
     void write(PojoInfo pojoInfo);
 

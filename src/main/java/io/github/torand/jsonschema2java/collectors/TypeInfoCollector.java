@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024 Tore Eide Andersen
+ * Copyright (c) 2024-2025 Tore Eide Andersen
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,7 +15,7 @@
  */
 package io.github.torand.jsonschema2java.collectors;
 
-import io.github.torand.jsonschema2java.Options;
+import io.github.torand.jsonschema2java.generators.Options;
 import io.github.torand.jsonschema2java.model.TypeInfo;
 import io.github.torand.jsonschema2java.utils.JsonSchemaDef;
 
@@ -34,6 +34,9 @@ import static io.github.torand.jsonschema2java.utils.StringHelper.joinCsv;
 import static io.github.torand.jsonschema2java.utils.StringHelper.nonBlank;
 import static java.util.Objects.nonNull;
 
+/**
+ * Collects information about a type from a schema.
+ */
 public class TypeInfoCollector extends BaseCollector {
     public enum NullabilityResolution {FROM_SCHEMA, FORCE_NULLABLE, FORCE_NOT_NULLABLE}
 

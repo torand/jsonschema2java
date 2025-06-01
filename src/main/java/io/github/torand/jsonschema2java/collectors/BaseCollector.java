@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024 Tore Eide Andersen
+ * Copyright (c) 2024-2025 Tore Eide Andersen
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,10 +15,13 @@
  */
 package io.github.torand.jsonschema2java.collectors;
 
-import io.github.torand.jsonschema2java.Options;
+import io.github.torand.jsonschema2java.generators.Options;
 
 import static io.github.torand.jsonschema2java.utils.StringHelper.nonBlank;
 
+/**
+ * Base class for all collectors.
+ */
 public abstract class BaseCollector {
 
     protected final Options opts;

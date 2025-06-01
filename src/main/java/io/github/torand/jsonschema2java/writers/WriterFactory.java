@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024 Tore Eide Andersen
+ * Copyright (c) 2024-2025 Tore Eide Andersen
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,7 +15,7 @@
  */
 package io.github.torand.jsonschema2java.writers;
 
-import io.github.torand.jsonschema2java.Options;
+import io.github.torand.jsonschema2java.generators.Options;
 import io.github.torand.jsonschema2java.writers.java.JavaEnumWriter;
 import io.github.torand.jsonschema2java.writers.java.JavaPojoWriter;
 import io.github.torand.jsonschema2java.writers.kotlin.KotlinEnumWriter;
@@ -27,6 +27,9 @@ import java.io.IOException;
 import java.io.Writer;
 import java.nio.file.Path;
 
+/**
+ * Provides factory methods to create code writers.
+ */
 public final class WriterFactory {
     private WriterFactory() {}
 

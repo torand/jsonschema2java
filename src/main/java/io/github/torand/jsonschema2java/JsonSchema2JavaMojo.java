@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024 Tore Eide Andersen
+ * Copyright (c) 2024-2025 Tore Eide Andersen
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,8 @@
 package io.github.torand.jsonschema2java;
 
 import io.github.torand.jsonschema2java.collectors.SchemaResolver;
+import io.github.torand.jsonschema2java.generators.ModelGenerator;
+import io.github.torand.jsonschema2java.generators.Options;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
@@ -32,7 +34,7 @@ import static io.github.torand.jsonschema2java.collectors.SchemaResolver.findSch
 import static io.github.torand.jsonschema2java.utils.CollectionHelper.isEmpty;
 
 /**
- * Generates Java (or Kotlin) source code for model classes based on JSON schema files
+ * Generates source code for model classes based on JSON Schema files
  */
 @Mojo( name = "generate", defaultPhase = LifecyclePhase.PROCESS_SOURCES )
 public class JsonSchema2JavaMojo extends AbstractMojo {

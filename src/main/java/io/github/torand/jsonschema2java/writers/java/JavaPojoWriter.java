@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024 Tore Eide Andersen
+ * Copyright (c) 2024-2025 Tore Eide Andersen
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,7 +15,7 @@
  */
 package io.github.torand.jsonschema2java.writers.java;
 
-import io.github.torand.jsonschema2java.Options;
+import io.github.torand.jsonschema2java.generators.Options;
 import io.github.torand.jsonschema2java.model.PojoInfo;
 import io.github.torand.jsonschema2java.model.PropertyInfo;
 import io.github.torand.jsonschema2java.writers.BaseWriter;
@@ -35,6 +35,9 @@ import static java.util.Objects.nonNull;
 import static java.util.function.Predicate.not;
 import static java.util.stream.Collectors.joining;
 
+/**
+ * Writes Java code for a pojo.
+ */
 public class JavaPojoWriter extends BaseWriter implements PojoWriter {
 
     public JavaPojoWriter(Writer writer, Options opts) {

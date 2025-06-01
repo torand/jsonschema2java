@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024 Tore Eide Andersen
+ * Copyright (c) 2024-2025 Tore Eide Andersen
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.github.torand.jsonschema2java;
+package io.github.torand.jsonschema2java.generators;
 
 import io.github.torand.jsonschema2java.collectors.EnumInfoCollector;
 import io.github.torand.jsonschema2java.collectors.PojoInfoCollector;
@@ -34,6 +34,9 @@ import static io.github.torand.jsonschema2java.utils.StringHelper.pluralSuffix;
 import static io.github.torand.jsonschema2java.writers.WriterFactory.createEnumWriter;
 import static io.github.torand.jsonschema2java.writers.WriterFactory.createPojoWriter;
 
+/**
+ * Generates source code for models (pojos).
+ */
 public class ModelGenerator {
     private static final Logger logger = LoggerFactory.getLogger(ModelGenerator.class);
 

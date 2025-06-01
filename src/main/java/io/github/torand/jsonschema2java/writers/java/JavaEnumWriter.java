@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024 Tore Eide Andersen
+ * Copyright (c) 2024-2025 Tore Eide Andersen
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,7 +15,7 @@
  */
 package io.github.torand.jsonschema2java.writers.java;
 
-import io.github.torand.jsonschema2java.Options;
+import io.github.torand.jsonschema2java.generators.Options;
 import io.github.torand.jsonschema2java.model.EnumInfo;
 import io.github.torand.jsonschema2java.writers.BaseWriter;
 import io.github.torand.jsonschema2java.writers.EnumWriter;
@@ -25,6 +25,9 @@ import java.io.Writer;
 import static io.github.torand.jsonschema2java.utils.CollectionHelper.nonEmpty;
 import static io.github.torand.jsonschema2java.utils.StringHelper.joinCsv;
 
+/**
+ * Writes Java code for an enum.
+ */
 public class JavaEnumWriter extends BaseWriter implements EnumWriter {
 
     public JavaEnumWriter(Writer writer, Options opts) {

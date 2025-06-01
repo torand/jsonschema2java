@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024 Tore Eide Andersen
+ * Copyright (c) 2024-2025 Tore Eide Andersen
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,7 +27,7 @@ import com.networknt.schema.SchemaValidatorsConfig;
 import com.networknt.schema.SpecVersion.VersionFlag;
 import com.networknt.schema.ValidationMessage;
 import com.networknt.schema.resource.SchemaMapper;
-import io.github.torand.jsonschema2java.Options;
+import io.github.torand.jsonschema2java.generators.Options;
 import io.github.torand.jsonschema2java.utils.JsonSchemaDef;
 
 import java.io.FileInputStream;
@@ -53,6 +53,9 @@ import static io.github.torand.jsonschema2java.utils.Exceptions.illegalStateExce
 import static io.github.torand.jsonschema2java.utils.StringHelper.toPascalCase;
 import static java.util.Objects.isNull;
 
+/**
+ * Resolves (loads) external JSON Schemas referenced in a JSON Schema.
+ */
 public class SchemaResolver {
     private final Options opts;
 

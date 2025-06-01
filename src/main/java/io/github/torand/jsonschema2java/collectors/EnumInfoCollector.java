@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024 Tore Eide Andersen
+ * Copyright (c) 2024-2025 Tore Eide Andersen
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,7 +15,7 @@
  */
 package io.github.torand.jsonschema2java.collectors;
 
-import io.github.torand.jsonschema2java.Options;
+import io.github.torand.jsonschema2java.generators.Options;
 import io.github.torand.jsonschema2java.model.EnumInfo;
 import io.github.torand.jsonschema2java.utils.JsonSchemaDef;
 
@@ -27,6 +27,9 @@ import java.util.Set;
 import static io.github.torand.jsonschema2java.collectors.Extensions.EXT_MODEL_SUBDIR;
 import static io.github.torand.jsonschema2java.utils.StringHelper.joinCsv;
 
+/**
+ * Collects information about an enum from a schema.
+ */
 public class EnumInfoCollector extends BaseCollector {
 
     public EnumInfoCollector(Options opts) {

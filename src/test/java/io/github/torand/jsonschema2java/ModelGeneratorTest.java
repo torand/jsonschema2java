@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024 Tore Eide Andersen
+ * Copyright (c) 2024-2025 Tore Eide Andersen
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,8 @@
  */
 package io.github.torand.jsonschema2java;
 
+import io.github.torand.jsonschema2java.generators.ModelGenerator;
+import io.github.torand.jsonschema2java.generators.Options;
 import org.junit.jupiter.api.Test;
 
 import java.nio.file.Path;
