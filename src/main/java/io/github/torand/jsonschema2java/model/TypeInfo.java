@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
-import static io.github.torand.jsonschema2java.utils.CollectionHelper.streamConcat;
+import static io.github.torand.javacommons.collection.CollectionHelper.concatStream;
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 
@@ -58,10 +58,10 @@ public class TypeInfo {
     }
 
     public Stream<String> typeImports() {
-        return isNull(itemType) ? typeImports.stream() : streamConcat(typeImports, itemType.typeImports);
+        return isNull(itemType) ? typeImports.stream() : concatStream(typeImports, itemType.typeImports);
     }
 
     public Stream<String> annotationImports() {
-        return isNull(itemType) ? annotationImports.stream() : streamConcat(annotationImports, itemType.annotationImports);
+        return isNull(itemType) ? annotationImports.stream() : concatStream(annotationImports, itemType.annotationImports);
     }
 }

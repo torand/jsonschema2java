@@ -24,14 +24,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static io.github.torand.javacommons.lang.Exceptions.illegalStateException;
+import static io.github.torand.javacommons.lang.StringHelper.nonBlank;
 import static io.github.torand.jsonschema2java.collectors.Extensions.EXT_JSON_SERIALIZER;
 import static io.github.torand.jsonschema2java.collectors.Extensions.EXT_NULLABLE;
 import static io.github.torand.jsonschema2java.collectors.Extensions.EXT_VALIDATION_CONSTRAINT;
 import static io.github.torand.jsonschema2java.collectors.TypeInfoCollector.NullabilityResolution.FORCE_NOT_NULLABLE;
 import static io.github.torand.jsonschema2java.collectors.TypeInfoCollector.NullabilityResolution.FORCE_NULLABLE;
-import static io.github.torand.jsonschema2java.utils.Exceptions.illegalStateException;
-import static io.github.torand.jsonschema2java.utils.StringHelper.joinCsv;
-import static io.github.torand.jsonschema2java.utils.StringHelper.nonBlank;
+import static io.github.torand.jsonschema2java.utils.StringUtils.joinCsv;
 import static java.util.Objects.nonNull;
 
 /**

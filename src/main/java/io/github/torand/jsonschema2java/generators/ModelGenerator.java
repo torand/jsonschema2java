@@ -30,7 +30,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.List;
 
-import static io.github.torand.jsonschema2java.utils.StringHelper.pluralSuffix;
+import static io.github.torand.jsonschema2java.utils.StringUtils.pluralSuffix;
 import static io.github.torand.jsonschema2java.writers.WriterFactory.createEnumWriter;
 import static io.github.torand.jsonschema2java.writers.WriterFactory.createPojoWriter;
 

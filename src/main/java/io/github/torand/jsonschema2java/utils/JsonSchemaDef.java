@@ -25,7 +25,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.stream.Stream;
 
-import static io.github.torand.jsonschema2java.utils.CollectionHelper.asStream;
+import static io.github.torand.javacommons.collection.CollectionHelper.streamSafely;
 import static java.lang.Boolean.TRUE;
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
@@ -82,7 +82,7 @@ public class JsonSchemaDef {
         if (isNull(arrayNode) || arrayNode.isNull() || arrayNode.isEmpty()) {
             return Stream.empty();
         }
-        return asStream(arrayNode.elements()).map(e -> new JsonSchemaDef("$", e));
+        return streamSafely(arrayNode.elements()).map(e -> new JsonSchemaDef("$", e));
     }
 
     public Stream<JsonSchemaDef> oneOf() {
@@ -90,7 +90,7 @@ public class JsonSchemaDef {
         if (isNull(arrayNode) || arrayNode.isNull() || arrayNode.isEmpty()) {
             return Stream.empty();
         }
-        return asStream(arrayNode.elements()).map(e -> new JsonSchemaDef("$", e));
+        return streamSafely(arrayNode.elements()).map(e -> new JsonSchemaDef("$", e));
     }
 
     public URI $ref() {
@@ -124,7 +124,7 @@ public class JsonSchemaDef {
 
     public Map<String, JsonSchemaDef> properties() {
         Map<String, JsonSchemaDef> props = new LinkedHashMap<>();
-        asStream(schema.at("/properties").fields())
+        streamSafely(schema.at("/properties").fields())
             .forEach(e -> props.put(e.getKey(), new JsonSchemaDef("$", e.getValue())));
         return props;
     }
@@ -190,7 +190,7 @@ public class JsonSchemaDef {
     }
 
     public Extensions extensions() {
-        Map<String, Object> extensionProps = asStream(schema.fields())
+        Map<String, Object> extensionProps = streamSafely(schema.fields())
             .filter(entry -> entry.getKey().startsWith("x-"))
             .collect(toMap(e -> e.getKey(), e -> e.getValue()));
 
@@ -211,7 +211,7 @@ public class JsonSchemaDef {
             return Stream.empty();
         }
         if (arrayNode.isArray()) {
-            return asStream(arrayNode.elements()).map(JsonNode::asText);
+            return streamSafely(arrayNode.elements()).map(JsonNode::asText);
         } else {
             return Stream.of(arrayNode.asText());
         }

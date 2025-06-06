@@ -22,8 +22,8 @@ import io.github.torand.jsonschema2java.writers.EnumWriter;
 
 import java.io.Writer;
 
-import static io.github.torand.jsonschema2java.utils.CollectionHelper.nonEmpty;
-import static io.github.torand.jsonschema2java.utils.StringHelper.joinCsv;
+import static io.github.torand.javacommons.collection.CollectionHelper.nonEmpty;
+import static io.github.torand.jsonschema2java.utils.StringUtils.joinCsv;
 
 /**
  * Writes Java code for an enum.

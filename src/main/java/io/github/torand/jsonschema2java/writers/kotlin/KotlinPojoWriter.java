@@ -28,9 +28,9 @@ import java.util.TreeSet;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Predicate;
 
-import static io.github.torand.jsonschema2java.utils.CollectionHelper.nonEmpty;
-import static io.github.torand.jsonschema2java.utils.CollectionHelper.streamConcat;
-import static io.github.torand.jsonschema2java.utils.CollectionHelper.streamSafely;
+import static io.github.torand.javacommons.collection.CollectionHelper.concatStream;
+import static io.github.torand.javacommons.collection.CollectionHelper.nonEmpty;
+import static io.github.torand.javacommons.collection.CollectionHelper.streamSafely;
 import static io.github.torand.jsonschema2java.utils.KotlinTypeMapper.toKotlinNative;
 import static java.util.Objects.nonNull;
 import static java.util.function.Predicate.not;
@@ -94,11 +94,11 @@ public class KotlinPojoWriter extends BaseWriter implements PojoWriter {
             String typeName = toKotlinNative(propInfo.type.name);
 
             if (nonNull(propInfo.type.itemType)) {
-                String itemTypeWithAnnotations = streamConcat(propInfo.type.itemType.annotations, List.of(propInfo.type.itemType.name))
+                String itemTypeWithAnnotations = concatStream(propInfo.type.itemType.annotations, List.of(propInfo.type.itemType.name))
                     .collect(joining(" "));
 
                 if (nonNull(propInfo.type.keyType)) {
-                    String keyTypeWithAnnotations = streamConcat(propInfo.type.keyType.annotations, List.of(propInfo.type.keyType.name))
+                    String keyTypeWithAnnotations = concatStream(propInfo.type.keyType.annotations, List.of(propInfo.type.keyType.name))
                         .collect(joining(" "));
 
                     write("%s<%s, %s>".formatted(typeName, keyTypeWithAnnotations, itemTypeWithAnnotations));

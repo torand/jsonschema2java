@@ -30,8 +30,8 @@ import java.net.URI;
 import java.nio.file.Path;
 import java.util.List;
 
+import static io.github.torand.javacommons.collection.CollectionHelper.isEmpty;
 import static io.github.torand.jsonschema2java.collectors.SchemaResolver.findSchemaFiles;
-import static io.github.torand.jsonschema2java.utils.CollectionHelper.isEmpty;
 
 /**
  * Generates source code for model classes based on JSON Schema files

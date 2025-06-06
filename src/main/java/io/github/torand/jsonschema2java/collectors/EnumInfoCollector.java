@@ -25,7 +25,7 @@ import java.util.Optional;
 import java.util.Set;
 
 import static io.github.torand.jsonschema2java.collectors.Extensions.EXT_MODEL_SUBDIR;
-import static io.github.torand.jsonschema2java.utils.StringHelper.joinCsv;
+import static io.github.torand.jsonschema2java.utils.StringUtils.joinCsv;
 
 /**
  * Collects information about an enum from a schema.

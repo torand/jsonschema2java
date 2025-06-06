@@ -17,7 +17,7 @@ package io.github.torand.jsonschema2java.generators;
 
 import java.net.URI;
 
-import static io.github.torand.jsonschema2java.utils.StringHelper.isBlank;
+import static io.github.torand.javacommons.lang.StringHelper.isBlank;
 
 /**
  * Contains configuration of the source code generators.

@@ -48,9 +48,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+import static io.github.torand.javacommons.lang.Exceptions.illegalStateException;
 import static io.github.torand.jsonschema2java.collectors.Extensions.EXT_MODEL_SUBDIR;
-import static io.github.torand.jsonschema2java.utils.Exceptions.illegalStateException;
-import static io.github.torand.jsonschema2java.utils.StringHelper.toPascalCase;
+import static io.github.torand.jsonschema2java.utils.StringUtils.toPascalCase;
 import static java.util.Objects.isNull;
 
 /**

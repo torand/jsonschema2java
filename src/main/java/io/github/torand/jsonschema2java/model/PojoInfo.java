@@ -15,7 +15,7 @@
  */
 package io.github.torand.jsonschema2java.model;
 
-import io.github.torand.jsonschema2java.utils.CollectionHelper;
+import io.github.torand.javacommons.collection.CollectionHelper;
 
 import java.util.ArrayList;
 import java.util.LinkedHashSet;

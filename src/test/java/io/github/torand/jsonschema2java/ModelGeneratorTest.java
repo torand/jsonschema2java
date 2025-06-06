@@ -23,7 +23,7 @@ import java.nio.file.Path;
 import java.util.List;
 import java.util.Map;
 
-import static io.github.torand.jsonschema2java.utils.StringHelper.isBlank;
+import static io.github.torand.javacommons.lang.StringHelper.isBlank;
 
 public class ModelGeneratorTest {
 

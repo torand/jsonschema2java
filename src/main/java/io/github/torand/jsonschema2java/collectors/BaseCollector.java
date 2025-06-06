@@ -17,7 +17,7 @@ package io.github.torand.jsonschema2java.collectors;
 
 import io.github.torand.jsonschema2java.generators.Options;
 
-import static io.github.torand.jsonschema2java.utils.StringHelper.nonBlank;
+import static io.github.torand.javacommons.lang.StringHelper.nonBlank;
 
 /**
  * Base class for all collectors.
