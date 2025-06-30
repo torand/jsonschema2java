@@ -84,7 +84,7 @@
     <json-schema-validator.version>1.5.7</json-schema-validator.version>
     <java-commons.version>1.1.0</java-commons.version>
     <slf4j-simple.version>2.0.17</slf4j-simple.version>
-    <junit.jupiter.version>5.13.1</junit.jupiter.version>
+    <junit.jupiter.version>5.13.2</junit.jupiter.version>
     <assertj.version>3.27.3</assertj.version>
     <jacoco-maven-plugin.version>0.8.13</jacoco-maven-plugin.version>
   </properties>
