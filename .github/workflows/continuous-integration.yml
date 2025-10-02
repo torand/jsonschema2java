@@ -46,7 +46,7 @@ jobs:
           if [[ ${GITHUB_EVENT_NAME} == "workflow_dispatch" ]]; then
             echo "Build triggered manually by ${GITHUB_ACTOR}"
           else
-            echo "Build triggered by commit from $(git log -1 --pretty=format:%an ${{inputs.srcDir}}) ($(git log -1 --pretty=format:%ae ${{inputs.srcDir}}))"
+            echo "Build triggered by commit from $(git log -1 --pretty=format:%an .) ($(git log -1 --pretty=format:%ae .))"
           fi          
           
           isMainBranch=${{env.branchName == 'main' }}        
