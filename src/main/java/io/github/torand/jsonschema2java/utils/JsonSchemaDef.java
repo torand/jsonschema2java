@@ -25,7 +25,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.stream.Stream;
 
-import static io.github.torand.javacommons.collection.CollectionHelper.streamSafely;
+import static io.github.torand.javacommons.stream.StreamHelper.streamSafely;
 import static java.lang.Boolean.TRUE;
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;

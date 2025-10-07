@@ -29,8 +29,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
-import static io.github.torand.javacommons.collection.CollectionHelper.concatStream;
 import static io.github.torand.javacommons.collection.CollectionHelper.nonEmpty;
+import static io.github.torand.javacommons.stream.StreamHelper.concatAndStream;
 import static java.util.Objects.nonNull;
 import static java.util.function.Predicate.not;
 import static java.util.stream.Collectors.joining;
@@ -97,7 +97,7 @@ public class JavaPojoWriter extends BaseWriter implements PojoWriter {
 
             writeIndent(1);
             if (nonNull(propInfo.type.itemType)) {
-                String itemTypeWithAnnotations = concatStream(propInfo.type.itemType.annotations, List.of(propInfo.type.itemType.name))
+                String itemTypeWithAnnotations = concatAndStream(propInfo.type.itemType.annotations, List.of(propInfo.type.itemType.name))
                     .collect(joining(" "));
 
                 if (!opts.pojosAsRecords) {
@@ -105,7 +105,7 @@ public class JavaPojoWriter extends BaseWriter implements PojoWriter {
                 }
 
                 if (nonNull(propInfo.type.keyType)) {
-                    String keyTypeWithAnnotations = concatStream(propInfo.type.keyType.annotations, List.of(propInfo.type.keyType.name))
+                    String keyTypeWithAnnotations = concatAndStream(propInfo.type.keyType.annotations, List.of(propInfo.type.keyType.name))
                         .collect(joining(" "));
 
                     write("%s<%s, %s> %s".formatted(propInfo.type.name, keyTypeWithAnnotations, itemTypeWithAnnotations, propInfo.name));
