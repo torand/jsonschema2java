@@ -195,7 +195,7 @@ public class JsonSchemaDef {
     public Extensions extensions() {
         Map<String, Object> extensionProps = streamSafely(schema.fields())
             .filter(entry -> entry.getKey().startsWith("x-"))
-            .collect(toMap(e -> e.getKey(), e -> e.getValue()));
+            .collect(toMap(Map.Entry::getKey, Map.Entry::getValue));
 
         return Extensions.extensions(extensionProps);
     }

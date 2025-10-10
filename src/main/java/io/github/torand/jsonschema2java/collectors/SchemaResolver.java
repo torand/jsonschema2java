@@ -54,7 +54,7 @@ public class SchemaResolver {
         JsonSchemaFactory metaSchemaFactory = JsonSchemaFactory.getInstance(VersionFlag.V202012);
         SchemaValidatorsConfig.Builder builder = SchemaValidatorsConfig.builder();
 
-        // By default, the JDK regular expression implementation which is not ECMA 262 compliant is used.
+        // By default, the JDK regular expression implementation which is not ECMA 262 compliant, is used.
         // Note that setting this requires including optional dependencies
         // builder.regularExpressionFactory(GraalJSRegularExpressionFactory.getInstance());
         // builder.regularExpressionFactory(JoniRegularExpressionFactory.getInstance());
@@ -70,10 +70,10 @@ public class SchemaResolver {
             throw new JsonSchema2JavaException(e);
         }
 
-        Set<ValidationMessage> messages = metaSchema.validate(schemaContent, InputFormat.JSON, executionContext -> {
+        Set<ValidationMessage> messages = metaSchema.validate(schemaContent, InputFormat.JSON, executionContext ->
             // By default, since Draft 2019-09 the format keyword only generates annotations and not assertions
-            executionContext.getExecutionConfig().setFormatAssertionsEnabled(true);
-        });
+            executionContext.getExecutionConfig().setFormatAssertionsEnabled(true)
+        );
 
         return messages.stream()
             .map(msg -> "%s %s".formatted(msg.getEvaluationPath().toString(), msg.getMessage()))

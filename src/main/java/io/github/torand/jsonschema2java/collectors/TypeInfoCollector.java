@@ -72,7 +72,8 @@ public class TypeInfoCollector extends BaseCollector {
 
             if (schema.allOf().count() == 1) {
                 // 'allOf' only supported if it contains single type
-                return getTypeInfo(schema.allOf().findFirst().get(), nullable ? FORCE_NULLABLE : FORCE_NOT_NULLABLE);
+                JsonSchemaDef firstSchema = schema.allOf().findFirst().orElseThrow();
+                return getTypeInfo(firstSchema, nullable ? FORCE_NULLABLE : FORCE_NOT_NULLABLE);
             }
 
             URI ref = schema.ref();

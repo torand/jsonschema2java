@@ -28,19 +28,19 @@ import java.util.List;
 import static io.github.torand.jsonschema2java.TestHelper.parseJson;
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class TypeInfoCollectorTest {
+class TypeInfoCollectorTest {
 
     private TypeInfoCollector collector;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         Options opts = TestHelper.getJavaOptions();
         SchemaResolver schemaResolver = new SchemaResolver(opts);
         collector = new TypeInfoCollector(opts, schemaResolver);
     }
 
     @Test
-    public void shouldMapBooleanProperties() {
+    void shouldMapBooleanProperties() {
         assertNullableBooleanType("""
                 {"type": ["boolean", "null"]}
             """);
@@ -51,7 +51,7 @@ public class TypeInfoCollectorTest {
     }
 
     @Test
-    public void shouldMapIntegerProperties() {
+    void shouldMapIntegerProperties() {
         assertNullableNumericType("""
                 {"type": ["integer", "null"]}
             """, "Integer", null);
@@ -78,7 +78,7 @@ public class TypeInfoCollectorTest {
     }
 
     @Test
-    public void shouldMapNumberProperties() {
+    void shouldMapNumberProperties() {
         assertNullableNumericType("""
                 {"type": ["number", "null"]}
             """, "BigDecimal", null);
@@ -105,7 +105,7 @@ public class TypeInfoCollectorTest {
     }
 
     @Test
-    public void shouldMapStringProperties() {
+    void shouldMapStringProperties() {
         assertNullableStringType("""
                 {"type": ["string", "null"]}
             """, "String", null, null);
@@ -156,7 +156,7 @@ public class TypeInfoCollectorTest {
     }
 
     @Test
-    public void shouldMapArrayProperties() {
+    void shouldMapArrayProperties() {
         assertNullableArrayType("""
                 {"type": ["array", "null"], "items": {"type": "string"}}
             """, "List", "String", List.of("@Valid"), List.of("@NotBlank"));

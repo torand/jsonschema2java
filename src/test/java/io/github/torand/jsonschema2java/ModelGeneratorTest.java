@@ -25,7 +25,7 @@ import java.util.Map;
 
 import static io.github.torand.javacommons.lang.StringHelper.isBlank;
 
-public class ModelGeneratorTest {
+class ModelGeneratorTest {
 
     private static final Map<String, String> SCHEMAS = Map.of(
         "AddressV1", "common",
@@ -39,7 +39,7 @@ public class ModelGeneratorTest {
     );
 
     @Test
-    public void shouldGenerateJavaPojos() {
+    void shouldGenerateJavaPojos() {
         Options opts = TestHelper.getJavaOptions();
 
         ModelGenerator modelGenerator = new ModelGenerator(opts);
@@ -55,7 +55,7 @@ public class ModelGeneratorTest {
     }
 
     @Test
-    public void shouldGenerateKotlinPojos() {
+    void shouldGenerateKotlinPojos() {
         Options opts = TestHelper.getKotlinOptions();
 
         ModelGenerator modelGenerator = new ModelGenerator(opts);
