@@ -16,6 +16,7 @@
 package io.github.torand.jsonschema2java.collectors;
 
 import io.github.torand.jsonschema2java.generators.Options;
+import io.github.torand.jsonschema2java.model.AnnotationInfo;
 import io.github.torand.jsonschema2java.model.PojoInfo;
 import io.github.torand.jsonschema2java.model.PropertyInfo;
 import io.github.torand.jsonschema2java.utils.JsonSchemaDef;
@@ -23,7 +24,6 @@ import io.github.torand.jsonschema2java.utils.JsonSchemaDef;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 import static io.github.torand.jsonschema2java.collectors.Extensions.EXT_MODEL_SUBDIR;
 import static io.github.torand.jsonschema2java.utils.StringUtils.joinCsv;
@@ -43,37 +43,38 @@ public class PojoInfoCollector extends BaseCollector {
     }
 
     public PojoInfo getPojoInfo(String name, JsonSchemaDef schema) {
-        PojoInfo pojoInfo = new PojoInfo();
-        pojoInfo.name = name;
+        PojoInfo pojoInfo = new PojoInfo(name);
 
         Optional<String> maybeModelSubdir = schema.extensions().getString(EXT_MODEL_SUBDIR);
-        pojoInfo.modelSubdir = maybeModelSubdir.orElse(null);
-        pojoInfo.modelSubpackage = maybeModelSubdir.map(this::dirPath2PackagePath).orElse(null);
+        pojoInfo = pojoInfo.withModelSubdir(maybeModelSubdir.orElse(null))
+            .withModelSubpackage(maybeModelSubdir.map(this::dirPath2PackagePath).orElse(null));
 
-        if (opts.addOpenApiSchemaAnnotations) {
-            pojoInfo.annotations.add(getSchemaAnnotation(name, schema, pojoInfo.imports));
+        if (opts.addMpOpenApiAnnotations()) {
+            pojoInfo = pojoInfo.withAddedAnnotation(getSchemaAnnotation(name, schema));
         }
 
         if (schema.isDeprecated()) {
-            pojoInfo.deprecationMessage = formatDeprecationMessage(schema.extensions());
+            pojoInfo = pojoInfo.withDeprecationMessage(formatDeprecationMessage(schema.extensions()));
         }
 
-        pojoInfo.properties = getSchemaProperties(schema);
+        pojoInfo = pojoInfo.withAddedProperties(getSchemaProperties(schema));
 
         return pojoInfo;
     }
 
-    private String getSchemaAnnotation(String name, JsonSchemaDef pojo, Set<String> imports) {
-        String description = pojo.description();
-
-        imports.add("org.eclipse.microprofile.openapi.annotations.media.Schema");
+    private AnnotationInfo getSchemaAnnotation(String name, JsonSchemaDef pojo) {
         List<String> schemaParams = new ArrayList<>();
+
         schemaParams.add("name = \"%s\"".formatted(modelName2SchemaName(name)));
-        schemaParams.add("description = \"%s\"".formatted(normalizeDescription(description)));
+        schemaParams.add("description = \"%s\"".formatted(normalizeDescription(pojo.description())));
         if (pojo.isDeprecated()) {
             schemaParams.add("deprecated = true");
         }
-        return "@Schema(%s)".formatted(joinCsv(schemaParams));
+
+        return new AnnotationInfo(
+            "@Schema(%s)".formatted(joinCsv(schemaParams)),
+            "org.eclipse.microprofile.openapi.annotations.media.Schema"
+        );
     }
 
     private List<PropertyInfo> getSchemaProperties(JsonSchemaDef schema) {
@@ -81,9 +82,9 @@ public class PojoInfoCollector extends BaseCollector {
 
         if (schema.hasAllOf()) {
             schema.allOf().forEach(subSchema -> props.addAll(getSchemaProperties(subSchema)));
-        } else if (nonNull(schema.$ref())) {
-            JsonSchemaDef $refSchema = schemaResolver.getOrThrow(schema.$ref());
-            return getSchemaProperties($refSchema);
+        } else if (nonNull(schema.ref())) {
+            JsonSchemaDef refSchema = schemaResolver.getOrThrow(schema.ref());
+            return getSchemaProperties(refSchema);
         } else {
             schema.properties().forEach((propName, propSchema) ->
                 props.add(propertyInfoCollector.getPropertyInfo(propName, propSchema, schema.isRequired(propName)))

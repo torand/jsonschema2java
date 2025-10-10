@@ -36,19 +36,24 @@ public class JavaEnumWriter extends BaseWriter implements EnumWriter {
 
     @Override
     public void write(EnumInfo enumInfo) {
-        writeLine("package %s;", opts.getModelPackage(enumInfo.modelSubpackage));
+        writeLine("package %s;", opts.getModelPackage(enumInfo.modelSubpackage()));
         writeNewLine();
 
-        if (nonEmpty(enumInfo.imports)) {
-            enumInfo.imports.forEach(ti -> writeLine("import %s;".formatted(ti)));
+        if (nonEmpty(enumInfo.aggregatedNormalImports())) {
+            enumInfo.aggregatedNormalImports().forEach(i -> writeLine("import %s;".formatted(i)));
             writeNewLine();
         }
 
-        enumInfo.annotations.forEach(this::writeLine);
+        if (nonEmpty(enumInfo.aggregatedStaticImports())) {
+            enumInfo.aggregatedStaticImports().forEach(i -> writeLine("import static %s;".formatted(i)));
+            writeNewLine();
+        }
 
-        writeLine("public enum %s {".formatted(enumInfo.name));
+        enumInfo.annotationsAsStrings().forEach(this::writeLine);
+
+        writeLine("public enum %s {".formatted(enumInfo.name()));
         writeIndent(1);
-        writeLine(joinCsv(enumInfo.constants));
+        writeLine(joinCsv(enumInfo.constants()));
         writeLine("}");
     }
 }

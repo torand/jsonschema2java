@@ -12,7 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - ...
 
 ### Changed
-- Bump dependency com.networknt:json-schema-validator to v1.5.9
+- ...
 
 ### Deprecated
 - ...
@@ -22,6 +22,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 - ...
+
+## [1.1.3] - 2025-10-10
+
+### Changed
+- Bump dependency com.networknt:json-schema-validator to v1.5.9
+
+### Fixed
+- Bean validation annotations on primitive subtypes of compound pojo property types now generated.
 
 ## [1.1.2] - 2025-06-01
 

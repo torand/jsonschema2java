@@ -36,19 +36,19 @@ public class KotlinEnumWriter extends BaseWriter implements EnumWriter {
 
     @Override
     public void write(EnumInfo enumInfo) {
-        writeLine("package %s", opts.getModelPackage(enumInfo.modelSubpackage));
+        writeLine("package %s", opts.getModelPackage(enumInfo.modelSubpackage()));
         writeNewLine();
 
-        if (nonEmpty(enumInfo.imports)) {
-            enumInfo.imports.forEach(ti -> writeLine("import %s".formatted(ti)));
+        if (nonEmpty(enumInfo.aggregatedImports())) {
+            enumInfo.aggregatedImports().forEach(i -> writeLine("import %s".formatted(i)));
             writeNewLine();
         }
 
-        enumInfo.annotations.forEach(this::writeLine);
+        enumInfo.annotationsAsStrings().forEach(this::writeLine);
 
-        writeLine("enum class %s {".formatted(enumInfo.name));
+        writeLine("enum class %s {".formatted(enumInfo.name()));
         writeIndent(1);
-        writeLine(joinCsv(enumInfo.constants));
+        writeLine(joinCsv(enumInfo.constants()));
         writeLine("}");
     }
 }

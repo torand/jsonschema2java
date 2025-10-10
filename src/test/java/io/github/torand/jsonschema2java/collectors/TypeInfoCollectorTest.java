@@ -22,6 +22,9 @@ import io.github.torand.jsonschema2java.utils.JsonSchemaDef;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.Collection;
+import java.util.List;
+
 import static io.github.torand.jsonschema2java.TestHelper.parseJson;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -156,23 +159,27 @@ public class TypeInfoCollectorTest {
     public void shouldMapArrayProperties() {
         assertNullableArrayType("""
                 {"type": ["array", "null"], "items": {"type": "string"}}
-            """, "List", "String", "@Valid");
+            """, "List", "String", List.of("@Valid"), List.of("@NotBlank"));
 
         assertNonNullableArrayType("""
                 {"type": "array", "items": {"type": "string"}}
-            """, "List", "String", "@Valid", "@NotNull");
+            """, "List", "String", List.of("@Valid", "@NotNull"), List.of("@NotBlank"));
 
         assertNonNullableArrayType("""
                 {"type": "array", "items": {"type": "string"}, "uniqueItems": true}
-            """, "Set", "String", "@Valid", "@NotNull");
+            """, "Set", "String", List.of("@Valid", "@NotNull"), List.of("@NotBlank"));
 
         assertNonNullableArrayType("""
                 {"type": "array", "items": {"type": "string"}, "minItems": 1}
-            """, "List", "String", "@Valid", "@NotNull", "@Size(min = 1)");
+            """, "List", "String", List.of("@Valid", "@NotNull", "@Size(min = 1)"), List.of("@NotBlank"));
 
         assertNonNullableArrayType("""
                 {"type": "array", "items": {"type": "string"}, "maxItems": 10}
-            """, "List", "String", "@Valid", "@NotNull", "@Size(max = 10)");
+            """, "List", "String", List.of("@Valid", "@NotNull", "@Size(max = 10)"), List.of("@NotBlank"));
+
+        assertNonNullableArrayType("""
+                {"type": "array", "items": {"type": "string", "minLength": 3}, "maxItems": 10}
+            """, "List", "String", List.of("@Valid", "@NotNull", "@Size(max = 10)"), List.of("@NotBlank", "@Size(min = 3)"));
     }
 
     private void assertNullableBooleanType(String jsonSchema, String... expectedAnnotations) {
@@ -205,31 +212,33 @@ public class TypeInfoCollectorTest {
         assertPrimitiveType(typeInfo, expectedTypeName, expectedFormat, expectedPattern, false, expectedAnnotations);
     }
 
-    private void assertNonNullableArrayType(String jsonSchema, String expectedTypeName, String expectedItemTypeName, String... expectedAnnotations) {
+    private void assertNonNullableArrayType(String jsonSchema, String expectedTypeName, String expectedItemTypeName, Collection<String> expectedAnnotations, Collection<String> expectedItemAnnotations) {
         TypeInfo typeInfo = getTypeInfo(jsonSchema);
-        assertThat(typeInfo.name).isEqualTo(expectedTypeName);
-        assertThat(typeInfo.itemType.name).isEqualTo(expectedItemTypeName);
-        assertThat(typeInfo.nullable).isFalse();
-        assertThat(typeInfo.primitive).isFalse();
-        assertThat(typeInfo.annotations).containsExactly(expectedAnnotations);
+        assertThat(typeInfo.name()).isEqualTo(expectedTypeName);
+        assertThat(typeInfo.itemType().name()).isEqualTo(expectedItemTypeName);
+        assertThat(typeInfo.nullable()).isFalse();
+        assertThat(typeInfo.primitive()).isFalse();
+        assertThat(typeInfo.annotationsAsStrings()).containsExactlyElementsOf(expectedAnnotations);
+        assertThat(typeInfo.itemType().annotationsAsStrings()).containsExactlyElementsOf(expectedItemAnnotations);
     }
 
-    private void assertNullableArrayType(String jsonSchema, String expectedTypeName, String expectedItemTypeName, String... expectedAnnotations) {
+    private void assertNullableArrayType(String jsonSchema, String expectedTypeName, String expectedItemTypeName, Collection<String> expectedAnnotations, Collection<String> expectedItemAnnotations) {
         TypeInfo typeInfo = getTypeInfo(jsonSchema);
-        assertThat(typeInfo.name).isEqualTo(expectedTypeName);
-        assertThat(typeInfo.itemType.name).isEqualTo(expectedItemTypeName);
-        assertThat(typeInfo.nullable).isTrue();
-        assertThat(typeInfo.primitive).isFalse();
-        assertThat(typeInfo.annotations).containsExactly(expectedAnnotations);
+        assertThat(typeInfo.name()).isEqualTo(expectedTypeName);
+        assertThat(typeInfo.itemType().name()).isEqualTo(expectedItemTypeName);
+        assertThat(typeInfo.nullable()).isTrue();
+        assertThat(typeInfo.primitive()).isFalse();
+        assertThat(typeInfo.annotationsAsStrings()).containsExactlyElementsOf(expectedAnnotations);
+        assertThat(typeInfo.itemType().annotationsAsStrings()).containsExactlyElementsOf(expectedItemAnnotations);
     }
 
     private void assertPrimitiveType(TypeInfo typeInfo, String expectedTypeName, String expectedFormat, String expectedPattern, boolean expectedNullable, String... expectedAnnotations) {
-        assertThat(typeInfo.name).isEqualTo(expectedTypeName);
-        assertThat(typeInfo.schemaFormat).isEqualTo(expectedFormat);
-        assertThat(typeInfo.schemaPattern).isEqualTo(expectedPattern);
-        assertThat(typeInfo.nullable).isEqualTo(expectedNullable);
-        assertThat(typeInfo.primitive).isTrue();
-        assertThat(typeInfo.annotations).containsExactly(expectedAnnotations);
+        assertThat(typeInfo.name()).isEqualTo(expectedTypeName);
+        assertThat(typeInfo.schemaFormat()).isEqualTo(expectedFormat);
+        assertThat(typeInfo.schemaPattern()).isEqualTo(expectedPattern);
+        assertThat(typeInfo.nullable()).isEqualTo(expectedNullable);
+        assertThat(typeInfo.primitive()).isTrue();
+        assertThat(typeInfo.annotationsAsStrings()).containsExactly(expectedAnnotations);
     }
 
     private TypeInfo getTypeInfo(String jsonSchema) {

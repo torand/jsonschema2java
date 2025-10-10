@@ -23,6 +23,11 @@ import java.io.IOException;
  * Defines a code writer for pojos.
  */
 public interface PojoWriter extends AutoCloseable {
+
+    /**
+     * Writes code for specified pojo.
+     * @param pojoInfo the pojo information.
+     */
     void write(PojoInfo pojoInfo);
 
     @Override

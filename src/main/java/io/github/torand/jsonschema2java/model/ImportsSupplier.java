@@ -13,23 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.github.torand.jsonschema2java.writers;
-
-import io.github.torand.jsonschema2java.model.EnumInfo;
-
-import java.io.IOException;
+package io.github.torand.jsonschema2java.model;
 
 /**
- * Defines a code writer for enums.
+ * Defines a supplier of an {@link ImportInfo} object.
  */
-public interface EnumWriter extends AutoCloseable {
+public interface ImportsSupplier {
 
     /**
-     * Writes code for specified enum.
-     * @param enumInfo the enum information.
+     * Gets the imports.
+     * @return the imports.
      */
-    void write(EnumInfo enumInfo);
-
-    @Override
-    void close() throws IOException;
+    ImportInfo imports();
 }

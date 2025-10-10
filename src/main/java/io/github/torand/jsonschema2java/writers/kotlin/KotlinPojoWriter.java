@@ -16,6 +16,8 @@
 package io.github.torand.jsonschema2java.writers.kotlin;
 
 import io.github.torand.jsonschema2java.generators.Options;
+import io.github.torand.jsonschema2java.model.AnnotatedTypeName;
+import io.github.torand.jsonschema2java.model.AnnotationInfo;
 import io.github.torand.jsonschema2java.model.PojoInfo;
 import io.github.torand.jsonschema2java.model.PropertyInfo;
 import io.github.torand.jsonschema2java.writers.BaseWriter;
@@ -24,17 +26,12 @@ import io.github.torand.jsonschema2java.writers.PojoWriter;
 import java.io.Writer;
 import java.util.List;
 import java.util.Set;
-import java.util.TreeSet;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.function.Predicate;
 
 import static io.github.torand.javacommons.collection.CollectionHelper.nonEmpty;
-import static io.github.torand.javacommons.stream.StreamHelper.concatAndStream;
 import static io.github.torand.javacommons.stream.StreamHelper.streamSafely;
 import static io.github.torand.jsonschema2java.utils.KotlinTypeMapper.toKotlinNative;
-import static java.util.Objects.nonNull;
 import static java.util.function.Predicate.not;
-import static java.util.stream.Collectors.joining;
 
 /**
  * Writes Kotlin code for a pojo.
@@ -47,73 +44,27 @@ public class KotlinPojoWriter extends BaseWriter implements PojoWriter {
 
     @Override
     public void write(PojoInfo pojoInfo) {
-        writeLine("package %s", opts.getModelPackage(pojoInfo.modelSubpackage));
+        writeLine("package %s", opts.getModelPackage(pojoInfo.modelSubpackage()));
         writeNewLine();
 
-        Predicate<String> isModelType = qt -> isModelPackage(qt, pojoInfo.modelSubpackage);
-
-        Set<String> imports = new TreeSet<>();
-        imports.addAll(pojoInfo.imports);
-        pojoInfo.properties.stream()
-            .flatMap(p -> p.imports.stream())
-            .forEach(imports::add);
-        pojoInfo.properties.stream()
-            .flatMap(p -> p.type.typeImports())
-            .filter(not(isModelType))
-            .forEach(imports::add);
-        pojoInfo.properties.stream()
-            .flatMap(p -> p.type.annotationImports())
-            .filter(not(isModelType))
-            .forEach(imports::add);
-
-        imports.removeIf(i -> i.equals("java.util.List"));
-        imports.removeIf(i -> i.equals("java.util.Map"));
-
-        if (nonEmpty(imports)) {
-            imports.forEach(ti -> writeLine("import %s".formatted(ti)));
-            writeNewLine();
-        }
+        writeImports(pojoInfo);
 
         if (pojoInfo.isDeprecated()) {
-            writeLine("@Deprecated(\"%s\")".formatted(pojoInfo.deprecationMessage));
+            writeLine("@Deprecated(\"%s\")".formatted(pojoInfo.deprecationMessage()));
         }
 
-        pojoInfo.annotations.forEach(this::writeLine);
+        pojoInfo.annotations().forEach(a -> writeLine(a.annotation()));
         writeLine("@JvmRecord");
 
-        writeLine("data class %s (".formatted(pojoInfo.name));
+        writeLine("data class %s (".formatted(pojoInfo.name()));
 
         AtomicInteger propNo = new AtomicInteger(1);
-        pojoInfo.properties.forEach(propInfo -> {
+        pojoInfo.properties().forEach(propInfo -> {
             writeNewLine();
             writePropertyAnnotationLines(propInfo);
+            writePropertyTypeAndName(propInfo);
 
-            writeIndent(1);
-            write("val %s: ", escapeReservedKeywords(propInfo.name));
-
-            String typeName = toKotlinNative(propInfo.type.name);
-
-            if (nonNull(propInfo.type.itemType)) {
-                String itemTypeWithAnnotations = concatAndStream(propInfo.type.itemType.annotations, List.of(propInfo.type.itemType.name))
-                    .collect(joining(" "));
-
-                if (nonNull(propInfo.type.keyType)) {
-                    String keyTypeWithAnnotations = concatAndStream(propInfo.type.keyType.annotations, List.of(propInfo.type.keyType.name))
-                        .collect(joining(" "));
-
-                    write("%s<%s, %s>".formatted(typeName, keyTypeWithAnnotations, itemTypeWithAnnotations));
-                } else {
-                    write("%s<%s>".formatted(typeName, itemTypeWithAnnotations));
-                }
-            } else {
-                write("%s".formatted(typeName));
-            }
-
-            if (!propInfo.required || propInfo.type.nullable) {
-                write("? = null");
-            }
-
-            if (propNo.getAndIncrement() < pojoInfo.properties.size()) {
+            if (propNo.getAndIncrement() < pojoInfo.properties().size()) {
                 writeLine(",");
             } else {
                 writeNewLine();
@@ -123,23 +74,51 @@ public class KotlinPojoWriter extends BaseWriter implements PojoWriter {
         writeLine(")");
     }
 
+    private void writeImports(PojoInfo pojoInfo) {
+        List<String> imports = pojoInfo.aggregatedNormalImports().stream()
+            .filter(ni -> !isInPackage(ni, pojoInfo.modelSubpackage()))
+            .filter(not("java.util.List"::equals))
+            .filter(not("java.util.Map"::equals))
+            .map("import %s"::formatted)
+            .toList();
+
+        if (nonEmpty(imports)) {
+            imports.forEach(this::writeLine);
+            writeNewLine();
+        }
+    }
+
     private void writePropertyAnnotationLines(PropertyInfo propInfo) {
         if (propInfo.isDeprecated()) {
             writeIndent(1);
-            writeLine("@Deprecated(\"%s\")".formatted(propInfo.deprecationMessage));
+            writeLine("@Deprecated(\"%s\")".formatted(propInfo.deprecationMessage()));
         }
-        streamSafely(propInfo.annotations)
+        streamSafely(propInfo.annotations())
+            .map(AnnotationInfo::annotation)
             .map(this::prefixPropertyAnnotation)
             .forEach(a -> {
                 writeIndent(1);
                 writeLine(a);
             });
-        streamSafely(propInfo.type.annotations)
+    }
+
+    private void writePropertyTypeAndName(PropertyInfo propInfo) {
+        AnnotatedTypeName annotatedTypeName = propInfo.type().getAnnotatedFullName();
+
+        annotatedTypeName.annotations()
             .map(this::prefixPropertyAnnotation)
             .forEach(a -> {
                 writeIndent(1);
                 writeLine(a);
             });
+
+        writeIndent(1);
+        write("val %s: ", escapeReservedKeywords(propInfo.name()));
+        write(toKotlinNative(annotatedTypeName.typeName()));
+
+        if (!propInfo.required() || propInfo.type().nullable()) {
+            write("? = null");
+        }
     }
 
     private String prefixPropertyAnnotation(String annotation) {
@@ -150,7 +129,7 @@ public class KotlinPojoWriter extends BaseWriter implements PojoWriter {
         return "@field:"+annotation.substring(1);
     }
 
-    private boolean isModelPackage(String qualifiedType, String pojoModelSubpackage) {
+    private boolean isInPackage(String qualifiedType, String pojoModelSubpackage) {
         // Remove class name from qualifiedType value
         int lastDotIdx = qualifiedType.lastIndexOf(".");
         String typePackage = qualifiedType.substring(0, lastDotIdx);

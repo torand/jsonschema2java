@@ -83,10 +83,10 @@ public class JsonSchema2JavaMojo extends AbstractMojo {
     private boolean pojosAsRecords;
 
     /**
-     * Generate Microprofile OpenAPI schema annotations.
+     * Generate Microprofile OpenAPI annotations.
      */
-    @Parameter( property = "addOpenApiSchemaAnnotations", defaultValue = "false" )
-    private boolean addOpenApiSchemaAnnotations;
+    @Parameter( property = "addMpOpenApiAnnotations", defaultValue = "false" )
+    private boolean addMpOpenApiAnnotations;
 
     /**
      * Generate Jackson JSON property annotations.
@@ -125,20 +125,21 @@ public class JsonSchema2JavaMojo extends AbstractMojo {
     private boolean verbose;
 
     public void execute() throws MojoExecutionException {
-        Options opts = new Options();
-        opts.searchRootDir = searchRootDir;
-        opts.schemaIdRootUri = schemaIdRootUri;
-        opts.rootPackage = rootPackage;
-        opts.outputDir = outputDir;
-        opts.pojoNameSuffix = pojoNameSuffix;
-        opts.pojosAsRecords = pojosAsRecords;
-        opts.addOpenApiSchemaAnnotations = addOpenApiSchemaAnnotations;
-        opts.addJsonPropertyAnnotations = addJsonPropertyAnnotations;
-        opts.addJakartaBeanValidationAnnotations = addJakartaBeanValidationAnnotations;
-        opts.useKotlinSyntax = useKotlinSyntax;
-        opts.indentWithTab = indentWithTab;
-        opts.indentSize = indentSize;
-        opts.verbose = verbose;
+        Options opts = new Options(
+            searchRootDir,
+            outputDir,
+            schemaIdRootUri,
+            rootPackage,
+            pojoNameSuffix,
+            pojosAsRecords,
+            addMpOpenApiAnnotations,
+            addJsonPropertyAnnotations,
+            addJakartaBeanValidationAnnotations,
+            useKotlinSyntax,
+            indentWithTab,
+            indentSize,
+            verbose
+        );
 
         List<Path> schemaFiles = findSchemaFiles(Path.of(searchRootDir), "glob:" + searchFilePattern);
         if (isEmpty(schemaFiles)) {
@@ -146,13 +147,13 @@ public class JsonSchema2JavaMojo extends AbstractMojo {
             return;
         }
 
-        if (opts.verbose) {
+        if (opts.verbose()) {
             logger.info("Validating schema files");
         }
 
         validateSchemaFiles(schemaFiles);
 
-        if (opts.verbose) {
+        if (opts.verbose()) {
             logger.info("Generating source code");
         }
 

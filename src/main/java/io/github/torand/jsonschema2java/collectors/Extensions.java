@@ -17,6 +17,7 @@ package io.github.torand.jsonschema2java.collectors;
 
 import com.fasterxml.jackson.databind.node.BooleanNode;
 import com.fasterxml.jackson.databind.node.TextNode;
+import io.github.torand.jsonschema2java.utils.JsonSchema2JavaException;
 
 import java.util.Map;
 import java.util.Optional;
@@ -31,10 +32,29 @@ import static java.util.Objects.nonNull;
  * Handles custom JSON Schema extensions.
  */
 public class Extensions {
+    /**
+     * Fully qualified classname of a JSON serializer class for the schema.
+     */
     public static final String EXT_JSON_SERIALIZER = "x-json-serializer";
+
+    /**
+     * Fully qualified classname of an annotation class to validate the schema.
+     */
     public static final String EXT_VALIDATION_CONSTRAINT = "x-validation-constraint";
+
+    /**
+     * If `true` the type of the schema/property can be `null`.
+     */
     public static final String EXT_NULLABLE = "x-nullable";
+
+    /**
+     * Subdirectory to place the generated DTO model class.
+     */
     public static final String EXT_MODEL_SUBDIR = "x-model-subdir";
+
+    /**
+     * Describing why something is deprecated, and what to use instead.
+     */
     public static final String EXT_DEPRECATION_MESSAGE = "x-deprecation-message";
 
     public static final Set<String> KEYWORDS = Set.of(
@@ -45,23 +65,33 @@ public class Extensions {
         EXT_DEPRECATION_MESSAGE
     );
 
-    private final Map<String, Object> extensions;
+    private final Map<String, Object> extensionsByName;
 
-    public static Extensions extensions(Map<String, Object> extensions) {
-        return new Extensions(extensions);
+    /**
+     * Returns an {@link Extensions} object processing the specified JSON Schema extension map.
+     * @param extensionsByName the JSON Schema extensions.
+     * @return the {@link Extensions} object.
+     */
+    public static Extensions extensions(Map<String, Object> extensionsByName) {
+        return new Extensions(extensionsByName);
     }
 
-    public Extensions(Map<String, Object> extensions) {
-        this.extensions = nonNull(extensions) ? extensions : emptyMap();
+    private Extensions(Map<String, Object> extensionsByName) {
+        this.extensionsByName = nonNull(extensionsByName) ? extensionsByName : emptyMap();
     }
 
+    /**
+     * Gets value of a string extension property.
+     * @param name the extension property name.
+     * @return the extension property string value, if found; else empty.
+     */
     public Optional<String> getString(String name) {
-        Object value = extensions.get(name);
+        Object value = extensionsByName.get(name);
         if (isNull(value)) {
             return Optional.empty();
         }
         if (!(value instanceof TextNode)) {
-            throw new RuntimeException("Value of extension %s is not a String".formatted(name));
+            throw new JsonSchema2JavaException("Value of extension %s is not a String".formatted(name));
         }
         if (nonBlank(((TextNode)value).asText())) {
             return Optional.of(((TextNode)value).asText());
@@ -70,13 +100,18 @@ public class Extensions {
         return Optional.empty();
     }
 
+    /**
+     * Gets value of a boolean extension property.
+     * @param name the extension property name.
+     * @return the extension property value, if found; else empty.
+     */
     public Optional<Boolean> getBoolean(String name) {
-        Object value = extensions.get(name);
+        Object value = extensionsByName.get(name);
         if (isNull(value)) {
             return Optional.empty();
         }
         if (!(value instanceof BooleanNode)) {
-            throw new RuntimeException("Value of extension %s is not a Boolean".formatted(name));
+            throw new JsonSchema2JavaException("Value of extension %s is not a Boolean".formatted(name));
         }
 
         return Optional.of(((BooleanNode)value).asBoolean());

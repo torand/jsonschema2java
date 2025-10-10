@@ -16,15 +16,14 @@
 package io.github.torand.jsonschema2java.collectors;
 
 import io.github.torand.jsonschema2java.generators.Options;
+import io.github.torand.jsonschema2java.model.AnnotationInfo;
 import io.github.torand.jsonschema2java.model.PropertyInfo;
 import io.github.torand.jsonschema2java.model.TypeInfo;
 import io.github.torand.jsonschema2java.utils.JsonSchemaDef;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
-import static io.github.torand.javacommons.lang.StringHelper.nonBlank;
 import static io.github.torand.jsonschema2java.utils.StringUtils.joinCsv;
 import static java.util.Objects.nonNull;
 
@@ -40,59 +39,62 @@ public class PropertyInfoCollector extends BaseCollector {
     }
 
     public PropertyInfo getPropertyInfo(String name, JsonSchemaDef propertyType, boolean required) {
-        PropertyInfo propInfo = new PropertyInfo();
-        propInfo.name = name;
-        propInfo.required = required;
+        PropertyInfo propInfo = new PropertyInfo(name)
+            .withRequired(required);
 
         var nullabilityResolution = required
             ? TypeInfoCollector.NullabilityResolution.FROM_SCHEMA
             : TypeInfoCollector.NullabilityResolution.FORCE_NULLABLE;
-        propInfo.type = typeInfoCollector.getTypeInfo(propertyType, nullabilityResolution);
+        propInfo = propInfo.withType(typeInfoCollector.getTypeInfo(propertyType, nullabilityResolution));
 
-        if (opts.addOpenApiSchemaAnnotations) {
-            String schemaAnnotation = getSchemaAnnotation(propertyType, propInfo.type, propInfo.imports);
-            propInfo.annotations.add(schemaAnnotation);
+        if (opts.addMpOpenApiAnnotations()) {
+            AnnotationInfo schemaAnnotation = getSchemaAnnotation(propertyType, propInfo.type());
+            propInfo = propInfo.withAddedAnnotation(schemaAnnotation);
         }
 
-        if (opts.addJsonPropertyAnnotations) {
-            String jsonPropAnnotation = getJsonPropertyAnnotation(name, propInfo.imports);
-            propInfo.annotations.add(jsonPropAnnotation);
+        if (opts.addJsonPropertyAnnotations()) {
+            AnnotationInfo jsonPropAnnotation = getJsonPropertyAnnotation(name);
+            propInfo = propInfo.withAddedAnnotation(jsonPropAnnotation);
         }
 
         if (propertyType.isDeprecated()) {
-            propInfo.deprecationMessage = formatDeprecationMessage(propertyType.extensions());
+            propInfo = propInfo.withDeprecationMessage(formatDeprecationMessage(propertyType.extensions()));
         }
 
         return propInfo;
     }
 
-    private String getSchemaAnnotation(JsonSchemaDef propertyType, TypeInfo typeInfo, Set<String> imports) {
-        String description = propertyType.description();
-        boolean required = !typeInfoCollector.isNullable(propertyType) && !typeInfo.nullable;
+    private AnnotationInfo getSchemaAnnotation(JsonSchemaDef propertyType, TypeInfo typeInfo) {
+        boolean required = !typeInfoCollector.isNullable(propertyType) && !typeInfo.nullable();
 
-        imports.add("org.eclipse.microprofile.openapi.annotations.media.Schema");
         List<String> schemaParams = new ArrayList<>();
-        schemaParams.add("description = \"%s\"".formatted(normalizeDescription(description)));
+        schemaParams.add("description = \"%s\"".formatted(normalizeDescription(propertyType.description())));
         if (required) {
             schemaParams.add("required = true");
         }
-        if (nonBlank(propertyType.defaultValue())) {
+        if (nonNull(propertyType.defaultValue())) {
             schemaParams.add("defaultValue = \"%s\"".formatted(propertyType.defaultValue()));
         }
-        if (nonNull(typeInfo.schemaFormat)) {
-            schemaParams.add("format = \"%s\"".formatted(typeInfo.schemaFormat));
+        if (nonNull(typeInfo.schemaFormat())) {
+            schemaParams.add("format = \"%s\"".formatted(typeInfo.schemaFormat()));
         }
-        if (nonNull(typeInfo.schemaPattern)) {
-            schemaParams.add("pattern = \"%s\"".formatted(typeInfo.schemaPattern));
+        if (nonNull(typeInfo.schemaPattern())) {
+            schemaParams.add("pattern = \"%s\"".formatted(typeInfo.schemaPattern()));
         }
         if (propertyType.isDeprecated()) {
             schemaParams.add("deprecated = true");
         }
-        return "@Schema(%s)".formatted(joinCsv(schemaParams));
+
+        return new AnnotationInfo(
+            "@Schema(%s)".formatted(joinCsv(schemaParams)),
+            "org.eclipse.microprofile.openapi.annotations.media.Schema"
+        );
     }
 
-    private String getJsonPropertyAnnotation(String name, Set<String> imports) {
-        imports.add("com.fasterxml.jackson.annotation.JsonProperty");
-        return "@JsonProperty(\"%s\")".formatted(name);
+    private AnnotationInfo getJsonPropertyAnnotation(String name) {
+        return new AnnotationInfo(
+            "@JsonProperty(\"%s\")".formatted(name),
+            "com.fasterxml.jackson.annotation.JsonProperty"
+        );
     }
 }

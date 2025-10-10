@@ -49,31 +49,27 @@ public class TestHelper {
     }
 
     public static Options getJavaOptions() {
-        Options opts = new Options();
-        opts.searchRootDir = "src/test/resources";
-        opts.schemaIdRootUri = URI.create("https://my-domain.com/my-api/schemas");
-        opts.rootPackage = "io.github.torand.test.model";
-        opts.outputDir = "target/test-output/java/model";
-        opts.addOpenApiSchemaAnnotations = true;
-        opts.addJsonPropertyAnnotations = false;
-        opts.addJakartaBeanValidationAnnotations = true;
-        opts.useKotlinSyntax = false;
-        opts.verbose = true;
-        return opts;
+        return Options.defaults()
+            .withSearchRootDir("src/test/resources")
+            .withSchemaIdRootUri(URI.create("https://my-domain.com/my-api/schemas"))
+            .withRootPackage("io.github.torand.test.model")
+            .withOutputDir("target/test-output/java/model")
+            .withAddMpOpenApiAnnotations(true)
+            .withAddJsonPropertyAnnotations(false)
+            .withUseKotlinSyntax(false)
+            .withVerbose(true);
     }
 
     public static Options getKotlinOptions() {
-        Options opts = new Options();
-        opts.searchRootDir = "src/test/resources";
-        opts.schemaIdRootUri = URI.create("https://my-domain.com/my-api/schemas");
-        opts.rootPackage = "io.github.torand.test.model";
-        opts.outputDir = "target/test-output/kotlin/model";
-        opts.addOpenApiSchemaAnnotations = true;
-        opts.addJsonPropertyAnnotations = false;
-        opts.addJakartaBeanValidationAnnotations = true;
-        opts.useKotlinSyntax = true;
-        opts.verbose = true;
-        return opts;
+        return Options.defaults()
+            .withSearchRootDir("src/test/resources")
+            .withSchemaIdRootUri(URI.create("https://my-domain.com/my-api/schemas"))
+            .withRootPackage("io.github.torand.test.model")
+            .withOutputDir("target/test-output/kotlin/model")
+            .withAddMpOpenApiAnnotations(true)
+            .withAddJsonPropertyAnnotations(false)
+            .withUseKotlinSyntax(true)
+            .withVerbose(true);
     }
 
     public static void assertSnippet(String path, String expectedSnippet) {

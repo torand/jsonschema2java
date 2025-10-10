@@ -20,6 +20,7 @@ import io.github.torand.jsonschema2java.collectors.PojoInfoCollector;
 import io.github.torand.jsonschema2java.collectors.SchemaResolver;
 import io.github.torand.jsonschema2java.model.EnumInfo;
 import io.github.torand.jsonschema2java.model.PojoInfo;
+import io.github.torand.jsonschema2java.utils.JsonSchema2JavaException;
 import io.github.torand.jsonschema2java.utils.JsonSchemaDef;
 import io.github.torand.jsonschema2java.writers.EnumWriter;
 import io.github.torand.jsonschema2java.writers.PojoWriter;
@@ -54,7 +55,7 @@ public class ModelGenerator {
 
         for (Path schemaFile : schemaFiles) {
             JsonSchemaDef schema = schemaResolver.load(schemaFile);
-            String pojoName = schema.getName() + opts.pojoNameSuffix;
+            String pojoName = schema.getName() + opts.pojoNameSuffix();
 
             if (schema.isEnum()) {
                 generateEnumFile(pojoName, schema);
@@ -71,7 +72,7 @@ public class ModelGenerator {
     }
 
     private void generateEnumFile(String name, JsonSchemaDef schema) {
-        if (opts.verbose) {
+        if (opts.verbose()) {
             logger.info("Generating model enum {}", name);
         }
 
@@ -79,15 +80,15 @@ public class ModelGenerator {
         EnumInfo enumInfo = enumInfoCollector.getEnumInfo(name, schema);
 
         String enumFilename = name + opts.getFileExtension();
-        try (EnumWriter enumWriter = createEnumWriter(enumFilename, opts, enumInfo.modelSubdir)) {
+        try (EnumWriter enumWriter = createEnumWriter(enumFilename, opts, enumInfo.modelSubdir())) {
             enumWriter.write(enumInfo);
         } catch (IOException e) {
-            throw new RuntimeException("Failed to write file %s".formatted(enumFilename), e);
+            throw new JsonSchema2JavaException("Failed to write file %s".formatted(enumFilename), e);
         }
     }
 
     private void generatePojoFile(String name, JsonSchemaDef schema) {
-        if (opts.verbose) {
+        if (opts.verbose()) {
             logger.info("Generating model class {}", name);
         }
 
@@ -95,10 +96,10 @@ public class ModelGenerator {
         PojoInfo pojoInfo = pojoInfoCollector.getPojoInfo(name, schema);
 
         String pojoFilename = name + opts.getFileExtension();
-        try (PojoWriter pojoWriter = createPojoWriter(pojoFilename, opts, pojoInfo.modelSubdir)) {
+        try (PojoWriter pojoWriter = createPojoWriter(pojoFilename, opts, pojoInfo.modelSubdir())) {
             pojoWriter.write(pojoInfo);
         } catch (IOException e) {
-            throw new RuntimeException("Failed to write file %s".formatted(pojoFilename), e);
+            throw new JsonSchema2JavaException("Failed to write file %s".formatted(pojoFilename), e);
         }
     }
 }

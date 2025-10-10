@@ -31,6 +31,9 @@ import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 import static java.util.stream.Collectors.toMap;
 
+/**
+ * Represents a JSON Schema definition.
+ */
 public class JsonSchemaDef {
     private final String name;
     private final JsonNode schema;
@@ -93,9 +96,9 @@ public class JsonSchemaDef {
         return streamSafely(arrayNode.elements()).map(e -> new JsonSchemaDef("$", e));
     }
 
-    public URI $ref() {
-        String $refValue = schema.at("/$ref").asText(null);
-        return nonNull($refValue) ? URI.create($refValue) : null;
+    public URI ref() {
+        String refValue = schema.at("/$ref").asText(null);
+        return nonNull(refValue) ? URI.create(refValue) : null;
     }
 
     public boolean hasTypes() {

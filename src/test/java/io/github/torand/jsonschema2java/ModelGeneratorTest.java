@@ -46,7 +46,7 @@ public class ModelGeneratorTest {
 
         for (String schema : SCHEMAS.keySet()) {
             String modelSubDir = SCHEMAS.get(schema);
-            Path schemaFile = Path.of(opts.searchRootDir, schema+".json");
+            Path schemaFile = Path.of(opts.searchRootDir(), schema+".json");
 
             modelGenerator.generate(List.of(schemaFile));
 
@@ -62,7 +62,7 @@ public class ModelGeneratorTest {
 
         for (String schema : SCHEMAS.keySet()) {
             String modelSubDir = SCHEMAS.get(schema);
-            Path schemaFile = Path.of(opts.searchRootDir, schema+".json");
+            Path schemaFile = Path.of(opts.searchRootDir(), schema+".json");
 
             modelGenerator.generate(List.of(schemaFile));
 

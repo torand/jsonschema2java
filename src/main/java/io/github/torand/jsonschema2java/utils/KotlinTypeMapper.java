@@ -15,7 +15,12 @@
  */
 package io.github.torand.jsonschema2java.utils;
 
-public class KotlinTypeMapper {
+/**
+ * Provides functions to map between Java and Kotlin native types-
+ */
+public final class KotlinTypeMapper {
+    private KotlinTypeMapper() {}
+
     public static String toKotlinNative(String typeName) {
         return switch (typeName) {
             case "Integer" -> "Int";

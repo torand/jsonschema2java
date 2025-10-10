@@ -16,13 +16,13 @@
 package io.github.torand.jsonschema2java.collectors;
 
 import io.github.torand.jsonschema2java.generators.Options;
+import io.github.torand.jsonschema2java.model.AnnotationInfo;
 import io.github.torand.jsonschema2java.model.EnumInfo;
 import io.github.torand.jsonschema2java.utils.JsonSchemaDef;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 import static io.github.torand.jsonschema2java.collectors.Extensions.EXT_MODEL_SUBDIR;
 import static io.github.torand.jsonschema2java.utils.StringUtils.joinCsv;
@@ -37,36 +37,36 @@ public class EnumInfoCollector extends BaseCollector {
     }
 
     public EnumInfo getEnumInfo(String name, JsonSchemaDef schema) {
-        EnumInfo enumInfo = new EnumInfo();
-        enumInfo.name = name;
-
         Optional<String> maybeModelSubdir = schema.extensions().getString(EXT_MODEL_SUBDIR);
-        enumInfo.modelSubdir = maybeModelSubdir.orElse(null);
-        enumInfo.modelSubpackage = maybeModelSubdir.map(this::dirPath2PackagePath).orElse(null);
 
-        if (opts.addOpenApiSchemaAnnotations) {
-            enumInfo.annotations.add(getSchemaAnnotation(name, schema, enumInfo.imports));
+        EnumInfo enumInfo = new EnumInfo(name, schema.enums().toList())
+            .withModelSubdir(maybeModelSubdir.orElse(null))
+            .withModelSubpackage(maybeModelSubdir.map(this::dirPath2PackagePath).orElse(null));
+
+        if (opts.addMpOpenApiAnnotations()) {
+            enumInfo = enumInfo.withAddedAnnotation(getSchemaAnnotation(name, schema));
         }
 
         if (schema.isDeprecated()) {
-            enumInfo.annotations.add("@Deprecated");
+            enumInfo = enumInfo.withAddedAnnotation(new AnnotationInfo("@Deprecated"));
         }
-
-        schema.enums().forEach(enumInfo.constants::add);
 
         return enumInfo;
     }
 
-    private String getSchemaAnnotation(String name, JsonSchemaDef pojo, Set<String> imports) {
+    private AnnotationInfo getSchemaAnnotation(String name, JsonSchemaDef pojo) {
         String description = pojo.description();
 
-        imports.add("org.eclipse.microprofile.openapi.annotations.media.Schema");
         List<String> schemaParams = new ArrayList<>();
         schemaParams.add("name = \"%s\"".formatted(modelName2SchemaName(name)));
         schemaParams.add("description = \"%s\"".formatted(normalizeDescription(description)));
         if (pojo.isDeprecated()) {
             schemaParams.add("deprecated = true");
         }
-        return "@Schema(%s)".formatted(joinCsv(schemaParams));
+
+        return new AnnotationInfo(
+            "@Schema(%s)".formatted(joinCsv(schemaParams)),
+            "org.eclipse.microprofile.openapi.annotations.media.Schema"
+        );
     }
 }
