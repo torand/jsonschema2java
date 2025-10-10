@@ -69,6 +69,10 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
+    <sonar.organization>torand</sonar.organization>
+    <sonar.projectKey>torand_jsonschema2java</sonar.projectKey>
+    <sonar.coverage.jacoco.xmlReportPaths>target/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
+
     <maven-compiler-plugin.version>3.14.1</maven-compiler-plugin.version>
     <maven-surefire-plugin.version>3.5.4</maven-surefire-plugin.version>
     <maven-plugin-plugin.version>3.15.1</maven-plugin-plugin.version>
@@ -84,6 +88,7 @@
     <json-schema-validator.version>1.5.9</json-schema-validator.version>
     <java-commons.version>1.3.0</java-commons.version>
     <slf4j-simple.version>2.0.17</slf4j-simple.version>
+    <sonar-maven-plugin.version>5.2.0.4988</sonar-maven-plugin.version>
     <junit.jupiter.version>5.13.4</junit.jupiter.version>
     <assertj.version>3.27.6</assertj.version>
     <jacoco-maven-plugin.version>0.8.13</jacoco-maven-plugin.version>
@@ -158,6 +163,11 @@
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-surefire-plugin</artifactId>
           <version>${maven-surefire-plugin.version}</version>
+        </plugin>
+        <plugin>
+          <groupId>org.sonarsource.scanner.maven</groupId>
+          <artifactId>sonar-maven-plugin</artifactId>
+          <version>${sonar-maven-plugin.version}</version>
         </plugin>
       </plugins>
     </pluginManagement>

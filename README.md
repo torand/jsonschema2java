@@ -5,6 +5,7 @@ JSONSchema2Java
 [![Maven Central](https://img.shields.io/maven-central/v/io.github.torand/jsonschema2java.svg?label=maven%20central)](https://central.sonatype.com/artifact/io.github.torand/jsonschema2java)
 [![Javadoc](https://img.shields.io/badge/javadoc-online-green)](https://torand.github.io/jsonschema2java/apidocs/)
 [![Coverage](https://coveralls.io/repos/github/torand/jsonschema2java/badge.svg?branch=main)](https://coveralls.io/github/torand/jsonschema2java?branch=main)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=torand_jsonschema2java&metric=alert_status)](https://sonarcloud.io/summary/overall?id=torand_jsonschema2java)
 [![Apache 2.0 License](https://img.shields.io/badge/license-Apache%202.0-orange)](LICENSE)
 
 A Maven plugin to generate Java source code (POJOs) from [JSON Schema](https://json-schema.org/) files.
@@ -47,7 +48,7 @@ The package is available from the [Maven Central Repository](https://central.son
     <plugin>
       <groupId>io.github.torand</groupId>
       <artifactId>jsonschema2java</artifactId>
-      <version>1.1.2</version>
+      <version>1.1.3</version>
       <executions>
         <execution>
           <id>generate</id>
@@ -72,7 +73,7 @@ The package is available from the [Maven Central Repository](https://central.son
 ### Run from the Command Line
 
 ```bash
-$ mvn io.github.torand:jsonschema2java:1.1.2:generate \
+$ mvn io.github.torand:jsonschema2java:1.1.3:generate \
   -DsearchRootDir=. \
   -DsearchFilePattern=*.json \
   -DschemaIdRootUri=https://my-domain.com/my-api/schemas \
@@ -91,7 +92,7 @@ $ mvn io.github.torand:jsonschema2java:1.1.2:generate \
 | rootPackage                         |                   | Root package path of output POJO classes and enums                                                                                  |
 | pojoNameSuffix                      | "Dto"             | Suffix for POJO class and enum names                                                                                                |
 | pojosAsRecords                      | true              | Whether to output Java records instead of Java classes                                                                              |
-| addOpenApiSchemaAnnotations         | false             | Whether to generate model files with OpenAPI schema annotations                                                                     |
+| addMpOpenApiAnnotations             | false             | Whether to generate model files with Microprofile OpenAPI schema annotations                                                        |
 | addJsonPropertyAnnotations          | true              | Whether to generate model files with JSON property annotations                                                                      |
 | addJakartaBeanValidationAnnotations | true              | Whether to generate model files with Jakarta Bean Validation annotations                                                            |
 | useKotlinSyntax                     | false             | Whether to generate model files with Kotlin syntax                                                                                  |
