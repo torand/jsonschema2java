@@ -41,11 +41,9 @@ public class TestHelper {
     private TestHelper() {}
 
     public static JsonSchema loadJsonSchema(String schemaResource) {
-        JsonSchema schema = JsonSchemaFactory
+        return JsonSchemaFactory
             .getInstance(SpecVersion.VersionFlag.V202012)
             .getSchema(TestHelper.class.getResourceAsStream(schemaResource));
-
-        return schema;
     }
 
     public static Options getJavaOptions() {

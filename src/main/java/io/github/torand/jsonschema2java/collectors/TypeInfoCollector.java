@@ -84,7 +84,7 @@ public class TypeInfoCollector extends BaseCollector {
                     typeInfo = getTypeInfo(refSchema, nullable ? FORCE_NULLABLE : FORCE_NOT_NULLABLE);
                 } else {
                     typeInfo = new TypeInfo()
-                        .withName(schemaResolver.getTypeName(ref) + opts.pojoNameSuffix())
+                        .withName(SchemaResolver.getTypeName(ref) + opts.pojoNameSuffix())
                         .withNullable(nullable);
 
                     String modelSubpackage = schemaResolver.getModelSubpackage(ref).orElse(null);
@@ -113,7 +113,7 @@ public class TypeInfoCollector extends BaseCollector {
         return getJsonType(schema, nullabilityResolution);
     }
 
-    public <T> Optional<JsonSchemaDef> getNonNullableSubSchema(List<JsonSchemaDef> subSchemas) {
+    public Optional<JsonSchemaDef> getNonNullableSubSchema(List<JsonSchemaDef> subSchemas) {
         return subSchemas.stream()
             .filter(not(this::isNullable))
             .findFirst();
