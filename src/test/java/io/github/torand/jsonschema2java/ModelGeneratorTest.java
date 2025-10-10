@@ -31,6 +31,7 @@ class ModelGeneratorTest {
         "AddressV1", "common",
         "UserTypeV1", "",
         "UserV1", "",
+        "InternalUserV1", "",
         "ProductCategoryV1", "",
         "ProductV1", "",
         "OrderStatusV1", "",

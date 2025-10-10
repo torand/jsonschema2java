@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://my-domain.com/my-api/schemas/internal-user-v1",
+  "$comment": "This is a schema comment",
+  "title": "Web shop internal user",
+  "description": "Internal user of the web shop",
+  "deprecated": false,
+  "allOf": [
+    {
+      "$ref": "https://my-domain.com/my-api/schemas/user-v1"
+    },
+    {
+      "type": "object",
+      "properties": {
+        "employeeNo": {
+          "type": "string",
+          "description": "The employee number"
+        }
+      },
+      "required": [
+        "employeeNo"
+      ]
+    }
+  ]
+}
