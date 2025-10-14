@@ -67,6 +67,14 @@ public class AnnotatedTypeName {
     }
 
     /**
+     * Gets the items of the annotated type name combined into a space delimited string.
+     * @return the complete annotated type name as a single string.
+     */
+    public String asString() {
+        return String.join(" ", annotatedTypeNameItems);
+    }
+
+    /**
      * Gets the annotation and type name items.
      * @return the annotation and type name items.
      */

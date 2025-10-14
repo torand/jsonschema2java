@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static io.github.torand.javacommons.collection.CollectionHelper.isEmpty;
 import static io.github.torand.javacommons.lang.Exceptions.illegalStateException;
 import static io.github.torand.javacommons.lang.StringHelper.nonBlank;
 import static io.github.torand.jsonschema2java.collectors.Extensions.*;
@@ -141,7 +142,7 @@ public class TypeInfoCollector extends BaseCollector {
             typeInfo = populateJsonBooleanType(typeInfo);
         } else if ("array".equals(jsonType)) {
             typeInfo = populateJsonArrayType(typeInfo, schema);
-        } else if ("object".equals(jsonType) && schema.additionalProperties() instanceof JsonSchemaDef) {
+        } else if ("object".equals(jsonType) && isEmpty(schema.properties()) && schema.additionalProperties() instanceof JsonSchemaDef) {
             typeInfo = populateJsonMapType(typeInfo, schema);
         } else {
             // Schema not expected to be defined "inline" using type 'object'

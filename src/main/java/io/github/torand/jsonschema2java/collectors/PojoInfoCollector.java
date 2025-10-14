@@ -59,6 +59,10 @@ public class PojoInfoCollector extends BaseCollector {
 
         pojoInfo = pojoInfo.withAddedProperties(getSchemaProperties(schema));
 
+        if (schema.additionalProperties() instanceof JsonSchemaDef) {
+            throw new IllegalStateException("Schema-based 'additionalProperties' not supported for Pojos. Please specify this inside a property schema instead.");
+        }
+
         return pojoInfo;
     }
 
