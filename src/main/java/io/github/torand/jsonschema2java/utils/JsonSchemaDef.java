@@ -16,7 +16,7 @@
 package io.github.torand.jsonschema2java.utils;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.networknt.schema.JsonSchema;
+import com.networknt.schema.Schema;
 import io.github.torand.jsonschema2java.collectors.Extensions;
 
 import java.math.BigDecimal;
@@ -38,7 +38,7 @@ public class JsonSchemaDef {
     private final String name;
     private final JsonNode schema;
 
-    public JsonSchemaDef(String name, JsonSchema schema) {
+    public JsonSchemaDef(String name, Schema schema) {
         this.name = name;
         this.schema = schema.getSchemaNode();
     }

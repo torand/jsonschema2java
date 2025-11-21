@@ -18,9 +18,9 @@ package io.github.torand.jsonschema2java;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.networknt.schema.JsonSchema;
-import com.networknt.schema.JsonSchemaFactory;
-import com.networknt.schema.SpecVersion;
+import com.networknt.schema.Schema;
+import com.networknt.schema.SchemaRegistry;
+import com.networknt.schema.dialect.Dialects;
 import io.github.torand.jsonschema2java.generators.Options;
 
 import java.io.IOException;
@@ -40,9 +40,8 @@ public class TestHelper {
 
     private TestHelper() {}
 
-    public static JsonSchema loadJsonSchema(String schemaResource) {
-        return JsonSchemaFactory
-            .getInstance(SpecVersion.VersionFlag.V202012)
+    public static Schema loadJsonSchema(String schemaResource) {
+        return SchemaRegistry.withDialect(Dialects.getDraft202012())
             .getSchema(TestHelper.class.getResourceAsStream(schemaResource));
     }
 

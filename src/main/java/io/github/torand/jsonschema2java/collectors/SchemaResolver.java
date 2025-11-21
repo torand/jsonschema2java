@@ -15,9 +15,16 @@
  */
 package io.github.torand.jsonschema2java.collectors;
 
-import com.networknt.schema.*;
-import com.networknt.schema.SpecVersion.VersionFlag;
-import com.networknt.schema.resource.SchemaMapper;
+import com.networknt.schema.Error;
+import com.networknt.schema.InputFormat;
+import com.networknt.schema.Schema;
+import com.networknt.schema.SchemaLocation;
+import com.networknt.schema.SchemaRegistry;
+import com.networknt.schema.SchemaRegistryConfig;
+import com.networknt.schema.dialect.Dialect;
+import com.networknt.schema.dialect.DialectId;
+import com.networknt.schema.dialect.Dialects;
+import com.networknt.schema.keyword.NonValidationKeyword;
 import io.github.torand.jsonschema2java.generators.Options;
 import io.github.torand.jsonschema2java.utils.JsonSchema2JavaException;
 import io.github.torand.jsonschema2java.utils.JsonSchemaDef;
@@ -26,12 +33,20 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
-import java.nio.file.*;
+import java.nio.file.FileSystem;
+import java.nio.file.FileSystems;
+import java.nio.file.FileVisitResult;
+import java.nio.file.FileVisitor;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.PathMatcher;
+import java.nio.file.Paths;
+import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
+import java.util.function.Function;
 
 import static io.github.torand.javacommons.lang.Exceptions.illegalStateException;
 import static io.github.torand.jsonschema2java.collectors.Extensions.EXT_MODEL_SUBDIR;
@@ -44,24 +59,25 @@ import static java.util.Objects.isNull;
 public class SchemaResolver {
     private final Options opts;
 
-    private JsonSchemaFactory schemaFactory;
+    private SchemaRegistry schemaFactory;
 
     public SchemaResolver(Options opts) {
         this.opts = opts;
     }
 
     public static List<String> validate(Path schemaFile) {
-        JsonSchemaFactory metaSchemaFactory = JsonSchemaFactory.getInstance(VersionFlag.V202012);
-        SchemaValidatorsConfig.Builder builder = SchemaValidatorsConfig.builder();
+        SchemaRegistryConfig config = SchemaRegistryConfig.builder()
+            // By default, the JDK regular expression implementation which is not ECMA 262 compliant, is used.
+            // Note that setting this requires including optional dependencies
+            // .regularExpressionFactory(GraalJSRegularExpressionFactory.getInstance());
+            // .regularExpressionFactory(JoniRegularExpressionFactory.getInstance());
+            .formatAssertionsEnabled(true)
+            .build();
 
-        // By default, the JDK regular expression implementation which is not ECMA 262 compliant, is used.
-        // Note that setting this requires including optional dependencies
-        // builder.regularExpressionFactory(GraalJSRegularExpressionFactory.getInstance());
-        // builder.regularExpressionFactory(JoniRegularExpressionFactory.getInstance());
-        SchemaValidatorsConfig config = builder.build();
+        SchemaRegistry metaSchemaFactory = SchemaRegistry.withDialect(Dialects.getDraft202012(),builder -> builder.schemaRegistryConfig(config));
 
         // Due to the mapping the meta-schema will be retrieved from the classpath at classpath:draft/2020-12/schema.
-        JsonSchema metaSchema = metaSchemaFactory.getSchema(SchemaLocation.of(SchemaId.V202012), config);
+        Schema metaSchema = metaSchemaFactory.getSchema(SchemaLocation.of(DialectId.DRAFT_2020_12));
         String schemaContent;
 
         try {
@@ -70,10 +86,7 @@ public class SchemaResolver {
             throw new JsonSchema2JavaException(e);
         }
 
-        Set<ValidationMessage> messages = metaSchema.validate(schemaContent, InputFormat.JSON, executionContext ->
-            // By default, since Draft 2019-09 the format keyword only generates annotations and not assertions
-            executionContext.getExecutionConfig().setFormatAssertionsEnabled(true)
-        );
+        List<Error> messages = metaSchema.validate(schemaContent, InputFormat.JSON);
 
         return messages.stream()
             .map(msg -> "%s %s".formatted(msg.getEvaluationPath().toString(), msg.getMessage()))
@@ -81,9 +94,9 @@ public class SchemaResolver {
     }
 
     public JsonSchemaDef load(Path schemaFile) {
-        JsonSchema schema;
+        Schema schema;
         try (InputStream schemaStream = new FileInputStream(schemaFile.toFile())) {
-            JsonSchemaFactory factory = getSchemaFactory();
+            SchemaRegistry factory = getSchemaFactory();
             schema = factory.getSchema(schemaStream);
         } catch (IOException e) {
             throw new JsonSchema2JavaException("Failed to open schema file %s".formatted(schemaFile), e);
@@ -95,7 +108,7 @@ public class SchemaResolver {
     }
 
     public Optional<JsonSchemaDef> get(URI ref) {
-        JsonSchema schema = getSchemaFactory().getSchema(ref);
+        Schema schema = getSchemaFactory().getSchema(SchemaLocation.of(ref.toString()));
 
         if (isNull(schema)) {
             return Optional.empty();
@@ -206,27 +219,23 @@ public class SchemaResolver {
         return toPascalCase(filenameWithExt.substring(0, dotIdx));
     }
 
-    private JsonSchemaFactory getSchemaFactory() {
+    private SchemaRegistry getSchemaFactory() {
         if (schemaFactory == null) {
-            JsonMetaSchema.Builder metaSchemaBuilder = JsonMetaSchema.builder(JsonMetaSchema.getV202012());
+            Dialect.Builder metaSchemaBuilder = Dialect.builder(Dialects.getDraft202012());
             Extensions.KEYWORDS.forEach(extKeyword ->
                 metaSchemaBuilder.keyword(new NonValidationKeyword(extKeyword))
             );
 
-            schemaFactory = JsonSchemaFactory.getInstance(VersionFlag.V202012,
-                builder -> builder
-                    .metaSchema(metaSchemaBuilder.build())
-                    .schemaMappers(schemaMappers -> schemaMappers.add(createSchemaMapper()))
+            schemaFactory = SchemaRegistry.withDialect(Dialects.getDraft202012(),
+                builder -> builder.schemas(createSchemaDataProvider())
             );
         }
 
         return schemaFactory;
     }
 
-    private SchemaMapper createSchemaMapper() {
-        return absoluteIRI -> {
-            String iri = absoluteIRI.toString();
-
+    private Function<String, String> createSchemaDataProvider() {
+        return iri -> {
             String schemaIdRootUri = opts.schemaIdRootUri().toString();
             if (schemaIdRootUri.endsWith("/")) {
                 schemaIdRootUri = schemaIdRootUri.substring(0, schemaIdRootUri.length() - 1);
@@ -239,7 +248,14 @@ public class SchemaResolver {
                 String path = (typeNameIdx == -1) ? "" : subIri.substring(0, typeNameIdx);
 
                 String typeName = getTypeName(URI.create(iri));
-                return AbsoluteIri.of("file:" + Path.of(opts.searchRootDir(), path, "%s.json".formatted(typeName)));
+
+                Path schemaFilePath = Paths.get(opts.searchRootDir(), path, "%s.json".formatted(typeName));
+
+                try {
+                    return Files.readString(schemaFilePath);
+                } catch (IOException e) {
+                    throw new JsonSchema2JavaException("Failed to read schema file: %s".formatted(schemaFilePath), e);
+                }
             } else {
                 throw new JsonSchema2JavaException("Unexpected root URI in $id: %s".formatted(iri));
             }
