@@ -15,9 +15,9 @@
  */
 package io.github.torand.jsonschema2java.collectors;
 
-import com.fasterxml.jackson.databind.node.BooleanNode;
-import com.fasterxml.jackson.databind.node.TextNode;
 import io.github.torand.jsonschema2java.utils.JsonSchema2JavaException;
+import tools.jackson.databind.node.BooleanNode;
+import tools.jackson.databind.node.StringNode;
 
 import java.util.Map;
 import java.util.Optional;
@@ -90,11 +90,11 @@ public class Extensions {
         if (isNull(value)) {
             return Optional.empty();
         }
-        if (!(value instanceof TextNode)) {
+        if (!(value instanceof StringNode)) {
             throw new JsonSchema2JavaException("Value of extension %s is not a String".formatted(name));
         }
-        if (nonBlank(((TextNode)value).asText())) {
-            return Optional.of(((TextNode)value).asText());
+        if (nonBlank(((StringNode)value).asText())) {
+            return Optional.of(((StringNode)value).asText());
         }
 
         return Optional.empty();

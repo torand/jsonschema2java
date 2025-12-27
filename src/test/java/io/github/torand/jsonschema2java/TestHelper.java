@@ -15,13 +15,13 @@
  */
 package io.github.torand.jsonschema2java;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.networknt.schema.Schema;
 import com.networknt.schema.SchemaRegistry;
 import com.networknt.schema.dialect.Dialects;
 import io.github.torand.jsonschema2java.generators.Options;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
 import java.net.URI;
@@ -97,7 +97,7 @@ public class TestHelper {
         ObjectMapper mapper = new ObjectMapper();
         try {
             return mapper.reader().readTree(json);
-        } catch (JsonProcessingException e) {
+        } catch (JacksonException e) {
             throw new RuntimeException("Failed to parse JSON", e);
         }
     }

@@ -15,9 +15,9 @@
  */
 package io.github.torand.jsonschema2java.utils;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.networknt.schema.Schema;
 import io.github.torand.jsonschema2java.collectors.Extensions;
+import tools.jackson.databind.JsonNode;
 
 import java.math.BigDecimal;
 import java.net.URI;
@@ -85,7 +85,7 @@ public class JsonSchemaDef {
         if (isNull(arrayNode) || arrayNode.isNull() || arrayNode.isEmpty()) {
             return Stream.empty();
         }
-        return streamSafely(arrayNode.elements()).map(e -> new JsonSchemaDef("$", e));
+        return streamSafely(arrayNode.values()).map(e -> new JsonSchemaDef("$", e));
     }
 
     public Stream<JsonSchemaDef> oneOf() {
@@ -93,7 +93,7 @@ public class JsonSchemaDef {
         if (isNull(arrayNode) || arrayNode.isNull() || arrayNode.isEmpty()) {
             return Stream.empty();
         }
-        return streamSafely(arrayNode.elements()).map(e -> new JsonSchemaDef("$", e));
+        return streamSafely(arrayNode.values()).map(e -> new JsonSchemaDef("$", e));
     }
 
     public URI ref() {
@@ -127,7 +127,7 @@ public class JsonSchemaDef {
 
     public Map<String, JsonSchemaDef> properties() {
         Map<String, JsonSchemaDef> props = new LinkedHashMap<>();
-        streamSafely(schema.at("/properties").fields())
+        streamSafely(schema.at("/properties").properties())
             .forEach(e -> props.put(e.getKey(), new JsonSchemaDef("$", e.getValue())));
         return props;
     }
@@ -193,7 +193,7 @@ public class JsonSchemaDef {
     }
 
     public Extensions extensions() {
-        Map<String, Object> extensionProps = streamSafely(schema.fields())
+        Map<String, Object> extensionProps = streamSafely(schema.properties())
             .filter(entry -> entry.getKey().startsWith("x-"))
             .collect(toMap(Map.Entry::getKey, Map.Entry::getValue));
 
@@ -205,7 +205,7 @@ public class JsonSchemaDef {
     }
 
     private boolean isTrue(String jsonPtrExpr) {
-        return TRUE.equals(schema.at(jsonPtrExpr).asBoolean());
+        return schema.at(jsonPtrExpr).isBoolean() && TRUE.equals(schema.at(jsonPtrExpr).asBoolean());
     }
 
     private Stream<String> arrayOf(String jsonPtrExpr) {
@@ -214,7 +214,7 @@ public class JsonSchemaDef {
             return Stream.empty();
         }
         if (arrayNode.isArray()) {
-            return streamSafely(arrayNode.elements()).map(JsonNode::asText);
+            return streamSafely(arrayNode.values()).map(JsonNode::asText);
         } else {
             return Stream.of(arrayNode.asText());
         }

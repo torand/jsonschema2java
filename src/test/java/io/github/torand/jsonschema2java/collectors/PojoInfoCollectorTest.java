@@ -15,13 +15,13 @@
  */
 package io.github.torand.jsonschema2java.collectors;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import io.github.torand.jsonschema2java.TestHelper;
 import io.github.torand.jsonschema2java.generators.Options;
 import io.github.torand.jsonschema2java.model.PojoInfo;
 import io.github.torand.jsonschema2java.utils.JsonSchemaDef;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import tools.jackson.databind.JsonNode;
 
 import static io.github.torand.jsonschema2java.TestHelper.parseJson;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
