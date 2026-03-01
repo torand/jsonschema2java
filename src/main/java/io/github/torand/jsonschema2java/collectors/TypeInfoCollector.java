@@ -28,7 +28,9 @@ import java.util.Optional;
 import static io.github.torand.javacommons.collection.CollectionHelper.isEmpty;
 import static io.github.torand.javacommons.lang.Exceptions.illegalStateException;
 import static io.github.torand.javacommons.lang.StringHelper.nonBlank;
-import static io.github.torand.jsonschema2java.collectors.Extensions.*;
+import static io.github.torand.jsonschema2java.collectors.Extensions.EXT_JSON_SERIALIZER;
+import static io.github.torand.jsonschema2java.collectors.Extensions.EXT_NULLABLE;
+import static io.github.torand.jsonschema2java.collectors.Extensions.EXT_VALIDATION_CONSTRAINT;
 import static io.github.torand.jsonschema2java.collectors.TypeInfoCollector.NullabilityResolution.FORCE_NOT_NULLABLE;
 import static io.github.torand.jsonschema2java.collectors.TypeInfoCollector.NullabilityResolution.FORCE_NULLABLE;
 import static io.github.torand.jsonschema2java.utils.StringUtils.getClassNameFromFqn;
@@ -81,7 +83,7 @@ public class TypeInfoCollector extends BaseCollector {
             if (nonNull(ref)) {
                 TypeInfo typeInfo;
 
-                if (schemaResolver.isPrimitiveType(ref)) {
+                if (schemaResolver.isPrimitiveType(ref)  || schemaResolver.isArrayType(ref)) {
                     JsonSchemaDef refSchema = schemaResolver.getOrThrow(ref);
                     typeInfo = getTypeInfo(refSchema, nullable ? FORCE_NULLABLE : FORCE_NOT_NULLABLE);
                 } else {
