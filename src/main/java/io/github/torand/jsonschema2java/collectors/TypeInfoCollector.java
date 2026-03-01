@@ -35,7 +35,7 @@ import static io.github.torand.jsonschema2java.collectors.Extensions.EXT_NULLABL
 import static io.github.torand.jsonschema2java.collectors.Extensions.EXT_VALIDATION_CONSTRAINT;
 import static io.github.torand.jsonschema2java.collectors.TypeInfoCollector.NullabilityResolution.FORCE_NOT_NULLABLE;
 import static io.github.torand.jsonschema2java.collectors.TypeInfoCollector.NullabilityResolution.FORCE_NULLABLE;
-import static io.github.torand.jsonschema2java.utils.StringUtils.getClassNameFromFqn;
+import static io.github.torand.jsonschema2java.utils.PackageUtils.getClassNameFromFqn;
 import static io.github.torand.jsonschema2java.utils.StringUtils.joinCsv;
 import static java.lang.Boolean.TRUE;
 import static java.util.Objects.nonNull;

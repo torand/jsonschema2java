@@ -27,11 +27,13 @@ import java.io.Writer;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.Predicate;
 
 import static io.github.torand.javacommons.collection.CollectionHelper.isEmpty;
 import static io.github.torand.javacommons.collection.CollectionHelper.nonEmpty;
 import static io.github.torand.javacommons.stream.StreamHelper.streamSafely;
 import static io.github.torand.jsonschema2java.utils.KotlinTypeMapper.toKotlinNative;
+import static io.github.torand.jsonschema2java.utils.PackageUtils.isFqnInPackage;
 import static java.util.function.Predicate.not;
 
 /**
@@ -82,8 +84,10 @@ public class KotlinPojoWriter extends BaseWriter implements PojoWriter {
     }
 
     private void writeImports(PojoInfo pojoInfo) {
+        Predicate<String> isInSamePackage = fqn -> isFqnInPackage(fqn, opts.getModelPackage(pojoInfo.modelSubpackage()));
+
         List<String> imports = pojoInfo.aggregatedNormalImports().stream()
-            .filter(ni -> !isInPackage(ni, pojoInfo.modelSubpackage()))
+            .filter(not(isInSamePackage))
             .filter(not("java.util.List"::equals))
             .filter(not("java.util.Map"::equals))
             .map("import %s"::formatted)
@@ -134,14 +138,6 @@ public class KotlinPojoWriter extends BaseWriter implements PojoWriter {
         }
 
         return "@field:"+annotation.substring(1);
-    }
-
-    private boolean isInPackage(String qualifiedType, String pojoModelSubpackage) {
-        // Remove class name from qualifiedType value
-        int lastDotIdx = qualifiedType.lastIndexOf(".");
-        String typePackage = qualifiedType.substring(0, lastDotIdx);
-
-        return opts.getModelPackage(pojoModelSubpackage).equals(typePackage);
     }
 
     private static String escapeReservedKeywords(String name) {

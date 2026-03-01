@@ -19,14 +19,17 @@ import io.github.torand.jsonschema2java.generators.Options;
 import io.github.torand.jsonschema2java.model.AnnotatedTypeName;
 import io.github.torand.jsonschema2java.model.PojoInfo;
 import io.github.torand.jsonschema2java.model.PropertyInfo;
+import io.github.torand.jsonschema2java.utils.PackageUtils;
 import io.github.torand.jsonschema2java.writers.BaseWriter;
 import io.github.torand.jsonschema2java.writers.PojoWriter;
 
 import java.io.Writer;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.Predicate;
 
 import static io.github.torand.javacommons.collection.CollectionHelper.nonEmpty;
+import static io.github.torand.jsonschema2java.utils.PackageUtils.isFqnInPackage;
 import static java.util.function.Predicate.not;
 import static java.util.stream.Collectors.joining;
 
@@ -94,7 +97,7 @@ public class JavaPojoWriter extends BaseWriter implements PojoWriter {
 
     private void writeJavaImports(PojoInfo pojoInfo) {
         List<String> imports = pojoInfo.aggregatedNormalImports().stream()
-            .filter(this::isJavaPackage)
+            .filter(PackageUtils::isJavaPackage)
             .map("import %s;"::formatted)
             .toList();
 
@@ -105,9 +108,11 @@ public class JavaPojoWriter extends BaseWriter implements PojoWriter {
     }
 
     private void writeNonJavaImports(PojoInfo pojoInfo) {
+        Predicate<String> isInSamePackage = fqn -> isFqnInPackage(fqn, opts.getModelPackage(pojoInfo.modelSubpackage()));
+
         List<String> imports = pojoInfo.aggregatedNormalImports().stream()
-            .filter(not(this::isJavaPackage))
-            .filter(ni -> !isInPackage(ni, pojoInfo.modelSubpackage()))
+            .filter(not(PackageUtils::isJavaPackage))
+            .filter(not(isInSamePackage))
             .map("import %s;"::formatted)
             .toList();
 
@@ -162,17 +167,5 @@ public class JavaPojoWriter extends BaseWriter implements PojoWriter {
         } else {
             write("public %s %s".formatted(annotatedTypeName.typeName(), propInfo.name()));
         }
-    }
-
-    private boolean isInPackage(String qualifiedType, String pojoModelSubpackage) {
-        // Remove class name from qualifiedType value
-        int lastDotIdx = qualifiedType.lastIndexOf(".");
-        String typePackage = qualifiedType.substring(0, lastDotIdx);
-
-        return opts.getModelPackage(pojoModelSubpackage).equals(typePackage);
-    }
-
-    private boolean isJavaPackage(String qualifiedType) {
-        return qualifiedType.startsWith("java.");
     }
 }

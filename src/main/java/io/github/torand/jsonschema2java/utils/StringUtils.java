@@ -81,17 +81,4 @@ public class StringUtils {
 
         return String.join(", ", values);
     }
-
-    /**
-     * Returns the class base name from specified fully qualified class name.
-     * @param fqn the fully qualified class name.
-     * @return the class base name.
-     */
-    public static String getClassNameFromFqn(String fqn) {
-        int lastDot = fqn.lastIndexOf(".");
-        if (lastDot == -1) {
-            throw new IllegalArgumentException("Unexpected fully qualified class name: %s".formatted(fqn));
-        }
-        return fqn.substring(lastDot+1);
-    }
 }
