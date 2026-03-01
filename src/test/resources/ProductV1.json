@@ -30,6 +30,9 @@
       "description": "Product comment",
       "deprecated": true,
       "x-deprecation-message": "To be removed in next version"
+    },
+    "empty": {
+      "$ref": "https://my-domain.com/my-api/schemas/empty-object-v1"
     }
   },
   "required": ["number", "name", "category", "price"]

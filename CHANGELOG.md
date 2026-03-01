@@ -21,7 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - ...
 
 ### Fixed
-- ...
+- Generate valid Java and Kotlin code for POJOs with no properties
 
 ## [1.1.3] - 2025-10-10
 

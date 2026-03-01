@@ -28,6 +28,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import static io.github.torand.javacommons.collection.CollectionHelper.isEmpty;
 import static io.github.torand.javacommons.collection.CollectionHelper.nonEmpty;
 import static io.github.torand.javacommons.stream.StreamHelper.streamSafely;
 import static io.github.torand.jsonschema2java.utils.KotlinTypeMapper.toKotlinNative;
@@ -57,19 +58,25 @@ public class KotlinPojoWriter extends BaseWriter implements PojoWriter {
         writeLine("@JvmRecord");
 
         writeLine("data class %s (".formatted(pojoInfo.name()));
-
-        AtomicInteger propNo = new AtomicInteger(1);
-        pojoInfo.properties().forEach(propInfo -> {
+        if (isEmpty(pojoInfo.properties())) {
+            // Empty data classes not allowed in Kotlin
             writeNewLine();
-            writePropertyAnnotationLines(propInfo);
-            writePropertyTypeAndName(propInfo);
-
-            if (propNo.getAndIncrement() < pojoInfo.properties().size()) {
-                writeLine(",");
-            } else {
+            writeIndent(1);
+            writeLine("val placeholder: String = \"\"");
+        } else {
+            AtomicInteger propNo = new AtomicInteger(1);
+            pojoInfo.properties().forEach(propInfo -> {
                 writeNewLine();
-            }
-        });
+                writePropertyAnnotationLines(propInfo);
+                writePropertyTypeAndName(propInfo);
+
+                if (propNo.getAndIncrement() < pojoInfo.properties().size()) {
+                    writeLine(",");
+                } else {
+                    writeNewLine();
+                }
+            });
+        }
 
         writeLine(")");
     }

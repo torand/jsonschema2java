@@ -1,0 +1,7 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://my-domain.com/my-api/schemas/empty-object-v1",
+  "type": "object",
+  "properties": { },
+  "x-model-subdir": "common"
+}

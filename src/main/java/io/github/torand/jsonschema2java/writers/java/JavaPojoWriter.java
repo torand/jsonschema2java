@@ -84,8 +84,10 @@ public class JavaPojoWriter extends BaseWriter implements PojoWriter {
         } else {
             writeNewLine();
             writeNoArgConstructor(pojoInfo.name());
-            writeNewLine();
-            writeParameterizedConstructor(pojoInfo.name(), pojoInfo.properties());
+            if (nonEmpty(pojoInfo.properties())) {
+                writeNewLine();
+                writeParameterizedConstructor(pojoInfo.name(), pojoInfo.properties());
+            }
             writeLine("}");
         }
     }

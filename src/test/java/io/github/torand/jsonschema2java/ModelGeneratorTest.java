@@ -24,11 +24,17 @@ import java.util.List;
 import java.util.Map;
 
 import static io.github.torand.javacommons.lang.StringHelper.isBlank;
+import static io.github.torand.jsonschema2java.TestHelper.assertMatchingJavaFiles;
+import static io.github.torand.jsonschema2java.TestHelper.assertMatchingKotlinFiles;
+import static io.github.torand.jsonschema2java.TestHelper.assertSnippet;
+import static io.github.torand.jsonschema2java.TestHelper.getJavaOptions;
+import static io.github.torand.jsonschema2java.TestHelper.getKotlinOptions;
 
 class ModelGeneratorTest {
 
     private static final Map<String, String> SCHEMAS = Map.of(
         "AddressV1", "common",
+        "EmptyObjectV1", "common",
         "UserTypeV1", "",
         "UserV1", "",
         "InternalUserV1", "",
@@ -41,7 +47,7 @@ class ModelGeneratorTest {
 
     @Test
     void shouldGenerateJavaPojos() {
-        Options opts = TestHelper.getJavaOptions();
+        Options opts = getJavaOptions();
 
         ModelGenerator modelGenerator = new ModelGenerator(opts);
 
@@ -51,13 +57,13 @@ class ModelGeneratorTest {
 
             modelGenerator.generate(List.of(schemaFile));
 
-            TestHelper.assertMatchingJavaFiles("%s%sDto.java".formatted(isBlank(modelSubDir) ? "" : modelSubDir+"/", schema));
+            assertMatchingJavaFiles("%s%sDto.java".formatted(isBlank(modelSubDir) ? "" : modelSubDir+"/", schema));
         }
     }
 
     @Test
     void shouldGenerateKotlinPojos() {
-        Options opts = TestHelper.getKotlinOptions();
+        Options opts = getKotlinOptions();
 
         ModelGenerator modelGenerator = new ModelGenerator(opts);
 
@@ -67,7 +73,23 @@ class ModelGeneratorTest {
 
             modelGenerator.generate(List.of(schemaFile));
 
-            TestHelper.assertMatchingKotlinFiles("%s%sDto.kt".formatted(isBlank(modelSubDir) ? "" : modelSubDir+"/", schema));
+            assertMatchingKotlinFiles("%s%sDto.kt".formatted(isBlank(modelSubDir) ? "" : modelSubDir+"/", schema));
         }
+    }
+
+    @Test
+    public void shouldSupportEmptyPojosAsJavaClasses() {
+        Options javaOpts = getJavaOptions().withPojosAsRecords(false);
+        Path schemaFile = Path.of(javaOpts.searchRootDir(), "EmptyObjectV1.json");
+        new ModelGenerator(javaOpts).generate(List.of(schemaFile));
+
+        assertSnippet("java/model/common/EmptyObjectV1Dto.java", """
+            @Schema(name = "EmptyObjectV1", description = "TBD")
+            public class EmptyObjectV1Dto {
+            
+                public EmptyObjectV1Dto() {
+                }
+            }
+            """);
     }
 }

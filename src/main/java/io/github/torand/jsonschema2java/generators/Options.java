@@ -72,14 +72,14 @@ public record Options (
         );
     }
 
-    private Options with(String searchRootDir, String outputDir, URI schemaIdRootUri, String rootPackage, boolean addMpOpenApiAnnotations, boolean addJsonPropertyAnnotations, boolean useKotlinSyntax, boolean verbose) {
+    private Options with(String searchRootDir, String outputDir, URI schemaIdRootUri, String rootPackage, boolean pojosAsRecords, boolean addMpOpenApiAnnotations, boolean addJsonPropertyAnnotations, boolean useKotlinSyntax, boolean verbose) {
         return new Options(
             searchRootDir,
             outputDir,
             schemaIdRootUri,
             rootPackage,
             this.pojoNameSuffix,
-            this.pojosAsRecords,
+            pojosAsRecords,
             addMpOpenApiAnnotations,
             addJsonPropertyAnnotations,
             this.addJakartaBeanValidationAnnotations,
@@ -96,7 +96,7 @@ public record Options (
      * @return the new and updated {@link Options} object.
      */
     public Options withSearchRootDir(String searchRootDir) {
-        return with(searchRootDir, this.outputDir, this.schemaIdRootUri, this.rootPackage, this.addMpOpenApiAnnotations, this.addJsonPropertyAnnotations, this.useKotlinSyntax, this.verbose);
+        return with(searchRootDir, this.outputDir, this.schemaIdRootUri, this.rootPackage, this.pojosAsRecords, this.addMpOpenApiAnnotations, this.addJsonPropertyAnnotations, this.useKotlinSyntax, this.verbose);
     }
 
     /**
@@ -105,7 +105,7 @@ public record Options (
      * @return the new and updated {@link Options} object.
      */
     public Options withOutputDir(String outputDir) {
-        return with(this.searchRootDir, outputDir, this.schemaIdRootUri, this.rootPackage, this.addMpOpenApiAnnotations, this.addJsonPropertyAnnotations, this.useKotlinSyntax, this.verbose);
+        return with(this.searchRootDir, outputDir, this.schemaIdRootUri, this.rootPackage, this.pojosAsRecords, this.addMpOpenApiAnnotations, this.addJsonPropertyAnnotations, this.useKotlinSyntax, this.verbose);
     }
 
     /**
@@ -114,7 +114,7 @@ public record Options (
      * @return the new and updated {@link Options} object.
      */
     public Options withSchemaIdRootUri(URI schemaIdRootUri) {
-        return with(this.searchRootDir, this.outputDir, schemaIdRootUri, this.rootPackage, this.addMpOpenApiAnnotations, this.addJsonPropertyAnnotations, this.useKotlinSyntax, this.verbose);
+        return with(this.searchRootDir, this.outputDir, schemaIdRootUri, this.rootPackage, this.pojosAsRecords, this.addMpOpenApiAnnotations, this.addJsonPropertyAnnotations, this.useKotlinSyntax, this.verbose);
     }
 
     /**
@@ -123,7 +123,16 @@ public record Options (
      * @return the new and updated {@link Options} object.
      */
     public Options withRootPackage(String rootPackage) {
-        return with(this.searchRootDir, this.outputDir, this.schemaIdRootUri, rootPackage, this.addMpOpenApiAnnotations, this.addJsonPropertyAnnotations, this.useKotlinSyntax, this.verbose);
+        return with(this.searchRootDir, this.outputDir, this.schemaIdRootUri, rootPackage, this.pojosAsRecords, this.addMpOpenApiAnnotations, this.addJsonPropertyAnnotations, this.useKotlinSyntax, this.verbose);
+    }
+
+    /**
+     * Returns a new {@link Options} object with specified POJOs as records flag.
+     * @param pojosAsRecords the POJOs as records.
+     * @return the new and updated {@link Options} object.
+     */
+    public Options withPojosAsRecords(boolean pojosAsRecords) {
+        return with(this.searchRootDir, this.outputDir, this.schemaIdRootUri, this.rootPackage, pojosAsRecords, this.addMpOpenApiAnnotations, this.addJsonPropertyAnnotations, this.useKotlinSyntax, this.verbose);
     }
 
     /**
@@ -132,7 +141,7 @@ public record Options (
      * @return the new and updated {@link Options} object.
      */
     public Options withAddMpOpenApiAnnotations(boolean addMpOpenApiAnnotations) {
-        return with(this.searchRootDir, this.outputDir, this.schemaIdRootUri, this.rootPackage, addMpOpenApiAnnotations, this.addJsonPropertyAnnotations, this.useKotlinSyntax, this.verbose);
+        return with(this.searchRootDir, this.outputDir, this.schemaIdRootUri, this.rootPackage, this.pojosAsRecords, addMpOpenApiAnnotations, this.addJsonPropertyAnnotations, this.useKotlinSyntax, this.verbose);
     }
 
     /**
@@ -141,7 +150,7 @@ public record Options (
      * @return the new and updated {@link Options} object.
      */
     public Options withAddJsonPropertyAnnotations(boolean addJsonPropertyAnnotations) {
-        return with(this.searchRootDir, this.outputDir, this.schemaIdRootUri, this.rootPackage, this.addMpOpenApiAnnotations, addJsonPropertyAnnotations, this.useKotlinSyntax, this.verbose);
+        return with(this.searchRootDir, this.outputDir, this.schemaIdRootUri, this.rootPackage, this.pojosAsRecords, this.addMpOpenApiAnnotations, addJsonPropertyAnnotations, this.useKotlinSyntax, this.verbose);
     }
 
     /**
@@ -150,7 +159,7 @@ public record Options (
      * @return the new and updated {@link Options} object.
      */
     public Options withUseKotlinSyntax(boolean useKotlinSyntax) {
-        return with(this.searchRootDir, this.outputDir, this.schemaIdRootUri, this.rootPackage, this.addMpOpenApiAnnotations, this.addJsonPropertyAnnotations, useKotlinSyntax, this.verbose);
+        return with(this.searchRootDir, this.outputDir, this.schemaIdRootUri, this.rootPackage, this.pojosAsRecords, this.addMpOpenApiAnnotations, this.addJsonPropertyAnnotations, useKotlinSyntax, this.verbose);
     }
 
     /**
@@ -159,7 +168,7 @@ public record Options (
      * @return the new and updated {@link Options} object.
      */
     public Options withVerbose(boolean verbose) {
-        return with(this.searchRootDir, this.outputDir, this.schemaIdRootUri, this.rootPackage, this.addMpOpenApiAnnotations, this.addJsonPropertyAnnotations, this.useKotlinSyntax, verbose);
+        return with(this.searchRootDir, this.outputDir, this.schemaIdRootUri, this.rootPackage, this.pojosAsRecords, this.addMpOpenApiAnnotations, this.addJsonPropertyAnnotations, this.useKotlinSyntax, verbose);
     }
 
     /**

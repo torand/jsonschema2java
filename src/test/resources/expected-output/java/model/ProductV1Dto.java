@@ -1,7 +1,9 @@
 package io.github.torand.test.model;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import io.github.torand.test.model.common.EmptyObjectV1Dto;
 import io.github.torand.test.serialization.ProductNoSerializer;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -31,7 +33,11 @@ public record ProductV1Dto (
     /// @deprecated To be removed in next version
     @Deprecated
     @Schema(description = "Product comment", deprecated = true)
-    String comment
+    String comment,
+
+    @Schema(description = "TBD")
+    @Valid
+    EmptyObjectV1Dto empty
 ) {
 
 }
