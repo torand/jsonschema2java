@@ -83,6 +83,18 @@ public class JsonSchema2JavaMojo extends AbstractMojo {
     private boolean pojosAsRecords;
 
     /**
+     * Fully qualified name of the class to represent schemas of type "string" and format "date" in generated code.
+     */
+    @Parameter( property = "dateClassName", defaultValue = "java.time.LocalDate" )
+    private String dateClassName;
+
+    /**
+     * Fully qualified name of the class to represent schemas of type "string" and format "date-time" in generated code.
+     */
+    @Parameter( property = "dateTimeClassName", defaultValue = "java.time.LocalDateTime" )
+    private String dateTimeClassName;
+
+    /**
      * Generate Microprofile OpenAPI annotations.
      */
     @Parameter( property = "addMpOpenApiAnnotations", defaultValue = "false" )
@@ -132,6 +144,8 @@ public class JsonSchema2JavaMojo extends AbstractMojo {
             rootPackage,
             pojoNameSuffix,
             pojosAsRecords,
+            dateClassName,
+            dateTimeClassName,
             addMpOpenApiAnnotations,
             addJsonPropertyAnnotations,
             addJakartaBeanValidationAnnotations,

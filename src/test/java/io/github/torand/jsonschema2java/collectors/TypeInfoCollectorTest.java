@@ -15,7 +15,6 @@
  */
 package io.github.torand.jsonschema2java.collectors;
 
-import io.github.torand.jsonschema2java.TestHelper;
 import io.github.torand.jsonschema2java.generators.Options;
 import io.github.torand.jsonschema2java.model.TypeInfo;
 import io.github.torand.jsonschema2java.utils.JsonSchemaDef;
@@ -25,6 +24,7 @@ import org.junit.jupiter.api.Test;
 import java.util.Collection;
 import java.util.List;
 
+import static io.github.torand.jsonschema2java.TestHelper.getJavaOptions;
 import static io.github.torand.jsonschema2java.TestHelper.parseJson;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -34,9 +34,7 @@ class TypeInfoCollectorTest {
 
     @BeforeEach
     void setUp() {
-        Options opts = TestHelper.getJavaOptions();
-        SchemaResolver schemaResolver = new SchemaResolver(opts);
-        collector = new TypeInfoCollector(opts, schemaResolver);
+        createTypeInfoCollector(getJavaOptions());
     }
 
     @Test
@@ -164,6 +162,15 @@ class TypeInfoCollectorTest {
     }
 
     @Test
+    void shouldMapDateTimeStringPropertiesWithCustomClass() {
+        createTypeInfoCollector(getJavaOptions().withDateTimeClassName("java.time.OffsetDateTime"));
+
+        assertNonNullableStringType("""
+                {"type": "string", "format": "date-time"}
+            """, "OffsetDateTime", "date-time", null, "@NotNull");
+    }
+
+    @Test
     void shouldMapArrayProperties() {
         assertNullableArrayType("""
                 {"type": ["array", "null"], "items": {"type": "string"}}
@@ -264,5 +271,10 @@ class TypeInfoCollectorTest {
     private TypeInfo getTypeInfo(String jsonSchema) {
         JsonSchemaDef schema = new JsonSchemaDef("NA", parseJson(jsonSchema));
         return collector.getTypeInfo(schema);
+    }
+
+    private void createTypeInfoCollector(Options opts) {
+        SchemaResolver schemaResolver = new SchemaResolver(opts);
+        collector = new TypeInfoCollector(opts, schemaResolver);
     }
 }

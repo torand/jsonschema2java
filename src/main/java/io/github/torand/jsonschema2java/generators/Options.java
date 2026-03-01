@@ -27,6 +27,8 @@ import static io.github.torand.javacommons.lang.StringHelper.isBlank;
  * @param rootPackage the root package of classes and enums.
  * @param pojoNameSuffix the Pojo name suffix.
  * @param pojosAsRecords the flag to use Java records for Pojos.
+ * @param dateClassName the fully qualified name of the class to represent schemas of type "string" and format "date" in generated code.
+ * @param dateTimeClassName the fully qualified name of the class to represent schemas of type "string" and format "date-time" in generated code.
  * @param addMpOpenApiAnnotations the flag to generate Microprofile OpenAPI annotations.
  * @param addJsonPropertyAnnotations the flag to generate Jackson JSON property annotations.
  * @param addJakartaBeanValidationAnnotations the flag to generate Jakarta Bean Validation annotations.
@@ -42,6 +44,8 @@ public record Options (
     String rootPackage,
     String pojoNameSuffix,
     boolean pojosAsRecords,
+    String dateClassName,
+    String dateTimeClassName,
     boolean addMpOpenApiAnnotations,
     boolean addJsonPropertyAnnotations,
     boolean addJakartaBeanValidationAnnotations,
@@ -62,6 +66,8 @@ public record Options (
             null,
             "Dto",
             true,
+            "java.time.LocalDate",
+            "java.time.LocalDateTime",
             false,
             true,
             true,
@@ -72,7 +78,7 @@ public record Options (
         );
     }
 
-    private Options with(String searchRootDir, String outputDir, URI schemaIdRootUri, String rootPackage, boolean pojosAsRecords, boolean addMpOpenApiAnnotations, boolean addJsonPropertyAnnotations, boolean useKotlinSyntax, boolean verbose) {
+    private Options with(String searchRootDir, String outputDir, URI schemaIdRootUri, String rootPackage, boolean pojosAsRecords, String dateTimeClassName, boolean addMpOpenApiAnnotations, boolean addJsonPropertyAnnotations, boolean useKotlinSyntax, boolean verbose) {
         return new Options(
             searchRootDir,
             outputDir,
@@ -80,6 +86,8 @@ public record Options (
             rootPackage,
             this.pojoNameSuffix,
             pojosAsRecords,
+            this.dateClassName,
+            dateTimeClassName,
             addMpOpenApiAnnotations,
             addJsonPropertyAnnotations,
             this.addJakartaBeanValidationAnnotations,
@@ -96,7 +104,7 @@ public record Options (
      * @return the new and updated {@link Options} object.
      */
     public Options withSearchRootDir(String searchRootDir) {
-        return with(searchRootDir, this.outputDir, this.schemaIdRootUri, this.rootPackage, this.pojosAsRecords, this.addMpOpenApiAnnotations, this.addJsonPropertyAnnotations, this.useKotlinSyntax, this.verbose);
+        return with(searchRootDir, this.outputDir, this.schemaIdRootUri, this.rootPackage, this.pojosAsRecords, this.dateTimeClassName, this.addMpOpenApiAnnotations, this.addJsonPropertyAnnotations, this.useKotlinSyntax, this.verbose);
     }
 
     /**
@@ -105,7 +113,7 @@ public record Options (
      * @return the new and updated {@link Options} object.
      */
     public Options withOutputDir(String outputDir) {
-        return with(this.searchRootDir, outputDir, this.schemaIdRootUri, this.rootPackage, this.pojosAsRecords, this.addMpOpenApiAnnotations, this.addJsonPropertyAnnotations, this.useKotlinSyntax, this.verbose);
+        return with(this.searchRootDir, outputDir, this.schemaIdRootUri, this.rootPackage, this.pojosAsRecords, this.dateTimeClassName, this.addMpOpenApiAnnotations, this.addJsonPropertyAnnotations, this.useKotlinSyntax, this.verbose);
     }
 
     /**
@@ -114,7 +122,7 @@ public record Options (
      * @return the new and updated {@link Options} object.
      */
     public Options withSchemaIdRootUri(URI schemaIdRootUri) {
-        return with(this.searchRootDir, this.outputDir, schemaIdRootUri, this.rootPackage, this.pojosAsRecords, this.addMpOpenApiAnnotations, this.addJsonPropertyAnnotations, this.useKotlinSyntax, this.verbose);
+        return with(this.searchRootDir, this.outputDir, schemaIdRootUri, this.rootPackage, this.pojosAsRecords, this.dateTimeClassName, this.addMpOpenApiAnnotations, this.addJsonPropertyAnnotations, this.useKotlinSyntax, this.verbose);
     }
 
     /**
@@ -123,7 +131,7 @@ public record Options (
      * @return the new and updated {@link Options} object.
      */
     public Options withRootPackage(String rootPackage) {
-        return with(this.searchRootDir, this.outputDir, this.schemaIdRootUri, rootPackage, this.pojosAsRecords, this.addMpOpenApiAnnotations, this.addJsonPropertyAnnotations, this.useKotlinSyntax, this.verbose);
+        return with(this.searchRootDir, this.outputDir, this.schemaIdRootUri, rootPackage, this.pojosAsRecords, this.dateTimeClassName, this.addMpOpenApiAnnotations, this.addJsonPropertyAnnotations, this.useKotlinSyntax, this.verbose);
     }
 
     /**
@@ -132,7 +140,16 @@ public record Options (
      * @return the new and updated {@link Options} object.
      */
     public Options withPojosAsRecords(boolean pojosAsRecords) {
-        return with(this.searchRootDir, this.outputDir, this.schemaIdRootUri, this.rootPackage, pojosAsRecords, this.addMpOpenApiAnnotations, this.addJsonPropertyAnnotations, this.useKotlinSyntax, this.verbose);
+        return with(this.searchRootDir, this.outputDir, this.schemaIdRootUri, this.rootPackage, pojosAsRecords, this.dateTimeClassName, this.addMpOpenApiAnnotations, this.addJsonPropertyAnnotations, this.useKotlinSyntax, this.verbose);
+    }
+
+    /**
+     * Returns a new {@link Options} object with specified date time class name.
+     * @param dateTimeClassName the date time class name.
+     * @return the new and updated {@link Options} object.
+     */
+    public Options withDateTimeClassName(String dateTimeClassName) {
+        return with(this.searchRootDir, this.outputDir, this.schemaIdRootUri, this.rootPackage, this.pojosAsRecords, dateTimeClassName, this.addMpOpenApiAnnotations, this.addJsonPropertyAnnotations, this.useKotlinSyntax, this.verbose);
     }
 
     /**
@@ -141,7 +158,7 @@ public record Options (
      * @return the new and updated {@link Options} object.
      */
     public Options withAddMpOpenApiAnnotations(boolean addMpOpenApiAnnotations) {
-        return with(this.searchRootDir, this.outputDir, this.schemaIdRootUri, this.rootPackage, this.pojosAsRecords, addMpOpenApiAnnotations, this.addJsonPropertyAnnotations, this.useKotlinSyntax, this.verbose);
+        return with(this.searchRootDir, this.outputDir, this.schemaIdRootUri, this.rootPackage, this.pojosAsRecords, this.dateTimeClassName, addMpOpenApiAnnotations, this.addJsonPropertyAnnotations, this.useKotlinSyntax, this.verbose);
     }
 
     /**
@@ -150,7 +167,7 @@ public record Options (
      * @return the new and updated {@link Options} object.
      */
     public Options withAddJsonPropertyAnnotations(boolean addJsonPropertyAnnotations) {
-        return with(this.searchRootDir, this.outputDir, this.schemaIdRootUri, this.rootPackage, this.pojosAsRecords, this.addMpOpenApiAnnotations, addJsonPropertyAnnotations, this.useKotlinSyntax, this.verbose);
+        return with(this.searchRootDir, this.outputDir, this.schemaIdRootUri, this.rootPackage, this.pojosAsRecords, this.dateTimeClassName, this.addMpOpenApiAnnotations, addJsonPropertyAnnotations, this.useKotlinSyntax, this.verbose);
     }
 
     /**
@@ -159,7 +176,7 @@ public record Options (
      * @return the new and updated {@link Options} object.
      */
     public Options withUseKotlinSyntax(boolean useKotlinSyntax) {
-        return with(this.searchRootDir, this.outputDir, this.schemaIdRootUri, this.rootPackage, this.pojosAsRecords, this.addMpOpenApiAnnotations, this.addJsonPropertyAnnotations, useKotlinSyntax, this.verbose);
+        return with(this.searchRootDir, this.outputDir, this.schemaIdRootUri, this.rootPackage, this.pojosAsRecords, this.dateTimeClassName, this.addMpOpenApiAnnotations, this.addJsonPropertyAnnotations, useKotlinSyntax, this.verbose);
     }
 
     /**
@@ -168,7 +185,7 @@ public record Options (
      * @return the new and updated {@link Options} object.
      */
     public Options withVerbose(boolean verbose) {
-        return with(this.searchRootDir, this.outputDir, this.schemaIdRootUri, this.rootPackage, this.pojosAsRecords, this.addMpOpenApiAnnotations, this.addJsonPropertyAnnotations, this.useKotlinSyntax, verbose);
+        return with(this.searchRootDir, this.outputDir, this.schemaIdRootUri, this.rootPackage, this.pojosAsRecords, this.dateTimeClassName, this.addMpOpenApiAnnotations, this.addJsonPropertyAnnotations, this.useKotlinSyntax, verbose);
     }
 
     /**

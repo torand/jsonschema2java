@@ -203,9 +203,9 @@ public class TypeInfoCollector extends BaseCollector {
                 typeInfo = typeInfo.withAddedAnnotation(notNullAnnotation);
             }
         } else if ("date".equals(schema.format())) {
-            typeInfo = typeInfo.withName("LocalDate")
+            typeInfo = typeInfo.withName(getClassNameFromFqn(opts.dateClassName()))
                 .withSchemaFormat(schema.format())
-                .withAddedNormalImport("java.time.LocalDate");
+                .withAddedNormalImport(opts.dateClassName());
             if (!typeInfo.nullable() && opts.addJakartaBeanValidationAnnotations()) {
                 AnnotationInfo notNullAnnotation = getNotNullAnnotation();
                 typeInfo = typeInfo.withAddedAnnotation(notNullAnnotation);
@@ -216,9 +216,9 @@ public class TypeInfoCollector extends BaseCollector {
                 typeInfo = typeInfo.withAddedAnnotation(jsonFormatAnnotation);
             }
         } else if ("date-time".equals(schema.format())) {
-            typeInfo = typeInfo.withName("LocalDateTime")
+            typeInfo = typeInfo.withName(getClassNameFromFqn(opts.dateTimeClassName()))
                 .withSchemaFormat(schema.format())
-                .withAddedNormalImport("java.time.LocalDateTime");
+                .withAddedNormalImport(opts.dateTimeClassName());
             if (!typeInfo.nullable() && opts.addJakartaBeanValidationAnnotations()) {
                 AnnotationInfo notNullAnnotation = getNotNullAnnotation();
                 typeInfo = typeInfo.withAddedAnnotation(notNullAnnotation);

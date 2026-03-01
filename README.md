@@ -83,22 +83,24 @@ $ mvn io.github.torand:jsonschema2java:1.1.3:generate \
 
 ## Configuration
 
-| Parameter                           | Default           | Description                                                                                                                         |
-|-------------------------------------|-------------------|-------------------------------------------------------------------------------------------------------------------------------------|
-| searchRootDir                       | Project root dir  | Root directory to search for schema files                                                                                           |
-| searchFilePattern                   |                   | Schema file path search pattern. Supports [glob](https://github.com/begin/globbing/blob/master/cheatsheet.md) patterns              |
-| schemaIdRootUri                     |                   | Root URI of $id property in schema files. Path elements beyond this value must correspond to subdirectories inside 'searchRootDir'. |
-| outputDir                           | Project build dir | Directory to write POJO source code files to                                                                                        |
-| rootPackage                         |                   | Root package path of output POJO classes and enums                                                                                  |
-| pojoNameSuffix                      | "Dto"             | Suffix for POJO class and enum names                                                                                                |
-| pojosAsRecords                      | true              | Whether to output Java records instead of Java classes                                                                              |
-| addMpOpenApiAnnotations             | false             | Whether to generate model files with Microprofile OpenAPI schema annotations                                                        |
-| addJsonPropertyAnnotations          | true              | Whether to generate model files with JSON property annotations                                                                      |
-| addJakartaBeanValidationAnnotations | true              | Whether to generate model files with Jakarta Bean Validation annotations                                                            |
-| useKotlinSyntax                     | false             | Whether to generate model files with Kotlin syntax                                                                                  |
-| indentWithTab                       | false             | Whether to output indents with the tab character                                                                                    |
-| indentSize                          | 4                 | Number of spaces in one indentation level. Relevant only when 'indentWithTab' is false.                                             |
-| verbose                             | false             | Whether to log extra details                                                                                                        |
+| Parameter                           | Default                   | Description                                                                                                                         |
+|-------------------------------------|---------------------------|-------------------------------------------------------------------------------------------------------------------------------------|
+| searchRootDir                       | Project root dir          | Root directory to search for schema files                                                                                           |
+| searchFilePattern                   |                           | Schema file path search pattern. Supports [glob](https://github.com/begin/globbing/blob/master/cheatsheet.md) patterns              |
+| schemaIdRootUri                     |                           | Root URI of $id property in schema files. Path elements beyond this value must correspond to subdirectories inside 'searchRootDir'. |
+| outputDir                           | Project build dir         | Directory to write POJO source code files to                                                                                        |
+| rootPackage                         |                           | Root package path of output POJO classes and enums                                                                                  |
+| pojoNameSuffix                      | "Dto"                     | Suffix for POJO class and enum names                                                                                                |
+| pojosAsRecords                      | true                      | Whether to output Java records instead of Java classes                                                                              |
+| dateClassName                       | "java.time.LocalDate"     | Fully qualified name of the class to represent schemas of type "string" and format "date" in generated code                         |
+| dateTimeClassName                   | "java.time.LocalDateTime" | Fully qualified name of the class to represent schemas of type "string" and format "date-time" in generated code                    |
+| addMpOpenApiAnnotations             | false                     | Whether to generate model files with Microprofile OpenAPI schema annotations                                                        |
+| addJsonPropertyAnnotations          | true                      | Whether to generate model files with JSON property annotations                                                                      |
+| addJakartaBeanValidationAnnotations | true                      | Whether to generate model files with Jakarta Bean Validation annotations                                                            |
+| useKotlinSyntax                     | false                     | Whether to generate model files with Kotlin syntax                                                                                  |
+| indentWithTab                       | false                     | Whether to output indents with the tab character                                                                                    |
+| indentSize                          | 4                         | Number of spaces in one indentation level. Relevant only when 'indentWithTab' is false.                                             |
+| verbose                             | false                     | Whether to log extra details                                                                                                        |
 
 ## Type Mapping
 
