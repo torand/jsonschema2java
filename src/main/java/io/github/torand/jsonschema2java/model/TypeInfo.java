@@ -35,8 +35,10 @@ import static java.util.stream.Collectors.joining;
  * @param keyType the key type, if this is a map type.
  * @param primitive the primitive flag.
  * @param itemType the item type, if this is an array type or map type.
- * @param schemaFormat the OpenAPI schema format.
- * @param schemaPattern the OpenAPI schema pattern.
+ * @param schemaFormat the schema string format.
+ * @param schemaPattern the schema string pattern.
+ * @param schemaMinLength the schema string minimum length.
+ * @param schemaMaxLength the schema string maximum length.
  * @param annotations the annotations decorating this type.
  * @param imports the imports required by the type.
  */
@@ -49,6 +51,8 @@ public record TypeInfo (
     TypeInfo itemType,
     String schemaFormat,
     String schemaPattern,
+    Integer schemaMinLength,
+    Integer schemaMaxLength,
     List<AnnotationInfo> annotations,
     ImportInfo imports
 ) implements EntityInfo, ImportsSupplier {
@@ -57,7 +61,7 @@ public record TypeInfo (
      * Constructs an {@link TypeInfo} object.
      */
     public TypeInfo() {
-        this(null, null, false, null, false, null, null, null, emptyList(), ImportInfo.empty());
+        this(null, null, false, null, false, null, null, null, null, null, emptyList(), ImportInfo.empty());
     }
 
     /**
@@ -66,7 +70,7 @@ public record TypeInfo (
      * @return the new and updated {@link TypeInfo} object.
      */
     public TypeInfo withName(String name) {
-        return new TypeInfo(name, description, nullable, keyType, primitive, itemType, schemaFormat, schemaPattern, annotations, imports);
+        return new TypeInfo(name, description, nullable, keyType, primitive, itemType, schemaFormat, schemaPattern, schemaMinLength, schemaMaxLength, annotations, imports);
     }
 
     /**
@@ -75,7 +79,7 @@ public record TypeInfo (
      * @return the new and updated {@link TypeInfo} object.
      */
     public TypeInfo withDescription(String description) {
-        return new TypeInfo(name, description, nullable, keyType, primitive, itemType, schemaFormat, schemaPattern, annotations, imports);
+        return new TypeInfo(name, description, nullable, keyType, primitive, itemType, schemaFormat, schemaPattern, schemaMinLength, schemaMaxLength, annotations, imports);
     }
 
     /**
@@ -84,7 +88,7 @@ public record TypeInfo (
      * @return the new and updated {@link TypeInfo} object.
      */
     public TypeInfo withNullable(boolean nullable) {
-        return new TypeInfo(name, description, nullable, keyType, primitive, itemType, schemaFormat, schemaPattern, annotations, imports);
+        return new TypeInfo(name, description, nullable, keyType, primitive, itemType, schemaFormat, schemaPattern, schemaMinLength, schemaMaxLength, annotations, imports);
     }
 
     /**
@@ -93,7 +97,7 @@ public record TypeInfo (
      * @return the new and updated {@link TypeInfo} object.
      */
     public TypeInfo withKeyType(TypeInfo keyType) {
-        return new TypeInfo(name, description, nullable, keyType, primitive, itemType, schemaFormat, schemaPattern, annotations, imports);
+        return new TypeInfo(name, description, nullable, keyType, primitive, itemType, schemaFormat, schemaPattern, schemaMinLength, schemaMaxLength, annotations, imports);
     }
 
     /**
@@ -102,7 +106,7 @@ public record TypeInfo (
      * @return the new and updated {@link TypeInfo} object.
      */
     public TypeInfo withPrimitive(boolean primitive) {
-        return new TypeInfo(name, description, nullable, keyType, primitive, itemType, schemaFormat, schemaPattern, annotations, imports);
+        return new TypeInfo(name, description, nullable, keyType, primitive, itemType, schemaFormat, schemaPattern, schemaMinLength, schemaMaxLength, annotations, imports);
     }
 
     /**
@@ -111,25 +115,43 @@ public record TypeInfo (
      * @return the new and updated {@link TypeInfo} object.
      */
     public TypeInfo withItemType(TypeInfo itemType) {
-        return new TypeInfo(name, description, nullable, keyType, primitive, itemType, schemaFormat, schemaPattern, annotations, imports);
+        return new TypeInfo(name, description, nullable, keyType, primitive, itemType, schemaFormat, schemaPattern, schemaMinLength, schemaMaxLength, annotations, imports);
     }
 
     /**
-     * Returns a new {@link TypeInfo} object with specified OpenAPI schema format.
-     * @param schemaFormat the OpenAPI schema format.
+     * Returns a new {@link TypeInfo} object with specified schema string format.
+     * @param schemaFormat the schema string format.
      * @return the new and updated {@link TypeInfo} object.
      */
     public TypeInfo withSchemaFormat(String schemaFormat) {
-        return new TypeInfo(name, description, nullable, keyType, primitive, itemType, schemaFormat, schemaPattern, annotations, imports);
+        return new TypeInfo(name, description, nullable, keyType, primitive, itemType, schemaFormat, schemaPattern, schemaMinLength, schemaMaxLength, annotations, imports);
     }
 
     /**
-     * Returns a new {@link TypeInfo} object with specified OpenAPI schema pattern.
-     * @param schemaPattern the OpenAPI schema pattern.
+     * Returns a new {@link TypeInfo} object with specified schema string pattern.
+     * @param schemaPattern the schema string pattern.
      * @return the new and updated {@link TypeInfo} object.
      */
     public TypeInfo withSchemaPattern(String schemaPattern) {
-        return new TypeInfo(name, description, nullable, keyType, primitive, itemType, schemaFormat, schemaPattern, annotations, imports);
+        return new TypeInfo(name, description, nullable, keyType, primitive, itemType, schemaFormat, schemaPattern, schemaMinLength, schemaMaxLength, annotations, imports);
+    }
+
+    /**
+     * Returns a new {@link TypeInfo} object with specified schema string minimum length.
+     * @param schemaMinLength the schema string minimum length.
+     * @return the new and updated {@link TypeInfo} object.
+     */
+    public TypeInfo withSchemaMinLength(Integer schemaMinLength) {
+        return new TypeInfo(name, description, nullable, keyType, primitive, itemType, schemaFormat, schemaPattern, schemaMinLength, schemaMaxLength, annotations, imports);
+    }
+
+    /**
+     * Returns a new {@link TypeInfo} object with specified schema string maximum length.
+     * @param schemaMaxLength the schema string maximum length.
+     * @return the new and updated {@link TypeInfo} object.
+     */
+    public TypeInfo withSchemaMaxLength(Integer schemaMaxLength) {
+        return new TypeInfo(name, description, nullable, keyType, primitive, itemType, schemaFormat, schemaPattern, schemaMinLength, schemaMaxLength, annotations, imports);
     }
 
     /**
@@ -140,7 +162,7 @@ public record TypeInfo (
     public TypeInfo withAddedAnnotation(AnnotationInfo annotation) {
         List<AnnotationInfo> newAnnotations = new LinkedList<>(annotations);
         newAnnotations.add(annotation);
-        return new TypeInfo(name, description, nullable, keyType, primitive, itemType, schemaFormat, schemaPattern, newAnnotations, imports);
+        return new TypeInfo(name, description, nullable, keyType, primitive, itemType, schemaFormat, schemaPattern, schemaMinLength, schemaMaxLength, newAnnotations, imports);
     }
 
     /**
@@ -148,7 +170,7 @@ public record TypeInfo (
      * @return the new and updated {@link PojoInfo} object.
      */
     public TypeInfo withNoAnnotations() {
-        return new TypeInfo(name, description, nullable, keyType, primitive, itemType, schemaFormat, schemaPattern, emptyList(), imports);
+        return new TypeInfo(name, description, nullable, keyType, primitive, itemType, schemaFormat, schemaPattern, schemaMinLength, schemaMaxLength, emptyList(), imports);
     }
 
     /**
@@ -157,7 +179,7 @@ public record TypeInfo (
      * @return the new and updated {@link TypeInfo} object.
      */
     public TypeInfo withAddedNormalImport(String normalImport) {
-        return new TypeInfo(name, description, nullable, keyType, primitive, itemType, schemaFormat, schemaPattern, annotations, imports.withAddedNormalImport(normalImport));
+        return new TypeInfo(name, description, nullable, keyType, primitive, itemType, schemaFormat, schemaPattern, schemaMinLength, schemaMaxLength, annotations, imports.withAddedNormalImport(normalImport));
     }
 
     /**

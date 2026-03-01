@@ -81,6 +81,12 @@ public class PropertyInfoCollector extends BaseCollector {
         if (nonNull(typeInfo.schemaPattern())) {
             schemaParams.add("pattern = \"%s\"".formatted(typeInfo.schemaPattern()));
         }
+        if (nonNull(typeInfo.schemaMinLength())) {
+            schemaParams.add("minLength = %d".formatted(typeInfo.schemaMinLength()));
+        }
+        if (nonNull(typeInfo.schemaMaxLength())) {
+            schemaParams.add("maxLength = %d".formatted(typeInfo.schemaMaxLength()));
+        }
         if (propertyType.isDeprecated()) {
             schemaParams.add("deprecated = true");
         }

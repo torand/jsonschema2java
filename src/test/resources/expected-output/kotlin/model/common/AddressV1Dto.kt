@@ -2,14 +2,16 @@ package io.github.torand.test.model.common
 
 import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.Pattern
+import jakarta.validation.constraints.Size
 import org.eclipse.microprofile.openapi.annotations.media.Schema
 
 @Schema(name = "AddressV1", description = "TBD")
 @JvmRecord
 data class AddressV1Dto (
 
-    @field:Schema(description = "Street name and number", required = true)
+    @field:Schema(description = "Street name and number", required = true, minLength = 1, maxLength = 100)
     @field:NotBlank
+    @field:Size(min = 1, max = 100)
     val streetAddress: String,
 
     @field:Schema(description = "Zip code of postal area", required = true)

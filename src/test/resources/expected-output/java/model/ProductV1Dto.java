@@ -20,7 +20,7 @@ public record ProductV1Dto (
     @JsonDeserialize(using = ProductNoDeserializer.class)
     String number,
 
-    @Schema(description = "Product name", required = true)
+    @Schema(description = "Product name", required = true, minLength = 3)
     @NotBlank
     @Size(min = 3)
     String name,

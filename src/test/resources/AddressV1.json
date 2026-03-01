@@ -5,6 +5,8 @@
   "properties": {
     "streetAddress": {
       "type": "string",
+      "minLength": 1,
+      "maxLength": 100,
       "description": "Street name and number"
     },
     "zipCode": {

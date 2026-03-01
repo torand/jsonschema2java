@@ -12,7 +12,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - New schema extension 'x-json-deserializer' to specify a custom Jackson deserializer class.
 - New config parameter 'dateClassName' to specify a custom class to represent string schemas with format "date" in generated code.
 - New config parameter 'dateTimeClassName' to specify a custom class to represent string schemas with format "date-time" in generated code.
-
+- Support 'minLength' and 'maxLength' for Schema annotations on schemas of type 'string'.
+- 
 ### Changed
 - Bump dependency com.networknt:json-schema-validator to v3.0.0.
 - JsonFormat annotation on strings with format "date" or "date-time" made optional and customizable through a new schema extension 'x-json-format'.

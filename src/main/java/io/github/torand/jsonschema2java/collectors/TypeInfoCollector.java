@@ -265,6 +265,9 @@ public class TypeInfoCollector extends BaseCollector {
                         .withAddedAnnotation(getPatternAnnotation(schema));
                 }
                 if (nonNull(schema.minLength()) || nonNull(schema.maxLength())) {
+                    typeInfo = typeInfo
+                        .withSchemaMinLength(schema.minLength())
+                        .withSchemaMaxLength(schema.maxLength());
                     AnnotationInfo sizeAnnotation = getStringSizeAnnotation(schema);
                     typeInfo = typeInfo.withAddedAnnotation(sizeAnnotation);
                 }

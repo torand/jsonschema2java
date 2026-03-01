@@ -21,7 +21,7 @@ data class ProductV1Dto (
     @field:JsonDeserialize(using = ProductNoDeserializer::class)
     val number: String,
 
-    @field:Schema(description = "Product name", required = true)
+    @field:Schema(description = "Product name", required = true, minLength = 3)
     @field:NotBlank
     @field:Size(min = 3)
     val name: String,
