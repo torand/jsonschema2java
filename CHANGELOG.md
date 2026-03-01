@@ -24,8 +24,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - ...
 
 ### Fixed
-- Generate valid Java and Kotlin code for POJOs with no properties.
-- Detect correct type when resolving $ref to component of type 'array'.
+- Generate valid Java and Kotlin code for schema components of type 'object' with no properties.
+- Detect correct type when resolving $ref to schema component of type 'array'.
 
 ## [1.1.3] - 2025-10-10
 
