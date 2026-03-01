@@ -38,6 +38,11 @@ public class Extensions {
     public static final String EXT_JSON_SERIALIZER = "x-json-serializer";
 
     /**
+     * Custom date/time format pattern for Jackson java.time.* deserializers/serializers.
+     */
+    public static final String EXT_JSON_FORMAT = "x-json-format";
+
+    /**
      * Fully qualified classname of an annotation class to validate the schema.
      */
     public static final String EXT_VALIDATION_CONSTRAINT = "x-validation-constraint";
@@ -59,6 +64,7 @@ public class Extensions {
 
     public static final Set<String> KEYWORDS = Set.of(
         EXT_JSON_SERIALIZER,
+        EXT_JSON_FORMAT,
         EXT_VALIDATION_CONSTRAINT,
         EXT_NULLABLE,
         EXT_MODEL_SUBDIR,

@@ -140,10 +140,18 @@ class TypeInfoCollectorTest {
 
         assertNonNullableStringType("""
                 {"type": "string", "format": "date"}
+            """, "LocalDate", "date", null, "@NotNull");
+
+        assertNonNullableStringType("""
+                {"type": "string", "format": "date", "x-json-format": "yyyy-MM-dd"}
             """, "LocalDate", "date", null, "@NotNull", "@JsonFormat(pattern = \"yyyy-MM-dd\")");
 
         assertNonNullableStringType("""
                 {"type": "string", "format": "date-time"}
+            """, "LocalDateTime", "date-time", null, "@NotNull");
+
+        assertNonNullableStringType("""
+                {"type": "string", "format": "date-time", "x-json-format": "yyyy-MM-dd'T'HH:mm:ss"}
             """, "LocalDateTime", "date-time", null, "@NotNull", "@JsonFormat(pattern = \"yyyy-MM-dd'T'HH:mm:ss\")");
 
         assertNonNullableStringType("""

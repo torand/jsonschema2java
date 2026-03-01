@@ -176,13 +176,14 @@ and therefore not supported by this project.
 
 The code generation can be customized per JSON Schema by using the following extension properties in the schema definition:
 
-| Extension property      | Type    | Allowed where                        | Description                                                               |
-|-------------------------|---------|--------------------------------------|---------------------------------------------------------------------------|
-| x-json-serializer       | String  | In a property schema                 | Fully qualified classname of a JSON serializer class for the property     |
-| x-validation-constraint | String  | In a property schema                 | Fully qualified classname of an annotation class to validate the property |
-| x-nullable              | Boolean | In a property schema                 | If `true` the type of the property can be `null`                          |
-| x-model-subdir          | String  | In an enum or object schema          | Subdirectory to place the generated DTO model classes                     |
-| x-deprecation-message   | String  | Everywhere `deprecated` can be used  | Describing why something is deprecated, and what to use instead           |
+| Extension property      | Type    | Allowed where                                             | Description                                                                                                                                                                        |
+|-------------------------|---------|-----------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| x-json-serializer       | String  | In a property schema                                      | Fully qualified classname of a Jackson serializer class for the property                                                                                                           |
+| x-json-format           | String  | In a schema of type "string", format "date" or date-time" | Custom [date/time format pattern](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/text/SimpleDateFormat.html) for Jackson java.time.* deserializers/serializers. |
+| x-validation-constraint | String  | In a property schema                                      | Fully qualified classname of an annotation class to validate the property                                                                                                          |
+| x-nullable              | Boolean | In a property schema                                      | If `true` the type of the property can be `null`                                                                                                                                   |
+| x-model-subdir          | String  | In an enum or object schema                               | Subdirectory to place the generated DTO model classes                                                                                                                              |
+| x-deprecation-message   | String  | Everywhere `deprecated` can be used                       | Describing why something is deprecated, and what to use instead                                                                                                                    |
 
 ### Nullability
 
