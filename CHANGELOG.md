@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
-- ...
+- New schema extension 'x-json-deserializer' to specify a custom Jackson deserializer class.
 
 ### Changed
 - Bump dependency com.networknt:json-schema-validator to v3.0.0.
