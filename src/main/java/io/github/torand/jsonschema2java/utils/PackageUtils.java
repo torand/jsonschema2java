@@ -56,4 +56,13 @@ public class PackageUtils {
     public static boolean isJavaPackage(String fqn) {
         return fqn.startsWith("java.");
     }
+
+    /**
+     * Returnss whether specified fully qualified class name refers to a fundamental Java class, i.e. a class that never requires an import.
+     * @param fqn the fully qualified class name
+     * @return true if specified fully qualified class name refers to a fundamental Java class; else false
+     */
+    public static boolean isFundamentalJavaClass(String fqn) {
+        return fqn.startsWith("java.lang.");
+    }
 }

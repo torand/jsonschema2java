@@ -195,9 +195,9 @@ public class TypeInfoCollector extends BaseCollector {
                 typeInfo = typeInfo.withAddedAnnotation(notNullAnnotation);
             }
         } else if ("duration".equals(schema.format())) {
-            typeInfo = typeInfo.withName("Duration")
+            typeInfo = typeInfo.withName(getClassNameFromFqn(opts.durationClassName()))
                 .withSchemaFormat(schema.format())
-                .withAddedNormalImport("java.time.Duration");
+                .withAddedNormalImport(opts.durationClassName());
             if (!typeInfo.nullable() && opts.addJakartaBeanValidationAnnotations()) {
                 AnnotationInfo notNullAnnotation = getNotNullAnnotation();
                 typeInfo = typeInfo.withAddedAnnotation(notNullAnnotation);

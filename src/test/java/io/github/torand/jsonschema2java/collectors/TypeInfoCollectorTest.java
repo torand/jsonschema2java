@@ -162,6 +162,15 @@ class TypeInfoCollectorTest {
     }
 
     @Test
+    void shouldMapDurationStringPropertiesWithCustomClass() {
+        createTypeInfoCollector(getJavaOptions().withDurationClassName("java.lang.String"));
+
+        assertNonNullableStringType("""
+                {"type": "string", "format": "duration"}
+            """, "String", "duration", null, "@NotNull");
+    }
+
+    @Test
     void shouldMapDateTimeStringPropertiesWithCustomClass() {
         createTypeInfoCollector(getJavaOptions().withDateTimeClassName("java.time.OffsetDateTime"));
 

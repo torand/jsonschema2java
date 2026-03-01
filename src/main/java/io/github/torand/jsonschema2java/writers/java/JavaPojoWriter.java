@@ -98,6 +98,7 @@ public class JavaPojoWriter extends BaseWriter implements PojoWriter {
     private void writeJavaImports(PojoInfo pojoInfo) {
         List<String> imports = pojoInfo.aggregatedNormalImports().stream()
             .filter(PackageUtils::isJavaPackage)
+            .filter(not(PackageUtils::isFundamentalJavaClass))
             .map("import %s;"::formatted)
             .toList();
 

@@ -20,6 +20,7 @@ import io.github.torand.jsonschema2java.model.AnnotatedTypeName;
 import io.github.torand.jsonschema2java.model.AnnotationInfo;
 import io.github.torand.jsonschema2java.model.PojoInfo;
 import io.github.torand.jsonschema2java.model.PropertyInfo;
+import io.github.torand.jsonschema2java.utils.PackageUtils;
 import io.github.torand.jsonschema2java.writers.BaseWriter;
 import io.github.torand.jsonschema2java.writers.PojoWriter;
 
@@ -87,6 +88,7 @@ public class KotlinPojoWriter extends BaseWriter implements PojoWriter {
         Predicate<String> isInSamePackage = fqn -> isFqnInPackage(fqn, opts.getModelPackage(pojoInfo.modelSubpackage()));
 
         List<String> imports = pojoInfo.aggregatedNormalImports().stream()
+            .filter(not(PackageUtils::isFundamentalJavaClass))
             .filter(not(isInSamePackage))
             .filter(not("java.util.List"::equals))
             .filter(not("java.util.Map"::equals))

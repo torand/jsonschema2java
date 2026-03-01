@@ -48,7 +48,7 @@ The package is available from the [Maven Central Repository](https://central.son
     <plugin>
       <groupId>io.github.torand</groupId>
       <artifactId>jsonschema2java</artifactId>
-      <version>1.1.3</version>
+      <version>1.2.0</version>
       <executions>
         <execution>
           <id>generate</id>
@@ -73,7 +73,7 @@ The package is available from the [Maven Central Repository](https://central.son
 ### Run from the Command Line
 
 ```bash
-$ mvn io.github.torand:jsonschema2java:1.1.3:generate \
+$ mvn io.github.torand:jsonschema2java:1.2.0:generate \
   -DsearchRootDir=. \
   -DsearchFilePattern=*.json \
   -DschemaIdRootUri=https://my-domain.com/my-api/schemas \
@@ -92,6 +92,7 @@ $ mvn io.github.torand:jsonschema2java:1.1.3:generate \
 | rootPackage                         |                           | Root package path of output POJO classes and enums                                                                                  |
 | pojoNameSuffix                      | "Dto"                     | Suffix for POJO class and enum names                                                                                                |
 | pojosAsRecords                      | true                      | Whether to output Java records instead of Java classes                                                                              |
+| durationClassName                   | "java.time.Duration"      | Fully qualified name of the class to represent schemas of type "string" and format "duration" in generated code                     |
 | dateClassName                       | "java.time.LocalDate"     | Fully qualified name of the class to represent schemas of type "string" and format "date" in generated code                         |
 | dateTimeClassName                   | "java.time.LocalDateTime" | Fully qualified name of the class to represent schemas of type "string" and format "date-time" in generated code                    |
 | addMpOpenApiAnnotations             | false                     | Whether to generate model files with Microprofile OpenAPI schema annotations                                                        |
@@ -106,32 +107,35 @@ $ mvn io.github.torand:jsonschema2java:1.1.3:generate \
 
 JSON schema types and formats map to the following Java and Kotlin types in generated source code:
 
-| Type                                         | Format            | Java type               | Kotlin type             |
-|----------------------------------------------|-------------------|-------------------------|-------------------------|
-| "array"                                      | N/A               | java.util.List          | java.util.List          |
-| "array" with "uniqueItems" = true            | N/A               | java.util.Set           | java.util.Set           |
-| "boolean"                                    | N/A               | Boolean                 | Boolean                 |
-| "integer"                                    |                   | Integer                 | Int                     |
-| "integer"                                    | "int32"           | Integer                 | Int                     |
-| "integer"                                    | "int64"           | Long                    | Long                    |
-| "number"                                     |                   | java.math.BigDecimal    | java.math.BigDecimal    |
-| "number"                                     | "double"          | Double                  | Double                  |
-| "number"                                     | "float"           | Float                   | Float                   |
-| "object"                                     | N/A               | [^1]                    | [^1]                    |
-| "object" with "additionalProperties" = {...} | N/A               | java.util.Map           | java.util.Map           |
-| "string"                                     |                   | String                  | String                  |
-| "string"                                     | "uri"             | java.net.URI            | java.net.URI            |
-| "string"                                     | "uuid"            | java.util.UUID          | java.util.UUID          |
-| "string"                                     | "duration"[^2]    | java.time.Duration      | java.time.Duration      |
-| "string"                                     | "date"[^3]        | java.time.LocalDate     | java.time.LocalDate     |
-| "string"                                     | "date-time"[^4]   | java.time.LocalDateTime | java.time.LocalDateTime |
-| "string"                                     | "binary"          | byte[]                  | ByteArray               |
-| "string"                                     | All other formats | String                  | String                  |
+| Type                                         | Format            | Java type                    | Kotlin type                 |
+|----------------------------------------------|-------------------|------------------------------|-----------------------------|
+| "array"                                      | N/A               | java.util.List               | java.util.List              |
+| "array" with "uniqueItems" = true            | N/A               | java.util.Set                | java.util.Set               |
+| "boolean"                                    | N/A               | Boolean                      | Boolean                     |
+| "integer"                                    |                   | Integer                      | Int                         |
+| "integer"                                    | "int32"           | Integer                      | Int                         |
+| "integer"                                    | "int64"           | Long                         | Long                        |
+| "number"                                     |                   | java.math.BigDecimal         | java.math.BigDecimal        |
+| "number"                                     | "double"          | Double                       | Double                      |
+| "number"                                     | "float"           | Float                        | Float                       |
+| "object"                                     | N/A               | [^1]                         | [^1]                        |
+| "object" with "additionalProperties" = {...} | N/A               | java.util.Map                | java.util.Map               |
+| "string"                                     |                   | String                       | String                      |
+| "string"                                     | "uri"             | java.net.URI                 | java.net.URI                |
+| "string"                                     | "uuid"            | java.util.UUID               | java.util.UUID              |
+| "string"                                     | "duration"[^2]    | java.time.Duration[^5]       | java.time.Duration[^5]      |
+| "string"                                     | "date"[^3]        | java.time.LocalDate[^6]      | java.time.LocalDate[^6]     |
+| "string"                                     | "date-time"[^4]   | java.time.LocalDateTime[^7]  | java.time.LocalDateTime[^7] |
+| "string"                                     | "binary"          | byte[]                       | ByteArray                   |
+| "string"                                     | All other formats | String                       | String                      |
 
 [^1]: Inline objects not supported.
 [^2]: Expects string in the [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) duration format.
 [^3]: Expects string in the [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) local date format.
 [^4]: Expects string in the [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) local date time format (without milliseconds).
+[^5]: Can be overridden using the 'durationClassName' configuration parameter.
+[^6]: Can be overridden using the 'dateClassName' configuration parameter.
+[^7]: Can be overridden using the 'dateTimeClassName' configuration parameter.
 
 ## Constraint Mapping
 
