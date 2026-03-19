@@ -33,6 +33,20 @@ public class StringUtils {
     private StringUtils() {}
 
     /**
+     * Replaces special Java String characters with escaped ones.
+     * @param str the string to escape
+     * @return the escaped string
+     */
+    public static String escape(String str) {
+        if (isBlank(str)) {
+            return str;
+        }
+
+        return str.replace("\\", "\\\\")
+            .replace("\"", "\\\"");
+    }
+
+    /**
      * Gets the plural suffix based on specified cardinality.
      * @param count the cardinality.
      * @return the plural suffix, or empty string if single count.

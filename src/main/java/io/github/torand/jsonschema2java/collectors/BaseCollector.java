@@ -19,6 +19,7 @@ import io.github.torand.jsonschema2java.generators.Options;
 
 import static io.github.torand.javacommons.lang.StringHelper.nonBlank;
 import static io.github.torand.jsonschema2java.utils.KotlinTypeMapper.toKotlinNative;
+import static io.github.torand.jsonschema2java.utils.StringUtils.escape;
 
 /**
  * Base class for all collectors.
@@ -46,7 +47,7 @@ public abstract class BaseCollector {
      * @return the normalized description.
      */
     protected String normalizeDescription(String description) {
-        return nonBlank(description) ? description.replace("%", "%%") : "TBD";
+        return nonBlank(description) ? escape(description).replace("%", "%%") : "TBD";
     }
 
     /**

@@ -36,6 +36,7 @@ import static io.github.torand.jsonschema2java.collectors.Extensions.EXT_VALIDAT
 import static io.github.torand.jsonschema2java.collectors.TypeInfoCollector.NullabilityResolution.FORCE_NOT_NULLABLE;
 import static io.github.torand.jsonschema2java.collectors.TypeInfoCollector.NullabilityResolution.FORCE_NULLABLE;
 import static io.github.torand.jsonschema2java.utils.PackageUtils.getClassNameFromFqn;
+import static io.github.torand.jsonschema2java.utils.StringUtils.escape;
 import static io.github.torand.jsonschema2java.utils.StringUtils.joinCsv;
 import static java.lang.Boolean.TRUE;
 import static java.util.Objects.nonNull;
@@ -444,7 +445,7 @@ public class TypeInfoCollector extends BaseCollector {
 
     private AnnotationInfo getJsonFormatAnnotation(String pattern) {
         return new AnnotationInfo(
-            "@JsonFormat(pattern = \"%s\")".formatted(pattern),
+            "@JsonFormat(pattern = \"%s\")".formatted(escape(pattern)),
             "com.fasterxml.jackson.annotation.JsonFormat");
     }
 
@@ -486,7 +487,7 @@ public class TypeInfoCollector extends BaseCollector {
 
     private AnnotationInfo getPatternAnnotation(JsonSchemaDef schema) {
         return new AnnotationInfo(
-            "@Pattern(regexp = \"%s\")".formatted(schema.pattern()),
+            "@Pattern(regexp = \"%s\")".formatted(escape(schema.pattern())),
             "jakarta.validation.constraints.Pattern");
     }
 

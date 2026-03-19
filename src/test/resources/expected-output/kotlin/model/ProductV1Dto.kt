@@ -8,6 +8,7 @@ import io.github.torand.test.serialization.ProductNoSerializer
 import jakarta.validation.Valid
 import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.NotNull
+import jakarta.validation.constraints.Pattern
 import jakarta.validation.constraints.Size
 import org.eclipse.microprofile.openapi.annotations.media.Schema
 
@@ -15,8 +16,9 @@ import org.eclipse.microprofile.openapi.annotations.media.Schema
 @JvmRecord
 data class ProductV1Dto (
 
-    @field:Schema(description = "Product number", required = true)
+    @field:Schema(description = "Product number", required = true, pattern = "^[a-zA-Z0-9\\.]{1,20}$")
     @field:NotBlank
+    @field:Pattern(regexp = "^[a-zA-Z0-9\\.]{1,20}$")
     @field:JsonSerialize(using = ProductNoSerializer::class)
     @field:JsonDeserialize(using = ProductNoDeserializer::class)
     val number: String,
