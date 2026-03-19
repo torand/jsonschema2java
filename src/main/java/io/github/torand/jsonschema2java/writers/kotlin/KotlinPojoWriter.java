@@ -35,6 +35,7 @@ import static io.github.torand.javacommons.collection.CollectionHelper.nonEmpty;
 import static io.github.torand.javacommons.stream.StreamHelper.streamSafely;
 import static io.github.torand.jsonschema2java.utils.KotlinTypeMapper.toKotlinNative;
 import static io.github.torand.jsonschema2java.utils.PackageUtils.isFqnInPackage;
+import static io.github.torand.jsonschema2java.utils.StringUtils.escape;
 import static java.util.function.Predicate.not;
 
 /**
@@ -54,7 +55,7 @@ public class KotlinPojoWriter extends BaseWriter implements PojoWriter {
         writeImports(pojoInfo);
 
         if (pojoInfo.isDeprecated()) {
-            writeLine("@Deprecated(\"%s\")".formatted(pojoInfo.deprecationMessage()));
+            writeLine("@Deprecated(\"%s\")".formatted(escape(pojoInfo.deprecationMessage())));
         }
 
         pojoInfo.annotations().forEach(a -> writeLine(a.annotation()));
@@ -104,7 +105,7 @@ public class KotlinPojoWriter extends BaseWriter implements PojoWriter {
     private void writePropertyAnnotationLines(PropertyInfo propInfo) {
         if (propInfo.isDeprecated()) {
             writeIndent(1);
-            writeLine("@Deprecated(\"%s\")".formatted(propInfo.deprecationMessage()));
+            writeLine("@Deprecated(\"%s\")".formatted(escape(propInfo.deprecationMessage())));
         }
         streamSafely(propInfo.annotations())
             .map(AnnotationInfo::annotation)

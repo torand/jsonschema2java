@@ -24,6 +24,7 @@ import io.github.torand.jsonschema2java.utils.JsonSchemaDef;
 import java.util.ArrayList;
 import java.util.List;
 
+import static io.github.torand.jsonschema2java.utils.StringUtils.escape;
 import static io.github.torand.jsonschema2java.utils.StringUtils.joinCsv;
 import static java.util.Objects.nonNull;
 
@@ -79,7 +80,7 @@ public class PropertyInfoCollector extends BaseCollector {
             schemaParams.add("format = \"%s\"".formatted(typeInfo.schemaFormat()));
         }
         if (nonNull(typeInfo.schemaPattern())) {
-            schemaParams.add("pattern = \"%s\"".formatted(typeInfo.schemaPattern()));
+            schemaParams.add("pattern = \"%s\"".formatted(escape(typeInfo.schemaPattern())));
         }
         if (nonNull(typeInfo.schemaMinLength())) {
             schemaParams.add("minLength = %d".formatted(typeInfo.schemaMinLength()));

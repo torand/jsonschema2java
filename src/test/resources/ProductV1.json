@@ -8,6 +8,7 @@
   "properties": {
     "number": {
       "type": "string",
+      "pattern": "^[a-zA-Z0-9\\.]{1,20}$",
       "description": "Product number",
       "x-json-serializer": "io.github.torand.test.serialization.ProductNoSerializer",
       "x-json-deserializer": "io.github.torand.test.serialization.ProductNoDeserializer"
