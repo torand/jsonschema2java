@@ -95,7 +95,7 @@ jobs:
 
       - name: Publish test results
         if: ${{steps.locate-test-results.outputs.files_exists == 'true' && (success() || failure())}}
-        uses: dorny/test-reporter@dc3a92680fcc15842eef52e8c4606ea7ce6bd3f3 # v2.1.1
+        uses: dorny/test-reporter@a43b3a5f7366b97d083190328d2c652e1a8b6aa2 # v3.0.0
         with:
           name: JUnit test reports
           working-directory: .
