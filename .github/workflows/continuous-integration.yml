@@ -29,7 +29,7 @@ jobs:
         -Dmaven.test.failure.ignore=true
     steps:
       - name: Check out code
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
 
